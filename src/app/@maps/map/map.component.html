@@ -1,0 +1,30 @@
+<div class="p-0 m-0" *ngIf="apiLoaded">
+    <google-map #googleMap="googleMap" [options]="mapOptions" [height]="height" width="100%">
+        <map-marker [label]="marker.label ?? ''" [title]="marker.title" #markerRef="mapMarker"
+            *ngFor="let marker of markers" [position]="marker.position" (mapClick)="openInfoWindow(markerRef)"
+            [options]="marker.options"></map-marker>
+        <map-info-window>
+            <div class="container" style="height: 100px;">
+                <div class="row">
+                    <h6 style="color: black;">Header</h6>
+                    <div class="col-12">
+                        <p class="caption">
+                            Something
+                        </p>
+                    </div>
+                    <div class="col-12">
+                        <a href="#">Hello</a>
+                    </div>
+                </div>
+            </div>
+        </map-info-window>
+    </google-map>
+</div>
+
+<div *ngIf="!(apiLoaded)" class="h-100" class="row align-content-center">
+    <div class="col-12">
+        <ng-lottie [height]="height"
+            [options]="(themeService.onThemeChange() | async).name === 'dark' ? darkAnim : lightAnim">
+        </ng-lottie>
+    </div>
+</div>

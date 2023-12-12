@@ -1,0 +1,98 @@
+@import "../../@theme/styles/themes";
+@import "~bootstrap/scss/mixins/breakpoints";
+@import "~@nebular/theme/styles/global/breakpoints";
+
+@include nb-install-component() {
+    --text-basic-color: var(--color-basic-800) !important;
+}
+
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});
+}
+.subtext{
+    font-size: 12px;
+    color: #fff;
+    margin-top: -6px;
+}
+.heading{
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+.subtext-dark{
+    font-size: 12px;
+    color: #000;
+    margin-top: -6px;
+}
+.heading-dark{
+    color: #000;
+    font-family: Poppins;
+    font-size: 34px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.login-link > a {
+    color: #FFCF0F;
+    text-decoration: none;
+    font-weight: 600;
+}
+.logo-spacer{
+    margin-top: 20%;
+    margin-left: 4%;
+}
+.spacer{
+    margin-top: 10%;
+}
+.spacer-button-d{
+    margin-top: 15%;
+}
+.spacer-button-grp{
+    margin-top: 20%;
+}
+.terms-info{
+    color: #FFF;
+    font-size: 16px;
+    text-align: left;
+}
+
+.terms{
+    position: absolute; 
+    bottom: 20px; 
+    margin-top: 4rem;
+    color: #fff;
+}
+nb-layout-header {
+    position: relative;
+    --header-background-color: transparent;
+    --header-shadow: none;
+    background-color: transparent;
+}
+
+.nb-layout-header {
+    &.nav {
+        box-shadow: none !important;
+    }
+}
+
+.heading-56 {
+    font-size: 60px;
+    line-height: 58px;
+}
+
+.form-layout-right {
+    background: #2B645D;
+    height: 100vh !important;
+}
+
+.form-layout-left {
+    background: #fff;
+    height: 100vh !important;
+}

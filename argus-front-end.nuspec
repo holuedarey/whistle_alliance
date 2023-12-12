@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>argus-front-end</id>
+    <version>1.0.0</version>
+    <authors>VGG</authors>
+    <owners>VGG</owners>
+    <description>Argus Frontend</description>
+  </metadata>
+  <files>
+    <file src="*" exclude="*.nuspec"/>
+  <file src="dist\argus-front-end\**" target="" />
+  </files>
+</package>

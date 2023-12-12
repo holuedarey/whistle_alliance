@@ -1,0 +1,97 @@
+@import "../../@theme/styles/themes";
+@import "~bootstrap/scss/mixins/breakpoints";
+@import "~@nebular/theme/styles/global/breakpoints";
+
+@include nb-install-component() {
+  position: relative;
+  display: block;
+  overflow: hidden;
+
+  nb-card-body {
+    overflow: hidden;
+  }
+
+  .table-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    @include media-breakpoint-up(0) {
+      height: 100%;
+    }
+    @include media-breakpoint-up(xl) {
+      height: 81vh;
+    }
+    &::-webkit-scrollbar {
+      width: var(--layout-scrollbar-width);
+      height: var(--layout-scrollbar-width);
+    }
+    &:-webkit-scrollbar-thumb {
+      background: var(--layout-scrollbar-color) !important;
+      cursor: pointer;
+      border-radius: var(--layout-scrollbar-width) / 2;
+    }
+    &::-webkit-scrollbar-track {
+      background: var(--layout-scrollbar-background-color) !important;
+    }
+  }
+
+  app-table.map-table {
+    ::ng-deep .ng2-smart-page-link {
+      padding: 8px 12px !important;
+    }
+  }
+  @include media-breakpoint-up(xxxl) {
+    app-table.map-table {
+      ::ng-deep * {
+        font-size: 14px !important;
+      }
+    }
+  }
+  @include media-breakpoint-up(0) {
+    app-table.map-table {
+      ::ng-deep * {
+        font-size: 11px !important;
+      }
+    }
+  }
+
+  nb-card {
+    position: relative;
+  }
+
+  nb-card-header {
+    border-bottom: none;
+  }
+
+  .subtitle {
+    color: nb-theme(text-hint-color);
+  }
+
+  .container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .chart-container {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2.125rem;
+  }
+
+  @include media-breakpoint-down(is) {
+    ngx-legend-chart {
+      ::ng-deep .legends {
+        padding-left: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+trigger:
+  - master
+name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "14.17"
+    displayName: "Install Node.js"
+
+  - script: |
+      npm install
+      npm run build:prod
+    displayName: "npm install and build"
+  - task: NuGetCommand@2
+    inputs:
+      command: "pack"
+      packagesToPack: "$(packagesName)"
+      versioningScheme: "byBuildNumber"
+  - task: NuGetCommand@2
+    inputs:
+      command: "push"
+      packagesToPush: "$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg"
+      nuGetFeedType: "internal"
+      publishVstsFeed: "205c30f1-6e00-4967-939e-822492a0716d"

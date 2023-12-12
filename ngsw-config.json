@@ -1,0 +1,93 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/manifest.webmanifest",
+          "/*.css",
+          "/*.js"
+        ]
+      }
+    },
+    {
+      "name": "assets-core",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/animations/**",
+          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani|ico)"
+        ]
+      }
+    },
+    {
+      "name": "assets-others",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
+        ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "tables",
+      "urls": [
+        "https://**/users",
+        "https://**/clients",
+        "https://**/meters"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "timeout": "5s",
+        "maxAge": "7d",
+        "maxSize": 100
+      },
+      "cacheQueryOptions": {
+        "ignoreSearch": false
+      }
+    },
+    {
+      "name": "drop-down-menus",
+      "urls": [
+        "https://**/roles",
+        "https://**/meters/get-meterManufacturers"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "timeout": "2s",
+        "maxAge": "7d",
+        "maxSize": 10
+      },
+      "cacheQueryOptions": {
+        "ignoreSearch": true
+      }
+    },
+    {
+      "name": "static",
+      "urls": [
+        "https://**/locations/countries",
+        "https://**/locations/states",
+        "https://**/locations/area"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "timeout": "0u",
+        "maxAge": "30d",
+        "maxSize": 500
+      },
+      "cacheQueryOptions": {
+        "ignoreSearch": false
+      }
+    }
+  ]
+}

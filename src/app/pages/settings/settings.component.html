@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-md-3">
+        <nb-card size="small" fullWidth class="no-padding">
+            <nb-card-body>
+                <ul class="list-unstyled mt-3">
+                    <li *ngFor="let item of menu" class="mb-3">
+                        <a href="#" (click)="changeView(item, $event)"> {{ item }}</a>
+                    </li>
+                </ul>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <div class="col-md-9">
+        <nb-card size="medium" fullWidth class="no-padding">
+            <nb-card-body>
+                <div class="row m-0">
+                    <div class="col-12" *ngIf="bankAccount">
+                        <h3 class="heading">Bank Account</h3>
+                        <div *ngIf="!bankAccountData.length">
+                            <div class="mt-2">
+                                <img class="mx-auto d-block img img-responsive"  src="assets/icons/bankAccount.png" alt="bankAccount"/>
+                                <p class="text-center">You haven’t added any bank accounts yet</p>
+                            </div>
+                            <div class="mt-2">
+                                <button fullWidth  nbButton status="primary" size="large" (click)="startProcess('bankAccount')">
+                                    Add Bank Account
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" *ngIf="card">
+                        <h3 class="heading">Card</h3>
+                        <div *ngIf="!cardData.length">
+                            <div class="mt-2">
+                                <img class="mx-auto d-block img img-responsive"  src="assets/icons/rafiki.png" alt="bankAccount"/>
+                                <p  class="text-center">You haven’t added any debit cards yet</p>
+                            </div>
+                            <div class="mt-2">
+                                <button fullWidth  nbButton status="primary" size="large" (click)="startProcess('bankAccount')">
+                                    Add Card
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" *ngIf="changePassword">
+                        <h3 class="heading">Change Password</h3>
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sint, excepturi ullam. Ducimus
+                        voluptatibus praesentium blanditiis sint? Ducimus optio a consequuntur, earum nam libero, fugiat
+                        maxime mollitia, rerum enim quidem vero?
+                    </div>
+                    <div class="col-12" *ngIf="contactUs">
+                        <h3 class="heading">Contact Us</h3>
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sint, excepturi ullam. Ducimus
+                        voluptatibus praesentium blanditiis sint? Ducimus optio a consequuntur, earum nam libero, fugiat
+                        maxime mollitia, rerum enim quidem vero?
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="container-fluid p-0 m-0">
+    <div class="row m-0">
+        <div class="col-12">
+            <app-table [isLoading]="isLoadingData" title="History" subTitle="" [data]="users" [columns]="columns"
+                (requestData)="requestData($event)">
+            </app-table>
+        </div>
+    </div>
+</div>

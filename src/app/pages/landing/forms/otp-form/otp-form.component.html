@@ -1,0 +1,42 @@
+<nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
+    <p class="alert-title"><b>Oh snap!</b></p>
+    <ul class="alert-message-list">
+        <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+    </ul>
+</nb-alert>
+
+<nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success" role="alert">
+    <p class="alert-title"><b>Hooray!</b></p>
+    <ul class="alert-message-list">
+        <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+    </ul>
+</nb-alert>
+<form (ngSubmit)="processOtp()" #form="ngForm">
+    <div class="row">
+        <div class="col pr-4">
+            <input 
+            #inputEl 
+            *ngFor="let input of inputs.controls; let i = index" 
+            (keypress)="handleKeyPress($event, i)"
+            (input)="handleInput(i)"
+            (keydown)="handleKeyDown($event, i)"
+            (paste)="handlePaste($event, i)"
+            (keydown)="handleKeyDown($event, i)"
+            inputmode="numeric"
+            maxlength="1"
+            required
+            autofocus >
+        </div>
+    </div>
+    <p class="subtext mt-2 col" style="color: #fff;">
+        Didn't get the Code 
+        <span *ngIf="timeLeft == 1" (click)="ResendCode()" style="cursor: pointer; color: #fff; font-weight: 600;">Resend Now</span>
+        <span *ngIf="timeLeft > 0" [hidden]="timeLeft == 1 ">Resend in {{timeLeft}}</span></p>
+   
+    <div class="col col-sm-12 col-xs-12 spacer form-control-group">
+        <button [nbSpinner]="submitted" nbButton fullWidth status="info" [disabled]="submitted || !form.valid"
+            [class.btn-pulse]="submitted">
+            Verify
+        </button>
+    </div>
+</form>

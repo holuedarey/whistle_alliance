@@ -1,0 +1,39 @@
+<nb-card size="large" fullWidth class="no-padding" style="height: 85vh">
+    <nb-card-body>
+        <div class="row">
+            <div class="col-md-11">
+                <p class="heading">
+                    Today
+                </p>
+            </div>
+        </div>
+        <div class="row m-0">
+            <div class="col-12">
+                <nb-list>
+                    <nb-list-item *ngFor="let user of users">
+                      <nb-user [name]="user.name" [title]="user.title">
+                      </nb-user>
+                      
+                    </nb-list-item>
+                  </nb-list>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-11">
+                <p class="heading">
+                    Yesterday
+                </p>
+            </div>
+        </div>
+        <div class="row m-0">
+            <div class="col-12">
+                <nb-list>
+                    <nb-list-item *ngFor="let user of users">
+                      <nb-user [name]="user.name" [title]="user.title">
+                      </nb-user>
+                    </nb-list-item>
+                  </nb-list>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

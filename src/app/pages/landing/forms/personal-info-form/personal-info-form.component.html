@@ -1,0 +1,137 @@
+<nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
+    <p class="alert-title"><b>Oh snap!</b></p>
+    <ul class="alert-message-list">
+        <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+    </ul>
+</nb-alert>
+
+<nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success" role="alert">
+    <p class="alert-title"><b>Hooray!</b></p>
+    <ul class="alert-message-list">
+        <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+    </ul>
+</nb-alert>
+<form (ngSubmit)="processInfo()" #form="ngForm">
+    <div class="form-control-group col-md-7 col-sm-12 col-xs-12 mt-4">
+        <label class="label" for="input-firstname">First Name</label>
+        <input nbInput fullWidth [(ngModel)]="user.firstname" #firstname="ngModel" name="firstname" id="input-firstname"
+            placeholder="Please enter your First Name" autofocus disabled=true
+            [status]="firstname.dirty ? (firstname.invalid  ? 'danger' : 'success') : 'basic'"
+            [attr.aria-invalid]="firstname.invalid && firstname.touched ? true : null">
+        <ng-container *ngIf="firstname.invalid && firstname.touched">
+            <p class="error-message" *ngIf="firstname.errors?.required">
+                First Name is required!
+            </p>
+        </ng-container>
+    </div>
+    <div class="form-control-group col-md-7 col-sm-12 col-xs-12 ">
+        <label class="label" for="input-lastname">Last Name</label>
+        <input nbInput fullWidth [(ngModel)]="user.lastname" #lastname="ngModel" name="lastname" id="input-lastname"
+            placeholder="Please enter your Last Name" autofocus disabled=true
+            [status]="lastname.dirty ? (lastname.invalid  ? 'danger' : 'success') : 'basic'"
+            [attr.aria-invalid]="lastname.invalid && lastname.touched ? true : null">
+        <ng-container *ngIf="lastname.invalid && lastname.touched">
+            <p class="error-message" *ngIf="lastname.errors?.required">
+                Last Name is required!
+            </p>
+        </ng-container>
+    </div>
+    <div class="form-control-group col-md-7 col-sm-12 col-xs-12 ">
+        <label class="label" for="input-dob">Date Of Birth</label>
+        <input nbInput fullWidth [(ngModel)]="user.dob" #dob="ngModel" name="dob" id="input-dob"
+            placeholder="Please enter your Date Of Birth" autofocus disabled=true
+            [status]="dob.dirty ? (dob.invalid  ? 'danger' : 'success') : 'basic'"
+            [attr.aria-invalid]="dob.invalid && dob.touched ? true : null">
+        <ng-container *ngIf="dob.invalid && dob.touched">
+            <p class="error-message" *ngIf="dob.errors?.required">
+                Date Of Birth is required!
+            </p>
+        </ng-container>
+    </div>
+    <div class="form-control-group col-md-7 col-sm-12 col-xs-12 ">
+        <label class="label" for="input-phonenumber">Phone Number</label>
+        <input nbInput fullWidth [(ngModel)]="user.phonenumber" #phonenumber="ngModel" name="phonenumber"
+            id="input-phonenumber" placeholder="Please enter your Phone Number" autofocus disabled=true
+            [status]="phonenumber.dirty ? (phonenumber.invalid  ? 'danger' : 'success') : 'basic'"
+            [attr.aria-invalid]="phonenumber.invalid && phonenumber.touched ? true : null">
+        <ng-container *ngIf="phonenumber.invalid && phonenumber.touched">
+            <p class="error-message" *ngIf="phonenumber.errors?.required">
+                Phone Number is required!
+            </p>
+        </ng-container>
+    </div>
+    <div class="form-control-group col-md-7 col-sm-12 col-xs-12 ">
+        <label class="label" for="input-nin">NIN</label>
+        <input nbInput fullWidth [(ngModel)]="user.nin" #nin="ngModel" name="nin" id="input-nin"
+            placeholder="Please enter your NIN" autofocus disabled=true
+            [status]="nin.dirty ? (nin.invalid  ? 'danger' : 'success') : 'basic'"
+            [attr.aria-invalid]="nin.invalid && nin.touched ? true : null">
+        <ng-container *ngIf="nin.invalid && nin.touched">
+            <p class="error-message" *ngIf="nin.errors?.required">
+                NIN is required!
+            </p>
+        </ng-container>
+    </div>
+
+    <div class="form-control-group col-md-7 col-sm-12 col-xs-12 ">
+        <label class="label" for="input-email">Email</label>
+        <input nbInput fullWidth [(ngModel)]="user.email" #email="ngModel" name="email" id="input-email"
+            placeholder="Please enter your Email" autofocus
+            [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"
+            [attr.aria-invalid]="email.invalid && email.touched ? true : null">
+        <ng-container *ngIf="email.invalid && email.touched">
+            <p class="error-message" *ngIf="email.errors?.required">
+                Email is required!
+            </p>
+        </ng-container>
+    </div>
+
+    <div class="form-control-group col-md-7 col-sm-12 col-xs-12 ">
+        <label class="label" for="input-password">Password:</label>
+        <nb-form-field>
+            <input nbInput fullWidth [(ngModel)]="user.password" #password="ngModel" name="password"
+                [type]="isPasswordHidden ? 'password' : 'text'" id="input-password" placeholder="Password"
+                [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'" [required]="true"
+                [minlength]="8" [maxlength]="32"
+                [attr.aria-invalid]="password.invalid && password.touched ? true : null">
+            <button nbSuffix nbButton ghost type="button" (click)="isPasswordHidden = !isPasswordHidden">
+                <nb-icon [icon]="isPasswordHidden ? 'eye-outline' : 'eye-off-2-outline'" pack="eva"
+                    [attr.aria-label]="!isPasswordHidden ? 'hide password' : 'show password'">
+                </nb-icon>
+            </button>
+        </nb-form-field>
+        <ng-container *ngIf="password.invalid && password.touched ">
+            <p class="error-message" *ngIf="password.errors?.required">
+                Password is required!
+            </p>
+        </ng-container>
+    </div>
+
+    <div class="form-control-group col-md-7 col-sm-12 col-xs-12">
+        <label class="label" for="input-confirmpassword">Confirm Password</label>
+        <nb-form-field>
+            <input nbInput fullWidth [(ngModel)]="user.confirmpassword" #confirmpassword="ngModel"
+                name="confirmpassword" id="input-confirmpassword" placeholder=" Comfirm Password"
+                autofocus [type]="isPasswordHiddenConf ? 'password' : 'text'"
+                [status]="confirmpassword.dirty ? (confirmpassword.invalid  ? 'danger' : 'success') : 'basic'"
+                [attr.aria-invalid]="confirmpassword.invalid && confirmpassword.touched ? true : null">
+            <button nbSuffix nbButton ghost type="button" (click)="isPasswordHiddenConf = !isPasswordHiddenConf">
+                <nb-icon [icon]="isPasswordHiddenConf ? 'eye-outline' : 'eye-off-2-outline'" pack="eva"
+                    [attr.aria-label]="!isPasswordHiddenConf ? 'hide password' : 'show password'">
+                </nb-icon>
+            </button>
+        </nb-form-field>
+        <ng-container *ngIf="confirmpassword.invalid && confirmpassword.touched">
+            <p class="error-message" *ngIf="confirmpassword.errors?.required">
+                Confirm Password is required!
+            </p>
+        </ng-container>
+    </div>
+    <br>
+    <div class="col-md-7 col-sm-12 col-xs-12 spacer form-control-group">
+        <button [nbSpinner]="submitted" nbButton fullWidth status="info" [disabled]="submitted || !form.valid"
+            [class.btn-pulse]="submitted">
+            Register
+        </button>
+    </div>
+</form>

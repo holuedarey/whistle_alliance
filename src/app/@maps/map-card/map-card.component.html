@@ -1,0 +1,29 @@
+<nb-card>
+    <nb-card-body class="p-0">
+        <div class="row p-0 m-0 cover">
+            <div class="col-12 col-lg-9 px-0">
+                <div class="chart-container">
+                    <app-map [height]="isMobile ? '40vh' :'81vh'"></app-map>
+                    <app-slide-out>
+                        <div class="container">
+                            <h1>
+                                {{ selectedRow?.name ?? 'Hello'}}
+                            </h1>
+                        </div>
+                    </app-slide-out>
+                </div>
+            </div>
+            <div class="col-lg-3 col-12 px-2">
+                <div class="row py-md-3 pt-0 pb-1 table-container align-items-center">
+                    <div class="col-12">
+                        <h4 class="text-md-center mt-3 mt-md-1 mb-md-3">Assets</h4>
+                        <app-table (rowCLicked)="selectedInput($event)" class="map-table" [tableOnly]="true"
+                            [showEdit]="false" [hideHeader]="true" [isLoading]="true" [data]="data" [columns]="columns"
+                            [pageLength]="isMobile ? 5 : 10">
+                        </app-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

@@ -1,0 +1,25 @@
+@import "../../@theme/styles/themes";
+@import "~bootstrap/scss/mixins/breakpoints";
+@import "~@nebular/theme/styles/global/breakpoints";
+
+@include nb-install-component() {
+    @include media-breakpoint-up(md) {
+        google-map {
+            ::ng-deep div.map-container {
+                border-radius: var(--card-border-radius) 0 0 var(--card-border-radius);
+            }
+        }
+        // border-top-right-radius: nb-theme(card-border-radius);
+        // border-top-left-radius: nb-theme(card-border-radius);
+    }
+    @include media-breakpoint-down(is) {
+        google-map {
+            ::ng-deep div.map-container {
+                border-radius: var(--card-border-radius) var(--card-border-radius) 0 0;
+            }
+        }
+    }
+    ::ng-deep .gm-style-cc {
+        display: none;
+    }
+}

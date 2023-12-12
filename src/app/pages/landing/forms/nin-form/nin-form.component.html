@@ -1,0 +1,38 @@
+<nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
+    <p class="alert-title"><b>Oh snap!</b></p>
+    <ul class="alert-message-list">
+        <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+    </ul>
+</nb-alert>
+
+<nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success" role="alert">
+    <p class="alert-title"><b>Hooray!</b></p>
+    <ul class="alert-message-list">
+        <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+    </ul>
+</nb-alert>
+<form (ngSubmit)="processNin()" #form="ngForm">
+    <div class="form-control-group col-md-7 col-sm-12 col-xs-12 spacer">
+        <label class="label" for="input-nin">NIN</label>
+        <input nbInput fullWidth [(ngModel)]="user.nin" #nin="ngModel" name="nin" id="input-nin"
+            placeholder="Please enter your NIN" autofocus
+            maxlength="11"
+            minlength="11"
+            [status]="nin.dirty ? (nin.invalid  ? 'danger' : 'success') : 'basic'"
+            [attr.aria-invalid]="nin.invalid && nin.touched ? true : null">
+        <ng-container *ngIf="nin.invalid && nin.touched">
+            <p class="error-message" *ngIf="nin.errors?.required">
+                NIN is required!
+            </p>
+        </ng-container>
+    </div>
+    <div class="col mt-2 mb-2">
+        <nb-checkbox (checkedChange)="toggle($event)" status="infos">I have read the Terms and Conditions and Privacy Policy</nb-checkbox>
+    </div>
+    <div class="col-md-7 col-sm-12 col-xs-12 spacer">
+        <button [nbSpinner]="submitted" nbButton fullWidth status="info" [disabled]="submitted || !form.valid"
+        [class.btn-pulse]="submitted">
+        Next
+    </button>
+    </div>
+</form>
