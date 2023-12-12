@@ -9,6 +9,8 @@ const environments = [
     googleMapKey: 'AIzaSyDnwVXdPAfWb3f2OwfsimrxuLIPhHtYZcc',
     accessControlConfig: AccessControl[0],
     paginationLength: 100,
+    recentLength: 5,
+
   },
   {
     production: true,
