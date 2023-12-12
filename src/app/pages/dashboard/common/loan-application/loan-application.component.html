@@ -60,7 +60,7 @@
               <label class="label" for="input-password">Repayment Tenure (Months)</label>
               <nb-select fullWidth placeholder="Select Loan Tenure" [(selected)]="selectedMonth" required="true">
                 <nb-option value="">Select Month</nb-option>
-                <nb-option [value]="{{month.value}}" *ngFor="let month of months">{{month.label}}</nb-option>
+                <nb-option [value]="month.value" *ngFor="let month of months">{{month.label}}</nb-option>
               </nb-select>
             </div>
             <!-- <div class="form-group mt-2">
