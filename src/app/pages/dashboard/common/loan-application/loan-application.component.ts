@@ -36,7 +36,7 @@ export class LoanApplicationComponent implements OnInit {
   secondForm: FormGroup;
   thirdForm: FormGroup;
   userData:any = [];
-  loanProducts: LoanProductDto[] = [];
+  loanProducts: any[] = [];
 
   employments = Employments;
   months: any[] = Months;
