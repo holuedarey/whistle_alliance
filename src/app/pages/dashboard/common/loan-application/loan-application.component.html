@@ -46,7 +46,7 @@
               <label class="label" for="input-password">Loan Type</label>
               <nb-select fullWidth placeholder="Select Loan Tenure" required="true" [(selected)]="selectedProduct">
                 <nb-option value="">Select Product</nb-option>
-                <nb-option [value]="{{product['id']}}"
+                <nb-option [value]="product['id']"
                   *ngFor="let product of loanProducts">{{product['productName']}}</nb-option>
               </nb-select>
             </div>
