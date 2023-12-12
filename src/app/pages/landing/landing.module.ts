@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { LandingRoutingModule } from './landing-routing.module';
 import { LandingComponent } from './landing.component';
 import { LottieModule } from 'ngx-lottie';
-import { NbButtonModule, NbCardModule, NbCheckboxModule, NbFormFieldModule, NbIconModule, NbInputModule, NbLayoutModule, NbSpinnerModule } from '@nebular/theme';
+import { NbAlertModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbFormFieldModule, NbIconModule, NbInputModule, NbLayoutModule, NbSpinnerModule } from '@nebular/theme';
 import { NinComponent } from './nin/nin.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { OtpComponent } from './otp/otp.component';
@@ -32,7 +32,8 @@ import { OtpSuccessComponent } from 'src/app/@theme/components/otp-success/otp-s
     NbCheckboxModule,
     NbSpinnerModule,
     NbInputModule,
-    NbCardModule
+    NbCardModule,
+    NbAlertModule
   ]
 })
 export class LandingModule { }
