@@ -8,8 +8,6 @@ import { Observable } from 'rxjs';
 import { map, takeWhile } from 'rxjs/operators';
 import { RoleMap } from 'src/app/@core/maps/role.map';
 import { PermissionService } from 'src/app/@core/utils/permission.service';
-import { ClientDto } from 'src/app/@core/dtos/client.dto';
-import { ClientService } from 'src/app/@core/data-services/client.service';
 import { UsersResources } from '../users-resources';
 import { TokenService } from 'src/app/@core/utils/token.service';
 import { UserModel } from 'src/app/@core/models/user.model';
@@ -52,7 +50,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     public permissionService: PermissionService,
     private tokenService: TokenService,
-    private userService: UserService
+    private userService: UserService,
+    private clientService:ClientService
 
   ) {
     this.appRoles$ = this.roleService.getAppRoles().pipe(map(d => d.data as AppRoleDto[]));

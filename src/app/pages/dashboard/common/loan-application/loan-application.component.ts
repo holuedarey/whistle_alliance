@@ -121,14 +121,13 @@ export class LoanApplicationComponent implements OnInit {
     this.getSingleUser();
     this.getAllProducts();
   }
-  onFirstSubmit(e:any) {
-    e.preventDefault()
-    // this.firstForm.markAsDirty();
+  onFirstSubmit() {
+    this.firstForm.markAsDirty();
     console.log("log: ", this.firstForm.value.employmentStatus);
   }
 
   onSecondSubmit() {
-    // this.secondForm.markAsDirty();
+    this.secondForm.markAsDirty();
     console.log("log 1: ", this.firstForm.value);
 
     console.log("log 2: ", this.secondForm.value);
@@ -136,7 +135,7 @@ export class LoanApplicationComponent implements OnInit {
   }
 
   onThirdSubmit() {
-    // this.thirdForm.markAsDirty();
+    this.thirdForm.markAsDirty();
     console.log("log 1: ", 
     this.firstForm.value,
     this.secondForm.value,

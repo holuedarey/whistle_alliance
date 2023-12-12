@@ -2,7 +2,7 @@
   <nb-card class="card-width">
     <nb-card-body>
       <nb-stepper #stepper>
-        <nb-step [stepControl]="firstForm" label="">
+        <nb-step [stepControl]="firstForm" label="" >
           <form [formGroup]="firstForm" (ngSubmit)="onFirstSubmit()" class="step-container">
             <h4 class="headings">Personal Information</h4>
             <p class="lorem">Please provide the following information.</p>
@@ -11,13 +11,13 @@
               <label class="label" for="input-fullname">First Name</label>
               <input nbInput size="large" type="text" placeholder="Enter your name" class="form-control size-large"
                 formControlName="fullname"
-                [status]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
+                 [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
             </div>
             <div class="form-group mt-2">
               <label class="label" for="input-password">Email</label>
               <input nbInput size="large" type="text" placeholder="Enter your name" class="form-control size-large"
                 formControlName="email"
-                [status]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
+                 [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
             </div>
             <div class="form-group mt-2">
               <label class="label" for="input-password">Employment Status</label>
@@ -31,7 +31,7 @@
               <label class="label" for="input-password">Employer</label>
               <input nbInput type="text" placeholder="Enter your name" class="form-control size-large"
                 formControlName="employer"
-                [status]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
+                 [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
             </div>
             <br>
             <button nbButton type="button" fullWidth status="primary" nbStepperNext>Next</button>
@@ -46,21 +46,21 @@
               <label class="label" for="input-password">Loan Type</label>
               <nb-select fullWidth placeholder="Select Loan Tenure" required="true" [(selected)]="selectedProduct">
                 <nb-option value="">Select Product</nb-option>
-                <nb-option value="{{product.id}}"
-                  *ngFor="let product of loanProducts">{{product.productName}}</nb-option>
+                <nb-option [value]="{{product.id}}"
+                  *ngFor="let product of loanProducts">{{product['productName']}}</nb-option>
               </nb-select>
             </div>
             <div class="form-groups">
               <label class="label" for="input-amount">Loan Amount</label>
               <input nbInput type="text" placeholder="Enter Loan Amount" class="form-control size-large"
                 formControlName="amount"
-                [status]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">
+                 [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">
             </div>
             <div class="form-group mt-2">
               <label class="label" for="input-password">Repayment Tenure (Months)</label>
               <nb-select fullWidth placeholder="Select Loan Tenure" [(selected)]="selectedMonth" required="true">
                 <nb-option value="">Select Month</nb-option>
-                <nb-option value="{{month.value}}" *ngFor="let month of months">{{month.label}}</nb-option>
+                <nb-option [value]="{{month.value}}" *ngFor="let month of months">{{month.label}}</nb-option>
               </nb-select>
             </div>
             <!-- <div class="form-group mt-2">
@@ -68,7 +68,7 @@
               <input nbInput type="text" placeholder="Monthly Repayment Date" class="form-control size-large"
                 formControlName="paymentDate"
                 [nbDatepicker]="dateTimePicker"
-                [status]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">
+                 [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">
                 <nb-datepicker #dateTimePicker [filter]="filterFn"></nb-datepicker>
             </div> -->
             
@@ -85,19 +85,19 @@
               <label class="label" for="input-address">Proof of Address</label>
               <input nbInput type="file" placeholder="Enter favorite movie" class="form-control size-large file-field"
                 formControlName="thirdCtrl"
-                [status]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
+                 [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
             </div>
             <div class="form-group">
               <label class="label" for="input-employment">Proof of Employment</label>
               <input nbInput type="file" placeholder="Enter favorite movie" class="form-control size-large file-field"
                 formControlName="thirdCtrl"
-                [status]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
+                 [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
             </div>
             <div class="form-group">
               <label class="label" for="input-identity">Proof of Identity</label>
               <input nbInput type="file" placeholder="Enter favorite movie" class="form-control size-large file-field"
                 formControlName="thirdCtrl"
-                [status]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
+                 [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
             </div>
             <button nbButton type="button" nbStepperNext fullWidth status="primary">Next</button>
           </form>

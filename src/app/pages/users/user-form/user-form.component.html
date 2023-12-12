@@ -175,27 +175,7 @@
                             <ng-container *ngIf="isCreateRequest">
                                 <div *nbIsGranted="['create', userResources.SetClient]"
                                     class="form-control-group row mb-3">
-                                    <div class="col-sm-3">
-                                        <label class="label" for="input-role">Client:</label>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <nb-select fullWidth
-                                            [status]="createUserForm.controls['clientId'].touched ? (createUserForm.controls['clientId'].invalid ? 'danger' : 'success') : 'basic'"
-                                            placeholder="Select Client" formControlName="clientId">
-                                            <nb-option *ngFor="let client of (clients$ | async); let i=index"
-                                                [value]="client.clientId">
-                                                {{client.businessName | capitalize}}
-                                            </nb-option>
-                                        </nb-select>
-                                        <!-- input errors -->
-                                        <div *ngIf="createUserForm.controls['clientId'].invalid && createUserForm.controls['clientId'].touched"
-                                            class="text-danger xyz-in px-3 row">
-                                            <small xyz="fade down" class="error-message"
-                                                *ngIf="createUserForm.controls['clientId'].errors?.required">
-                                                Client is required!
-                                            </small>
-                                        </div>
-                                    </div>
+                                 
                                 </div>
                             </ng-container>
 

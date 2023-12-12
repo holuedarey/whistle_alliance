@@ -12,7 +12,7 @@ import { AuthResources, AuthResourcesNavMap } from 'src/app/pages/auth/auth-reso
 })
 export class OtpSuccessComponent {
   redirectDelay = 0;
-
+  submitted = false
   constructor(
     private userAuthService: AuthService,
     public dialogRef: NbDialogRef<OtpSuccessComponent>,
