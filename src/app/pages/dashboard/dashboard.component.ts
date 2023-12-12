@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit {
   isLoadingData = true;
 
   users: UserDto[] = [];
-  loanProducts: LoanProductDto[] = [];
+  loanProducts: any[] = [];
 
   userId:any;
   userLoanLimit:any;
