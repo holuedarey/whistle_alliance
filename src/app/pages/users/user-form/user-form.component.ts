@@ -50,8 +50,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     public permissionService: PermissionService,
     private tokenService: TokenService,
-    private userService: UserService,
-    private clientService:ClientService
+    private userService: UserService
 
   ) {
     this.appRoles$ = this.roleService.getAppRoles().pipe(map(d => d.data as AppRoleDto[]));
