@@ -17,7 +17,7 @@ jobs:
         run: docker push holudarey/whistle_alliance:latest
   deploy:
     needs: build
-    runs-on: [whistle_alliance]
+    runs-on: [whistle_alliance] 
     steps:
       - name: Pull Image from Docker Hub
         run: docker pull holudarey/whistle_alliance:latest
