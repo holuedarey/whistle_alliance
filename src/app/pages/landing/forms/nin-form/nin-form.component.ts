@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NinDto } from 'src/app/@core/dtos/nin.dto';
 import { LandingResources, LandingResourcesNavMap } from '../../landing-resources';
 import { ResponseDto } from 'src/app/@core/dtos/response-dto';
 import { OnboardingService } from 'src/app/@core/data-services/onboarding.service';
+import { NinDto } from 'src/app/@core/dtos/nin.dto';
 
 @Component({
   selector: 'app-nin-form',

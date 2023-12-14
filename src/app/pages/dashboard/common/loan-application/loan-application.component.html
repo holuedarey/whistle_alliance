@@ -2,8 +2,8 @@
   <nb-card class="card-width">
     <nb-card-body>
       <nb-stepper #stepper>
-        <nb-step [stepControl]="firstForm" label="" >
-          <form [formGroup]="firstForm" (ngSubmit)="onFirstSubmit()" class="step-container">
+        <nb-step [stepControl]="firstForm" label="">
+          <form [formGroup]="firstForm" class="step-container">
             <h4 class="headings">Personal Information</h4>
             <p class="lorem">Please provide the following information.</p>
 
@@ -11,16 +11,16 @@
               <label class="label" for="input-fullname">First Name</label>
               <input nbInput size="large" type="text" placeholder="Enter your name" class="form-control size-large"
                 formControlName="fullname"
-                 [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
+                [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
             </div>
             <div class="form-group mt-2">
-              <label class="label" for="input-password">Email</label>
+              <label class="label" for="input-email">Email</label>
               <input nbInput size="large" type="text" placeholder="Enter your name" class="form-control size-large"
                 formControlName="email"
-                 [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
+                [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
             </div>
             <div class="form-group mt-2">
-              <label class="label" for="input-password">Employment Status</label>
+              <label class="label" for="input-employment">Employment Status</label>
               <nb-select fullWidth placeholder="Employment Status" formControlName="employmentStatus">
                 <nb-option value="">Employment Status</nb-option>
                 <nb-option value="{{job.value}}" *ngFor="let job of employments">{{job.label}}</nb-option>
@@ -28,23 +28,23 @@
             </div>
 
             <div class="form-group mt-2">
-              <label class="label" for="input-password">Employer</label>
+              <label class="label" for="input-employer">Employer</label>
               <input nbInput type="text" placeholder="Enter your name" class="form-control size-large"
                 formControlName="employer"
-                 [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
+                [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
             </div>
             <br>
-            <button nbButton type="button" fullWidth status="primary" nbStepperNext>Next</button>
+            <button nbButton type="button"  (click)="onFirstSubmit()" fullWidth status="primary" nbStepperNext>Next</button>
           </form>
         </nb-step>
         <nb-step [stepControl]="secondForm" label="">
-          <form [formGroup]="secondForm" (ngSubmit)="onSecondSubmit()" class="step-container">
+          <form [formGroup]="secondForm"  class="step-container">
             <h4 class="headings">Loan Details</h4>
             <p class="lorem">Please provide the following information.</p>
 
             <div class="form-groups">
-              <label class="label" for="input-password">Loan Type</label>
-              <nb-select fullWidth placeholder="Select Loan Tenure" required="true" [(selected)]="selectedProduct">
+              <label class="label" for="input-loan-type">Loan Type</label>
+              <nb-select fullWidth placeholder="Select Loan Tenure" required="true" [(selected)]="selectedProduct" formControlName="productType">
                 <nb-option value="">Select Product</nb-option>
                 <nb-option [value]="product['id']"
                   *ngFor="let product of loanProducts">{{product['productName']}}</nb-option>
@@ -54,11 +54,11 @@
               <label class="label" for="input-amount">Loan Amount</label>
               <input nbInput type="text" placeholder="Enter Loan Amount" class="form-control size-large"
                 formControlName="amount"
-                 [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">
+                [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">
             </div>
             <div class="form-group mt-2">
-              <label class="label" for="input-password">Repayment Tenure (Months)</label>
-              <nb-select fullWidth placeholder="Select Loan Tenure" [(selected)]="selectedMonth" required="true">
+              <label class="label" for="input-laontenure">Repayment Tenure (Months)</label>
+              <nb-select fullWidth placeholder="Select Loan Tenure" [(selected)]="selectedMonth" required="true" formControlName="tenure">
                 <nb-option value="">Select Month</nb-option>
                 <nb-option [value]="month.value" *ngFor="let month of months">{{month.label}}</nb-option>
               </nb-select>
@@ -71,40 +71,43 @@
                  [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">
                 <nb-datepicker #dateTimePicker [filter]="filterFn"></nb-datepicker>
             </div> -->
-            
+
             <br>
-            <button nbButton  type="button" fullWidth status="primary" nbStepperNext>Next</button>
+            <button nbButton type="button" (click)="onSecondSubmit()"  fullWidth status="primary" nbStepperNext>Next</button>
           </form>
         </nb-step>
         <nb-step [stepControl]="thirdForm" label="">
-          <form [formGroup]="thirdForm" (ngSubmit)="onThirdSubmit()" class="step-container">
+          <form [formGroup]="thirdForm"  class="step-container">
             <h4 class="headings">KYC</h4>
             <p class="lorem">Please provide any of the following documents.</p>
 
             <div class="form-group">
               <label class="label" for="input-address">Proof of Address</label>
               <input nbInput type="file" placeholder="Enter favorite movie" class="form-control size-large file-field"
-                formControlName="thirdCtrl"
-                 [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
+                formControlName="address"
+                (change)="onChangeFile($event, 'address')"
+                [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
             </div>
             <div class="form-group">
               <label class="label" for="input-employment">Proof of Employment</label>
               <input nbInput type="file" placeholder="Enter favorite movie" class="form-control size-large file-field"
-                formControlName="thirdCtrl"
-                 [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
+                formControlName="pofEmployment"
+                (change)="onChangeFile($event, 'employement')"
+                [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
             </div>
             <div class="form-group">
               <label class="label" for="input-identity">Proof of Identity</label>
               <input nbInput type="file" placeholder="Enter favorite movie" class="form-control size-large file-field"
-                formControlName="thirdCtrl"
-                 [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
+                formControlName="pofIdentity"
+                (change)="onChangeFile($event, 'identity')"
+                [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
             </div>
-            <button nbButton type="button" nbStepperNext fullWidth status="primary">Next</button>
+            <button nbButton type="button" (click)="onThirdSubmit()" nbStepperNext fullWidth status="primary">Next</button>
           </form>
         </nb-step>
         <nb-step [stepControl]="thirdForm" [hidden]="true" label="">
           <div class="step-container">
-            <div class="col-md-8 offset-md-2">
+            <div class="col">
               <img src="assets/icons/complete_loan.png" class="img img-responsive position-center" alt="">
               <p class="text-application">Application Submitted sucessfully</p>
             </div>

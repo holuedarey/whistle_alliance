@@ -25,6 +25,7 @@ import { LocalStorageKey } from './@core/enums/local-storage-key.enum';
 import * as SecureLS from 'secure-ls';
 import { NetworkInterceptor } from './@core/interceptors/network.interceptor';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { RequestInterceptorService } from './@core/interceptors/request.interceptor';
 
 const ls = new SecureLS({ encodingType: 'aes' });
 
@@ -62,7 +63,9 @@ const ls = new SecureLS({ encodingType: 'aes' });
     NbEvaIconsModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: NetworkInterceptor, multi: true } 
+    { provide: HTTP_INTERCEPTORS, useClass: NetworkInterceptor, multi: true } ,
+    { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService, multi: true } ,
+
   ],
   bootstrap: [AppComponent]
 })

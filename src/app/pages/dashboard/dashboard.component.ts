@@ -93,9 +93,7 @@ export class DashboardComponent implements OnInit {
 
   async getSingleUser() {
     this.userService.getSingleUser(this.userId).subscribe(
-      (result) => {
-        console.log(result.content[0]);
-        
+      (result) => {        
         this.userLoanLimit = result.content[0]?.userLimit;
       })
   }
@@ -175,10 +173,14 @@ export class DashboardComponent implements OnInit {
         (response) => {
           this.isLoadingData = false;
           if (response.status) {
+            console.log("response:", response.content);
+            
             this.users = GetUniqueArray([...(response.content[0]?.loan ?? [])], [...this.users]);
           }
         },
         (err) => {
+          // console.log("response:", err);
+
           this.isLoadingData = false;
         }
       )

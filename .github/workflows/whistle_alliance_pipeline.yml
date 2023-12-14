@@ -1,4 +1,4 @@
-name: CICD Whistle Alliance
+name: CICD Whistle Alliance 
 run-name: ${{ github.actor }} is running Build and deploy 🚀
 on:
   push:

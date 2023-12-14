@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { LoanService } from 'src/app/@core/data-services/loan.service';
 import { ShareDataService } from 'src/app/@core/data-services/share-data.service';
 import { UserService } from 'src/app/@core/data-services/user.service';
 import { LoanProductDto } from 'src/app/@core/dtos/loan-product.dto';
@@ -21,12 +22,12 @@ const helper = new JwtHelperService();
 })
 export class LoanApplicationComponent implements OnInit {
 
-  filterFn = (date:any) => date.getDay() < Date.now();
+  filterFn = (date: any) => date.getDay() < Date.now();
 
   @Input() context = '';
   @Input() title = '';
   user: any = {};
-  userId:any;
+  userId: any;
   selectedItem = '2';
   selectedEmpStatus = ''
   selectedProduct = ''
@@ -35,7 +36,7 @@ export class LoanApplicationComponent implements OnInit {
   firstForm: FormGroup;
   secondForm: FormGroup;
   thirdForm: FormGroup;
-  userData:any = [];
+  userData: any = [];
   loanProducts: any[] = [];
 
   employments = Employments;
@@ -45,27 +46,34 @@ export class LoanApplicationComponent implements OnInit {
   errors: string[] = [];
   messages: string[] = [];
 
+  address: any;
+  pofIdentity: any = null;
+  pofEmployment: any = null;
+
   constructor(
     private fb: FormBuilder,
-     private userService:UserService,  
-     private shareDataservice: ShareDataService,
-     private secureLs: SecureLocalStorageService,) { 
+    private userService: UserService,
+    private shareDataservice: ShareDataService,
+    private loanservice: LoanService,
+    private secureLs: SecureLocalStorageService,) {
     this.firstForm = this.fb.group({
-      fullname: [{value: '', disabled: true}, Validators.required],
-      email: [{value: '', disabled: true}, Validators.required],
+      fullname: [{ value: '', disabled: false }, Validators.required],
+      email: [{ value: '', disabled: false }, Validators.required],
       employmentStatus: ['', Validators.required],
       employer: ['', Validators.required],
     });
 
     this.secondForm = this.fb.group({
-      paymentAmount: [''],
-      paymentDate: [''],
+      productType: ['', Validators.required],
+      tenure: ['', Validators.required],
       amount: ['', Validators.required],
 
     });
 
     this.thirdForm = this.fb.group({
-      thirdCtrl: ['', Validators.required],
+      address: ['', Validators.required],
+      pofIdentity: ['', Validators.required],
+      pofEmployment: ['', Validators.required],
     });
   }
 
@@ -93,8 +101,19 @@ export class LoanApplicationComponent implements OnInit {
       }
     );
   }
-  setSelectEmployment(){
-    console.log("change trigger", this.firstForm.value);
+  onChangeFile(event: any, name: string) {
+    switch (name) {
+      case 'address':
+        return this.address = event.target.files[0];
+        break;
+      case 'identity':
+        return this.pofIdentity = event.target.files[0];
+      case 'employement':
+        return this.pofEmployment = event.target.files[0];
+      default:
+        return this.address = event.target.files[0];
+        break;
+    }
 
   }
   async getSingleUser() {
@@ -106,41 +125,76 @@ export class LoanApplicationComponent implements OnInit {
   }
 
   setUSerData() {
-    this.firstForm.setValue({
-      fullname: `${this.userData.firstName} ${this.userData.lastName}`, 
-      email: this.userData.email,
-      employmentStatus:"",
-      employer: ""
+    this.firstForm.patchValue({
+      fullname: `${this.userData.firstName} ${this.userData.lastName}`,
+      email: this.userData.email
+
     });
   }
 
   ngOnInit(): void {
     const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
-    const user:any = helper.decodeToken(token.token) as JwtPayloadModel;
+    const user: any = helper.decodeToken(token.token) as JwtPayloadModel;
     this.userId = user['id'];
     this.getSingleUser();
     this.getAllProducts();
   }
   onFirstSubmit() {
     this.firstForm.markAsDirty();
-    console.log("log: ", this.firstForm.value.employmentStatus);
+    // console.log("log firstForm : ", this.firstForm.value);
   }
 
   onSecondSubmit() {
     this.secondForm.markAsDirty();
-    console.log("log 1: ", this.firstForm.value);
+    // console.log("log 1: ", this.firstForm.value);
 
-    console.log("log 2: ", this.secondForm.value);
+    // console.log("log 2: ", this.secondForm.value);
 
   }
 
   onThirdSubmit() {
     this.thirdForm.markAsDirty();
-    console.log("log 1: ", 
-    this.firstForm.value,
-    this.secondForm.value,
-    this.thirdForm.value
+    
 
+    const formData = new FormData();
+    // Store form name as "file" with file data 
+    formData.append("amount", this.secondForm.value.amount);
+    formData.append("month", this.secondForm.value.tenure);
+    // formData.append("name", this.firstForm.value.fullname);
+    formData.append("loanProductId", this.secondForm.value.productType);
+    formData.append("proofOfAddress", this.address, this.address.name);
+    formData.append("proofOfEmployment", this.pofEmployment, this.pofEmployment.name);
+    formData.append("proofOfIdentity", this.pofIdentity, this.pofIdentity.name);
+
+    var formdata = new FormData();
+    formdata.append("amount", "100000");
+    formdata.append("month", "10");
+    formdata.append("loanProductId", "2");
+    formdata.append("proofOfEmployment", this.pofEmployment, this.pofEmployment.name);
+    formdata.append("proofOfIdentity", this.pofIdentity, this.pofIdentity.name);
+    formdata.append("proofOfAddress", this.address, this.address.name);
+    // console.log("Form Data", formData)
+
+    this.loanservice.createLoan(formData).subscribe(
+      (result) => {
+        this.submitted = false;
+        if (result.status) {
+          this.messages = ['Loan Created Successfully'];
+    
+        } else {
+          this.errors = [
+            result.message as string
+          ];
+        }
+      },
+      (error: ResponseDto<string>) => {
+        this.submitted = false;
+        console.log("Error from serer: ", error);
+        
+        this.errors = [
+          'An Error occured while logging you in.',
+        ];
+      }
     );
 
   }
