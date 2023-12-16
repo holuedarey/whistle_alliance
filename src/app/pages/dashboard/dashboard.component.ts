@@ -19,6 +19,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
 import { UserService } from 'src/app/@core/data-services/user.service';
 import { DecimalPipe } from '@angular/common';
+import { NumberWithCommasPipe } from 'src/app/@theme/pipes';
 const helper = new JwtHelperService();
 
 @Component({
@@ -141,7 +142,7 @@ export class DashboardComponent implements OnInit {
     this.submitted = false;
 
     const laonDto: LoanCalculateDto = {
-      amount: this.loan.amount,
+      amount: this.loan.amount.replace(/[\s,]/g, ''),
       month: parseInt(this.selectedMonth),
       productId: parseInt(this.selectedProduct)
     };
@@ -150,8 +151,6 @@ export class DashboardComponent implements OnInit {
         this.submitted = false;
         if (result.status) {
           this.showCalculateFooter = !this.showCalculateFooter;
-
-          console.log(result)
           this.loanRsponse = result.content[0]
         } else {
           this.errors = [
@@ -177,8 +176,6 @@ export class DashboardComponent implements OnInit {
         (response) => {
           this.isLoadingData = false;
           if (response.status) {
-            console.log("response:", response.content);
-
             this.users = response.content ?? [];
           }
         },
@@ -188,6 +185,10 @@ export class DashboardComponent implements OnInit {
           this.isLoadingData = false;
         }
       )
+  }
+
+  numberFormatComma(value:any){
+    return this.loan.amount =  value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   }
 
 

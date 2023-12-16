@@ -60,8 +60,9 @@
                             <div class="form-control-group">
                                 <label class="label" for="input-amount">Loan Amount:</label>
                                 <input nbInput fullWidth [(ngModel)]="loan.amount" #amount="ngModel" name="amount"
-                                    id="input-amount" type="number" placeholder="1,000,000" autofocus
+                                    id="input-amount" type="text" placeholder="1,000,000" autofocus
                                     inputmode="numeric" required="true"
+                                    (keyup)="numberFormatComma(loan.amount)"
                                     [status]="amount.dirty ? (amount.invalid  ? 'danger' : 'success') : 'basic'"
                                     [attr.aria-invalid]="amount.invalid && amount.touched ? true : null">
                                 <ng-container *ngIf="amount.invalid && amount.touched">

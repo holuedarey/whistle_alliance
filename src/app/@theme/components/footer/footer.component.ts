@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./footer.component.scss'],
   template: `
     <span class="caption">
-      Power by Whistle Alliance 2023}
+      Power by Whistle Alliance 2023
     </span>
   `,
 })

@@ -154,11 +154,11 @@ export class LoanApplicationComponent implements OnInit {
 
   onThirdSubmit() {
     this.thirdForm.markAsDirty();
-    
+
 
     const formData = new FormData();
     // Store form name as "file" with file data 
-    formData.append("amount", this.secondForm.value.amount);
+    formData.append("amount", this.secondForm.value.amount.replace(/[\s,]/g, ''));
     formData.append("month", this.secondForm.value.tenure);
     formData.append("userId", this.userData.id);
     formData.append("loanProductId", this.secondForm.value.productType);
@@ -171,7 +171,7 @@ export class LoanApplicationComponent implements OnInit {
         this.submitted = false;
         if (result.status) {
           this.messages = ['Loan Created Successfully'];
-    
+
         } else {
           this.errors = [
             result.message as string
@@ -181,7 +181,7 @@ export class LoanApplicationComponent implements OnInit {
       (error: ResponseDto<string>) => {
         this.submitted = false;
         console.log("Error from serer: ", error);
-        
+
         this.errors = [
           'An Error occured while logging you in.',
         ];
@@ -189,4 +189,11 @@ export class LoanApplicationComponent implements OnInit {
     );
 
   }
+
+  numberFormatComma() {
+    return this.secondForm.patchValue({
+      amount: this.secondForm.value.amount.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    })
+  }
+
 }
