@@ -1,6 +1,6 @@
 import { NbThemeModule, NbCardModule } from '@nebular/theme';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { HistoryComponent } from './history.component';
 import { HistoryRoutingModule } from './history-routing.module';
 import { TablesModule } from 'src/app/@tables/tables.module';
@@ -16,6 +16,7 @@ import { TablesModule } from 'src/app/@tables/tables.module';
     NbThemeModule,
     NbCardModule,
     TablesModule
-  ]
+  ],
+  providers:[DecimalPipe]
 })
 export class HistoryModule { }

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
@@ -28,6 +28,7 @@ import { LoanApplicationComponent } from './common/loan-application/loan-applica
     NbStepperModule,
     ReactiveFormsModule,
     // NbDatepickerModule
-  ]
+  ],
+  providers: [DecimalPipe],
 })
 export class DashboardModule { }

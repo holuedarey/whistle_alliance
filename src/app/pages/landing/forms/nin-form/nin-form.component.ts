@@ -64,6 +64,7 @@ export class NinFormComponent implements OnInit {
           }, this.redirectDelay);
           this.cd.detectChanges();
         } else {
+          console.log(result.message)
           this.errors = [
             result.message as string
           ];

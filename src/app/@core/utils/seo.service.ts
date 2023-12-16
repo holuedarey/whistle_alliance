@@ -62,7 +62,7 @@ export class SeoService implements OnDestroy {
   }
 
   setSeoData(title: string, description: string): void {
-    this.titleSvc.setTitle(`Argus - ${title}`);
+    this.titleSvc.setTitle(`Whistle Alliance - ${title}`);
     this.metaSvc.updateTag({
       name: 'description',
       content: `${description}`

@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.seo.setSeoData('Login', 'Login into the Argus Application');
+    this.seo.setSeoData('Login', 'Login into the Whistle Alliance Application');
   }
 
   login(): void {

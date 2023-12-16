@@ -160,20 +160,11 @@ export class LoanApplicationComponent implements OnInit {
     // Store form name as "file" with file data 
     formData.append("amount", this.secondForm.value.amount);
     formData.append("month", this.secondForm.value.tenure);
-    // formData.append("name", this.firstForm.value.fullname);
+    formData.append("userId", this.userData.id);
     formData.append("loanProductId", this.secondForm.value.productType);
     formData.append("proofOfAddress", this.address, this.address.name);
     formData.append("proofOfEmployment", this.pofEmployment, this.pofEmployment.name);
     formData.append("proofOfIdentity", this.pofIdentity, this.pofIdentity.name);
-
-    var formdata = new FormData();
-    formdata.append("amount", "100000");
-    formdata.append("month", "10");
-    formdata.append("loanProductId", "2");
-    formdata.append("proofOfEmployment", this.pofEmployment, this.pofEmployment.name);
-    formdata.append("proofOfIdentity", this.pofIdentity, this.pofIdentity.name);
-    formdata.append("proofOfAddress", this.address, this.address.name);
-    // console.log("Form Data", formData)
 
     this.loanservice.createLoan(formData).subscribe(
       (result) => {

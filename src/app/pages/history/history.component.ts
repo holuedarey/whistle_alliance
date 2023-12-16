@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
@@ -19,40 +20,33 @@ export class HistoryComponent implements OnInit {
 
   users:any[] = [];
   columns = {
-    firstName: {
-      title: 'First Name',
-    },
-    lastName: {
-      title: 'Last Name',
-    },
-    email: {
-      title: 'Email',
-    },
-    phone: {
-      title: 'Phone Nos',
-    },
-    roleId: {
-      title: 'Function',
-      filter: {
-        type: 'list',
-        config: {
-          selectText: 'Loading...',
-          list: []
-        },
+    amount: {
+      title: 'Loan Amount',
+      valuePrepareFunction: (num: any) => {
+        return `₦${this._decimalPipe.transform(num, '1.2-2')}`
       },
-      valuePrepareFunction: (d: string, r: any) => {
-        return r.role
-      },
-      filterFunction: (x: string, y: string) => {
-        return x.toLowerCase() === y.toLowerCase();
-      }
     },
-  
+    paymentMonth: {
+      title: 'Repayment Tenure Month(s)',
+    },
+    status: {
+      title: 'Status',
+    },
+    applicationDate: {
+      title: 'Application Date',
+    },
+    product: {
+      title: 'Loan Type',
+      valuePrepareFunction: (d: any) => {
+        return d[0].productName
+      },
+    },
   }
 
   constructor(
     private loanService: LoanService,
     private secureLs: SecureLocalStorageService,
+    private _decimalPipe: DecimalPipe
   ) { }
 
   ngOnInit(): void {
@@ -64,12 +58,12 @@ export class HistoryComponent implements OnInit {
     const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
     const user:any = helper.decodeToken(token.token) as JwtPayloadModel;
     this.isLoadingData = true;
-    this.loanService.getUserLoan(user.id, data)
+    this.loanService.getUserLoan(user.id, 20, data)
       .subscribe(
         (response) => {
           this.isLoadingData = false;
           if (response.status) {
-            this.users = GetUniqueArray([...(response.content[0]?.loan ?? [])], [...this.users]);
+            this.users = GetUniqueArray([...(response.content ?? [])], [...this.users]);
           }
         },
         (err) => {

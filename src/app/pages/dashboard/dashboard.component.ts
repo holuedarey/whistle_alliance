@@ -18,6 +18,7 @@ import { JwtPayloadModel } from 'src/app/@core/models/jwt-payload-model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
 import { UserService } from 'src/app/@core/data-services/user.service';
+import { DecimalPipe } from '@angular/common';
 const helper = new JwtHelperService();
 
 @Component({
@@ -28,7 +29,7 @@ const helper = new JwtHelperService();
 export class DashboardComponent implements OnInit {
 
   months: any[] = Months;
-  
+
   submitted = false;
   errors: string[] = [];
   messages: string[] = [];
@@ -37,7 +38,7 @@ export class DashboardComponent implements OnInit {
   loan: any = {};
   loanRsponse: any = {};
 
-  showCalculateFooter:boolean = false;
+  showCalculateFooter: boolean = false;
 
   usersResources = UsersResources;
   isLoadingData = true;
@@ -45,28 +46,30 @@ export class DashboardComponent implements OnInit {
   users: UserDto[] = [];
   loanProducts: any[] = [];
 
-  userId:any;
-  userLoanLimit:any;
+  userId: any;
+  userLoanLimit: any;
 
   columns = {
-    actions: {
-      delete: false,
-      add: false,
-  },
-    firstName: {
+    amount: {
       title: 'Loan Amount',
+      valuePrepareFunction: (num: any) => {
+        return `₦${this._decimalPipe.transform(num, '1.2-2')}`
+      },
     },
-    lastName: {
-      title: 'Repayment Tenure',
-    },
-    email: {
-      title: 'Status',
-    },
-    phone: {
-      title: 'Application Date',
+    paymentMonth: {
+      title: 'Repayment Tenure Month(s)',
     },
     status: {
+      title: 'Status',
+    },
+    applicationDate: {
+      title: 'Application Date',
+    },
+    product: {
       title: 'Loan Type',
+      valuePrepareFunction: (d: any) => {
+        return d[0].productName
+      },
     },
   }
 
@@ -76,16 +79,17 @@ export class DashboardComponent implements OnInit {
     private shareDataservice: ShareDataService,
     private dashboardService: DashboardService,
     private loanService: LoanService,
-    private userService:UserService,
+    private userService: UserService,
     private secureLs: SecureLocalStorageService,
+    private _decimalPipe: DecimalPipe
   ) { }
 
   async ngOnInit() {
     this.seo.setSeoData('Dashboard', 'Logged in user page analytics');
     const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
-    const user:any = helper.decodeToken(token.token) as JwtPayloadModel;
+    const user: any = helper.decodeToken(token.token) as JwtPayloadModel;
     this.userId = user.id;
-    
+
     this.getAllProducts();
     this.requestData()
     this.getSingleUser()
@@ -93,7 +97,7 @@ export class DashboardComponent implements OnInit {
 
   async getSingleUser() {
     this.userService.getSingleUser(this.userId).subscribe(
-      (result) => {        
+      (result) => {
         this.userLoanLimit = result.content[0]?.userLimit;
       })
   }
@@ -131,7 +135,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  async calculateLoan(){
+  async calculateLoan() {
     this.errors = [];
     this.messages = [];
     this.submitted = false;
@@ -148,7 +152,7 @@ export class DashboardComponent implements OnInit {
           this.showCalculateFooter = !this.showCalculateFooter;
 
           console.log(result)
-          this.loanRsponse  =  result.content[0]
+          this.loanRsponse = result.content[0]
         } else {
           this.errors = [
             result.message as string
@@ -166,7 +170,7 @@ export class DashboardComponent implements OnInit {
 
   requestData(data?: any) {
     this.isLoadingData = true;
-   
+
     this.isLoadingData = true;
     this.loanService.getUserLoan(this.userId, data)
       .subscribe(
@@ -174,8 +178,8 @@ export class DashboardComponent implements OnInit {
           this.isLoadingData = false;
           if (response.status) {
             console.log("response:", response.content);
-            
-            this.users = GetUniqueArray([...(response.content[0]?.loan ?? [])], [...this.users]);
+
+            this.users = response.content ?? [];
           }
         },
         (err) => {
@@ -186,5 +190,5 @@ export class DashboardComponent implements OnInit {
       )
   }
 
- 
+
 }
