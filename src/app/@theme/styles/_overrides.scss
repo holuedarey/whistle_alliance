@@ -21,11 +21,11 @@
   }
 
   button primary{
-    background-color: var(--button-filled-primary-background-color);
+    background-color: var(--button-filled-primary-background-color) !important;
   }
 
   button info{
-    background-color: var(--button-filled--background-color);
+    background-color: var(--button-filled--background-color) !important;
   }
 
 }
