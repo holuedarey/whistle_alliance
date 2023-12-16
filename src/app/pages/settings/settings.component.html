@@ -11,18 +11,20 @@
         </nb-card>
     </div>
     <div class="col-md-9">
-        <nb-card size="medium" fullWidth class="no-padding">
+        <nb-card size="large" fullWidth class="no-padding">
             <nb-card-body>
                 <div class="row m-0">
                     <div class="col-12" *ngIf="bankAccount">
                         <h3 class="heading">Bank Account</h3>
                         <div *ngIf="!bankAccountData.length">
                             <div class="mt-2">
-                                <img class="mx-auto d-block img img-responsive"  src="assets/icons/bankAccount.png" alt="bankAccount"/>
+                                <img class="mx-auto d-block img img-responsive" src="assets/icons/bankAccount.png"
+                                    alt="bankAccount" />
                                 <p class="text-center">You haven’t added any bank accounts yet</p>
                             </div>
                             <div class="mt-2">
-                                <button fullWidth  nbButton status="primary" size="large" (click)="startProcess('bankAccount')">
+                                <button fullWidth nbButton status="primary" size="large"
+                                    (click)="startProcess('bankAccount')">
                                     Add Bank Account
                                 </button>
                             </div>
@@ -32,11 +34,13 @@
                         <h3 class="heading">Card</h3>
                         <div *ngIf="!cardData.length">
                             <div class="mt-2">
-                                <img class="mx-auto d-block img img-responsive"  src="assets/icons/rafiki.png" alt="bankAccount"/>
-                                <p  class="text-center">You haven’t added any debit cards yet</p>
+                                <img class="mx-auto d-block img img-responsive" src="assets/icons/rafiki.png"
+                                    alt="bankAccount" />
+                                <p class="text-center">You haven’t added any debit cards yet</p>
                             </div>
                             <div class="mt-2">
-                                <button fullWidth  nbButton status="primary" size="large" (click)="startProcess('bankAccount')">
+                                <button fullWidth nbButton status="primary" size="large"
+                                    (click)="startProcess('bankAccount')">
                                     Add Card
                                 </button>
                             </div>
@@ -44,15 +48,121 @@
                     </div>
                     <div class="col-12" *ngIf="changePassword">
                         <h3 class="heading">Change Password</h3>
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sint, excepturi ullam. Ducimus
-                        voluptatibus praesentium blanditiis sint? Ducimus optio a consequuntur, earum nam libero, fugiat
-                        maxime mollitia, rerum enim quidem vero?
+                        <div class="col-12">
+                            <nb-alert *ngIf="errors?.length && !submitted" outline="danger" role="alert">
+                                <p class="alert-title"><b>Oh snap!</b></p>
+                                <ul class="alert-message-list">
+                                    <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+                                </ul>
+                            </nb-alert>
+
+                            <nb-alert *ngIf="messages?.length && !submitted" outline="success" role="alert">
+                                <p class="alert-title"><b>Hooray!</b></p>
+                                <ul class="alert-message-list">
+                                    <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+                                </ul>
+                            </nb-alert>
+                            <form (ngSubmit)="changePasswordAction()" #form="ngForm">
+                                <div class="form-control-group col-md-7 col-sm-12 col-xs-12 ">
+                                    <label class="label" for="input-password">Current Password:</label>
+                                    <nb-form-field>
+                                        <input nbInput fullWidth [(ngModel)]="user.password" #currentpassword="ngModel"
+                                            name="currentpassword" [type]="isPasswordHidden ? 'password' : 'text'"
+                                            id="input-currentpassword" placeholder="Current Password"
+                                            [status]="currentpassword.dirty ? (currentpassword.invalid  ? 'danger' : 'success') : 'basic'"
+                                            [required]="true" [minlength]="8" [maxlength]="32"
+                                            [attr.aria-invalid]="currentpassword.invalid && currentpassword.touched ? true : null">
+                                        <button nbSuffix nbButton ghost type="button"
+                                            (click)="isPasswordHidden = !isPasswordHidden">
+                                            <nb-icon [icon]="isPasswordHidden ? 'eye-outline' : 'eye-off-2-outline'"
+                                                pack="eva"
+                                                [attr.aria-label]="!isPasswordHidden ? 'hide password' : 'show password'">
+                                            </nb-icon>
+                                        </button>
+                                    </nb-form-field>
+                                    <ng-container *ngIf="password.invalid && password.touched ">
+                                        <p class="error-message" *ngIf="password.errors?.required">
+                                            Password is required!
+                                        </p>
+                                    </ng-container>
+                                </div>
+
+                                <div class="form-control-group col-md-7 col-sm-12 col-xs-12 ">
+                                    <label class="label" for="input-password">New Password:</label>
+                                    <nb-form-field>
+                                        <input nbInput fullWidth [(ngModel)]="user.password" #password="ngModel"
+                                            name="password" [type]="isPasswordHidden ? 'password' : 'text'"
+                                            id="input-password" placeholder="New Password"
+                                            [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"
+                                            [required]="true" [minlength]="8" [maxlength]="32"
+                                            [attr.aria-invalid]="password.invalid && password.touched ? true : null">
+                                        <button nbSuffix nbButton ghost type="button"
+                                            (click)="isPasswordHidden = !isPasswordHidden">
+                                            <nb-icon [icon]="isPasswordHidden ? 'eye-outline' : 'eye-off-2-outline'"
+                                                pack="eva"
+                                                [attr.aria-label]="!isPasswordHidden ? 'hide password' : 'show password'">
+                                            </nb-icon>
+                                        </button>
+                                    </nb-form-field>
+                                    <ng-container *ngIf="password.invalid && password.touched ">
+                                        <p class="error-message" *ngIf="password.errors?.required">
+                                            Password is required!
+                                        </p>
+                                    </ng-container>
+                                </div>
+
+                                <div class="form-control-group col-md-7 col-sm-12 col-xs-12">
+                                    <label class="label" for="input-confirmpassword">Confirm Password</label>
+                                    <nb-form-field>
+                                        <input nbInput fullWidth [(ngModel)]="user.confirmpassword"
+                                            #confirmpassword="ngModel" name="confirmpassword" id="input-confirmpassword"
+                                            placeholder=" Comfirm Password" autofocus
+                                            [type]="isPasswordHiddenConf ? 'password' : 'text'"
+                                            [status]="confirmpassword.dirty ? (confirmpassword.invalid  ? 'danger' : 'success') : 'basic'"
+                                            [attr.aria-invalid]="confirmpassword.invalid && confirmpassword.touched ? true : null">
+                                        <button nbSuffix nbButton ghost type="button"
+                                            (click)="isPasswordHiddenConf = !isPasswordHiddenConf">
+                                            <nb-icon [icon]="isPasswordHiddenConf ? 'eye-outline' : 'eye-off-2-outline'"
+                                                pack="eva"
+                                                [attr.aria-label]="!isPasswordHiddenConf ? 'hide password' : 'show password'">
+                                            </nb-icon>
+                                        </button>
+                                    </nb-form-field>
+                                    <ng-container *ngIf="confirmpassword.invalid && confirmpassword.touched">
+                                        <p class="error-message" *ngIf="confirmpassword.errors?.required">
+                                            Confirm Password is required!
+                                        </p>
+                                    </ng-container>
+                                </div>
+                                <br>
+                                <div class="col-md-7 col-sm-12 col-xs-12 spacer form-control-group">
+                                    <button [nbSpinner]="submitted" nbButton fullWidth status="info"
+                                        [disabled]="submitted || !form.valid" [class.btn-pulse]="submitted">
+                                        Change Password
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <div class="col-12" *ngIf="contactUs">
-                        <h3 class="heading">Contact Us</h3>
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sint, excepturi ullam. Ducimus
-                        voluptatibus praesentium blanditiis sint? Ducimus optio a consequuntur, earum nam libero, fugiat
-                        maxime mollitia, rerum enim quidem vero?
+                        <div class="col-8">
+                            <h3 class="heading">Contact Us</h3>
+                            <p>Send us a message and we’ll get back to you </p>
+                            <form (ngSubmit)="contactUsAction()" #form="ngForm">
+                                <textarea nbInput name="message" size="large" id="message" class="form-control" rows="10" cols="30"></textarea>
+                                <br>
+                                <div class="">
+                                    <button nbButton type="button" (click)="complete()" fullWidth status="primary">Send
+                                        Feedback</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col py-4 mt-4">
+                            <span class="font-weight-g"><nb-icon icon="phone-outline"></nb-icon> +234 803 200 2205 </span>
+                            <span  class="mx-2 font-weight-g"> <nb-icon icon="email-outline"></nb-icon> info@whistlesalliance.com </span>
+                            <span  class="mx-2 font-weight-g"> <nb-icon icon="linkedin-outline"></nb-icon> LinkedIn </span>
+                            <span  class="font-weight-g"> <nb-icon icon="linkedin-outline"></nb-icon> Instagram </span>
+                        </div>
                     </div>
                 </div>
             </nb-card-body>

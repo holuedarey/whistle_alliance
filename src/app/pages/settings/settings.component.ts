@@ -7,8 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
 
+  user:any = {};
+  contactForm:any = {};
+
   menu =  ["Bank Account", "Card", "Change Password", "Contact Us" ];
- 
+  isPasswordHidden = false;
   bankAccount:boolean = false;
   bankAccountData:any[] = [];
 
@@ -19,10 +22,13 @@ export class SettingsComponent implements OnInit {
 
   contactUs:boolean = false;
 
+  submitted = false;
+  errors: string[] = [];
+  messages: string[] = [];
+
   constructor() { }
 
   ngOnInit(): void {
-    console.log('')
     this.bankAccount = true;
   }
 
@@ -64,4 +70,7 @@ export class SettingsComponent implements OnInit {
  async startProcess(value:string){
   console.log(value)
  }
+ changePasswordAction(){}
+ ccontactUsAction(){}
+
 }
