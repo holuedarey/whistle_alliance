@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
 import { ShareDataService } from 'src/app/@core/data-services/share-data.service';
@@ -12,6 +13,7 @@ import { Months } from 'src/app/@core/enums/month-of-year.enum';
 import { JwtPayloadModel } from 'src/app/@core/models/jwt-payload-model';
 import { TokenExport } from 'src/app/@core/utils/custom-token-storage/custom-token-storage.module';
 import { SecureLocalStorageService } from 'src/app/@core/utils/secure-local-storage.service';
+import { AppResources, AppResourcesNavMap } from 'src/app/app-resources';
 const helper = new JwtHelperService();
 
 @Component({
@@ -50,11 +52,14 @@ export class LoanApplicationComponent implements OnInit {
   pofIdentity: any = null;
   pofEmployment: any = null;
 
+  isShowModal:boolean = true;
+
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private shareDataservice: ShareDataService,
     private loanservice: LoanService,
+    private router: Router,
     private secureLs: SecureLocalStorageService,) {
     this.firstForm = this.fb.group({
       fullname: [{ value: '', disabled: false }, Validators.required],
@@ -196,4 +201,10 @@ export class LoanApplicationComponent implements OnInit {
     })
   }
 
+
+  complete(event:any) {
+    this.isShowModal = !this.isShowModal;
+    this.router.navigateByUrl(AppResourcesNavMap.get(AppResources.AppView)?.route as string);
+
+  }
 }

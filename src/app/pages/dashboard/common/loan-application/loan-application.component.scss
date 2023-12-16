@@ -1,12 +1,22 @@
-.card-width{
+.card-width {
     width: 35vw;
 }
-.file-field{
+
+.file-field {
     height: 80px !important;
-    padding-top: 26px !important;   
+    padding-top: 26px !important;
 }
-.text-application{
-font-weight:700;
-font-size: 12px;
-line-height: 24px;
+
+:host(.cdk-overlay-container) {
+    opacity: 0 !important;
+    background: none !important
+}
+.text-application {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 24px;
+}
+.cdk-global-overlay-wrapper{
+    opacity: 0 !important;
+    background: none !important
 }

@@ -1,4 +1,4 @@
-<div class="col-md-6 offset-md-0">
+<div class="col-md-6 offset-md-0"  *ngIf="isShowModal">
   <nb-card class="card-width">
     <nb-card-body>
       <nb-stepper #stepper>
@@ -135,8 +135,8 @@
               <p class="text-application">Application Submitted sucessfully</p>
             </div>
             <br>
-            <button nbButton type="button" fullWidth
-              status="primary" [completed]="true">Finished</button>
+            <button nbButton type="button" (click)="complete()" fullWidth
+              status="primary" >Finished</button>
 
           </div>
         </nb-step>
