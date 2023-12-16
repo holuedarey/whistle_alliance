@@ -12,6 +12,7 @@ export class SettingsComponent implements OnInit {
 
   menu =  ["Bank Account", "Card", "Change Password", "Contact Us" ];
   isPasswordHidden = false;
+  isPasswordHiddenConf = false;
   bankAccount:boolean = false;
   bankAccountData:any[] = [];
 

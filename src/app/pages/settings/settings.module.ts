@@ -1,4 +1,4 @@
-import { NbThemeModule, NbCardModule, NbListModule, NbButtonModule, NbIconModule, NbFormFieldModule, NbInputModule, NbSpinnerModule } from '@nebular/theme';
+import { NbThemeModule, NbCardModule, NbListModule, NbButtonModule, NbIconModule, NbFormFieldModule, NbInputModule, NbSpinnerModule, NbAlertModule } from '@nebular/theme';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SettingsRoutingModule } from './settings-routing.module';
@@ -25,7 +25,8 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     NbFormFieldModule,
     NbInputModule,
-    NbSpinnerModule
+    NbSpinnerModule,
+    NbAlertModule
   ]
 })
 export class SettingsModule { }
