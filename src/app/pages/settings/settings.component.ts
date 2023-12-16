@@ -72,6 +72,6 @@ export class SettingsComponent implements OnInit {
   console.log(value)
  }
  changePasswordAction(){}
- ccontactUsAction(){}
+ contactUsAction(){}
 
 }
