@@ -202,7 +202,7 @@ export class LoanApplicationComponent implements OnInit {
   }
 
 
-  complete(event:any) {
+  complete() {
     this.isShowModal = !this.isShowModal;
     this.router.navigateByUrl(AppResourcesNavMap.get(AppResources.AppView)?.route as string);
 
