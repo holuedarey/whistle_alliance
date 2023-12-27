@@ -1,0 +1,86 @@
+<div class="container-fluid p-0 m-0">
+    <div class="row m-0">
+        <div class="col-9">
+            <nb-card size="small" fullWidth style="height: 90px;">
+                <nb-card-body>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-3 px-2 mt-2">
+                                    <nb-icon icon="people" class="icon-style danger px-1"></nb-icon>
+                                </div>
+                                <div class="col-9">
+                                    <p>Total Users</p>
+                                    <h3 class="-ng-magin"> 900</h3>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-3 px-2 mt-2">
+                                    <nb-icon icon="person-add-outline" class="icon-style success px-1"></nb-icon>
+                                </div>
+                                <div class="col-9">
+                                    <p>New Users</p>
+                                    <h3 class="-ng-magin"> 900</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-3 px-3 mt-2">
+                                    <nb-icon icon="email-outline" class="icon-style info px-1"></nb-icon>
+                                </div>
+                                <div class="col-9">
+                                    <p style="font-size: 12px;">Total Applications</p>
+                                    <h3 class="-ng-magin"> 900</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-3 px-2 mt-2">
+                                    <nb-icon icon="image-outline" class="icon-style warning px-1"></nb-icon>
+                                </div>
+                                <div class="col-9">
+                                    <p style="font-size: 12px;"> New Appplications</p>
+                                    <h3 class="-ng-magin"> 900</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </nb-card-body>
+            </nb-card>
+            <nb-card size="large" fullWidth class="mt-3 py-0 px-0">
+                <nb-card-body class="py-0">
+                    <h5>Users by month</h5>
+                    <app-chart [chartId]="'line'" [data]="data" [config]="options"></app-chart>
+                </nb-card-body>
+            </nb-card>
+        </div>
+        <div class="col-3">
+            <nb-card size="small" fullWidth style="">
+                <nb-card-body class="px-0 py-0 py-5">
+                    <app-chart [chartId]="'doughnut'" [data]="dataDoughnut" [config]="optionsDough"  class="doughnut-style"></app-chart>
+                </nb-card-body>
+            </nb-card>
+            <nb-card size="medium" fullWidth class="px-0">
+                <nb-card-body class="px-2">
+                    <div class="row">
+                        <span class="col-6"  style="font-weight: 800;"> New Users </span>
+                        <span class="col-6" style="font-size: 11px; font-weight: 800; color: #aaa; text-align: right;">+400 this
+                            month</span>
+                    </div>
+                    <nb-list>
+                        <nb-list-item *ngFor="let user of users">
+                            <nb-user [name]="user.name" [title]="user.title">
+                            </nb-user>
+                        </nb-list-item>
+                    </nb-list>
+                </nb-card-body>
+            </nb-card>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,169 @@
+<div class="container-fluid p-0 m-0">
+    <div class="row">
+        <div class="col-6">
+            <nb-card size="large" fullWidth class="py-0 px-0">
+                <nb-card-body class="px-4 py-0">
+                    <nb-card-header class="no-padding">
+                        <div class="card-color card-radius-top">
+                            <h5>Available Products</h5>
+                        </div>
+                    </nb-card-header>
+                    <nb-accordion multi>
+                        <nb-accordion-item>
+                          <nb-accordion-item-header >
+                            Salary Backed
+                          </nb-accordion-item-header>
+                          <nb-accordion-item-body>
+                            A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
+                            Originally, nebula was a name for any diffuse astronomical object,
+                            including galaxies beyond the Milky Way.
+                          </nb-accordion-item-body>
+                        </nb-accordion-item>
+                      
+                        <nb-accordion-item>
+                          <nb-accordion-item-header>
+                            Personal
+                          </nb-accordion-item-header>
+                          <nb-accordion-item-body>
+                            A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
+                            Originally, nebula was a name for any diffuse astronomical object,
+                            including galaxies beyond the Milky Way.
+                          </nb-accordion-item-body>
+                        </nb-accordion-item>
+                      
+                        <nb-accordion-item>
+                          <nb-accordion-item-header>
+                            Business Loan
+                          </nb-accordion-item-header>
+                          <nb-accordion-item-body>
+                            A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
+                            Originally, nebula was a name for any diffuse astronomical object,
+                            including galaxies beyond the Milky Way.
+                          </nb-accordion-item-body>
+                        </nb-accordion-item>
+                      </nb-accordion>
+                </nb-card-body>
+            </nb-card>
+        </div>
+        <div class="col-6">
+            <nb-card size="large" fullWidth class="py-0 px-4">
+                <nb-card-body class="px-0 py-0">
+                    <nb-card-header class="no-padding">
+                        <div class="card-color card-radius-top">
+                            <h5 class="px-3">Add a product</h5>
+                        </div>
+                    </nb-card-header>
+                    <div>
+                        <nb-alert *ngIf="errors?.length && !submitted" outline="danger" role="alert">
+                            <p class="alert-title"><b>Oh snap!</b></p>
+                            <ul class="alert-message-list">
+                                <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+                            </ul>
+                        </nb-alert>
+
+                        <nb-alert *ngIf="messages?.length && !submitted" outline="success" role="alert">
+                            <p class="alert-title"><b>Hooray!</b></p>
+                            <ul class="alert-message-list">
+                                <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+                            </ul>
+                        </nb-alert>
+                        <form (ngSubmit)="changePasswordAction()" #form="ngForm">
+                            <div class="form-control-group col-md-12 col-sm-12 col-xs-12 ">
+                                <label class="label" for="input-productname">Product Name</label>
+                                <nb-form-field>
+                                    <input nbInput fullWidth 
+                                        [(ngModel)]="user.productname" 
+                                        #productname="ngModel"
+                                        name="productname" 
+                                        type="text"
+                                        id="input-productname" 
+                                        placeholder="Product Name"
+                                        [status]="productname.dirty ? (productname.invalid  ? 'danger' : 'success') : 'basic'"
+                                        [required]="true"
+                                        [attr.aria-invalid]="productname.invalid && productname.touched ? true : null">
+                                </nb-form-field>
+                                <ng-container *ngIf="productname.invalid && productname.touched ">
+                                    <p class="error-message" *ngIf="productname.errors?.required">
+                                        Product Name is required!
+                                    </p>
+                                </ng-container>
+                            </div>
+
+                            <div class="form-control-group col-12 col-sm-12 col-xs-12 ">
+                                <label class="label" for="input-Ddscription">Description</label>
+                                <nb-form-field>
+                                    <textarea nbInput fullWidth [(ngModel)]="user.description" 
+                                        #description="ngModel"
+                                        name="description" 
+                                        type="text"
+                                        id="input-description" 
+                                        rows="3"
+                                        placeholder="Description"
+                                        [status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : 'basic'"
+                                        [required]="true"
+                                        [attr.aria-invalid]="description.invalid && description.touched ? true : null">
+                                    </textarea>
+                                  
+                                </nb-form-field>
+                                <ng-container *ngIf="description.invalid && description.touched ">
+                                    <p class="error-message" *ngIf="description.errors?.required">
+                                        Description is required!
+                                    </p>
+                                </ng-container>
+                            </div>
+
+                            <div class="form-control-group col-12 col-sm-12 col-xs-12 ">
+                                <label class="label" for="input-eligibility">Eligibility</label>
+                                <nb-form-field>
+                                    <textarea nbInput fullWidth 
+                                        [(ngModel)]="user.eligibility" 
+                                        #eligibility="ngModel"
+                                        name="eligibility" 
+                                        type="text"
+                                        id="input-eligibility" 
+                                        rows="3"
+                                        placeholder="Eligibility"
+                                        [attr.aria-invalid]="eligibility.invalid && eligibility.touched ? true : null">
+                                    </textarea>
+                                  
+                                </nb-form-field>
+                                <ng-container *ngIf="eligibility.invalid && eligibility.touched ">
+                                    <p class="error-message" *ngIf="eligibility.errors?.required">
+                                        Eligibility is required!
+                                    </p>
+                                </ng-container>
+                            </div>
+                            <div class="form-control-group col-md-12 col-sm-12 col-xs-12 ">
+                                <label class="label" for="input-rate">Product Name</label>
+                                <nb-form-field>
+                                    <input nbInput fullWidth 
+                                        [(ngModel)]="user.rate" 
+                                        #rate="ngModel"
+                                        name="rate" 
+                                        type="text"
+                                        id="input-rate" 
+                                        placeholder="Product Name"
+                                        [status]="rate.dirty ? (rate.invalid  ? 'danger' : 'success') : 'basic'"
+                                        [required]="true"
+                                        [attr.aria-invalid]="rate.invalid && rate.touched ? true : null">
+                                </nb-form-field>
+                                <ng-container *ngIf="rate.invalid && rate.touched ">
+                                    <p class="error-message" *ngIf="rate.errors?.required">
+                                        Product Rate is required!
+                                    </p>
+                                </ng-container>
+                            </div>
+                            <br>
+                            <div class="col-12 col-sm-12 col-xs-12 spacer form-control-group">
+                                <button [nbSpinner]="submitted" nbButton fullWidth status="info"
+                                    [disabled]="submitted || !form.valid" [class.btn-pulse]="submitted">
+                                    Change Password
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+        </div>
+    </div>
+</div>
