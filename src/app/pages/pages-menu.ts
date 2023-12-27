@@ -4,6 +4,33 @@ import { PagesResources } from './pages-resources';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
+    title: 'Overview',
+    icon: 'grid-outline',
+    link: GlobalResources.get(PagesResources.Overview)?.route,
+    home: true,
+  },
+  {
+    title: 'Users',
+    icon: 'person-outline',
+    link: GlobalResources.get(PagesResources.UsersView)?.route,
+    home: true,
+    hidden: false
+  },
+  {
+    title: 'Loan',
+    icon: 'file-text-outline',
+    link: GlobalResources.get(PagesResources.LoanView)?.route,
+    home: true,
+    hidden: false
+  },
+  {
+    title: 'Products',
+    icon: 'briefcase-outline',
+    link: GlobalResources.get(PagesResources.LoanProductView)?.route,
+    home: true,
+    hidden: false
+  },
+  {
     title: 'Dashboard',
     icon: 'home',
     link: GlobalResources.get(PagesResources.DashboardView)?.route,
@@ -11,7 +38,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Repayment',
-    link: GlobalResources.get(PagesResources.UsersView)?.route,
+    link: GlobalResources.get(PagesResources.RepaymentView)?.route,
     icon: 'credit-card-outline',
   },
   {
@@ -24,6 +51,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: GlobalResources.get(PagesResources.NotificationView)?.route,
     icon: 'bell-outline'
   }
-
 
 ];

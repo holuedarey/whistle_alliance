@@ -19,6 +19,8 @@ export class ChartComponent implements OnInit  {
   constructor() { }
 
   ngOnInit():void{
+    console.log('id: ', this.chartId);
+    this.type = this.chartId || 'line'
     this.chartData = this.data || [];
     this.chartConfig = this.config || {};
   }

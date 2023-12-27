@@ -19,8 +19,8 @@ export class RoleProvider implements NbRoleProvider {
     const payload = this.tokenService.getPayload();
     if (payload) {
       try {
-        const user = (JSON.parse(payload.sub) as UserModel);
-        return [user.ssoRole, user.appRole ? user.appRole : 'guest']
+        const user = payload as any;
+        return user.roles.map((item:any) => item.name)
       } catch (error) {
         return ['guest'];
       }

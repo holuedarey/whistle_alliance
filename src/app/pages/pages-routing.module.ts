@@ -24,7 +24,11 @@ const routes: Routes = [
         loadChildren: () => import('./users/users.module')
           .then(m => m.UsersModule),
       },
-
+      {
+        path: PagesResourcesNavMap.get(PagesResources.RepaymentView)?.path,
+        loadChildren: () => import('./repayment/repayments.module')
+          .then(m => m.RepaymentModule),
+      },
       {
         path: PagesResourcesNavMap.get(PagesResources.ConfigView)?.path,
         loadChildren: () => import('./settings/settings.module')
@@ -39,7 +43,28 @@ const routes: Routes = [
         path: PagesResourcesNavMap.get(PagesResources.HistoryView)?.path,
         loadChildren: () => import('./history/history.module')
           .then(m => m.HistoryModule),
-      }
+      },
+      {
+        path: PagesResourcesNavMap.get(PagesResources.Overview)?.path,
+        loadChildren: () => import('./admin/overview/overview.module')
+          .then(m => m.OverviewModule),
+      },
+      {
+        path: PagesResourcesNavMap.get(PagesResources.LoanView)?.path,
+        loadChildren: () => import('./admin/loan/loan.module')
+          .then(m => m.LoanModule),
+      },
+      {
+        path: PagesResourcesNavMap.get(PagesResources.LoanDetailsView)?.path,
+        loadChildren: () => import('./admin/loan-details/loan-details.module')
+          .then(m => m.LoanDetailsModule),
+      },
+      {
+        path: PagesResourcesNavMap.get(PagesResources.LoanProductView)?.path,
+        loadChildren: () => import('./admin/product/product.module')
+          .then(m => m.ProductModule),
+      },
+      
     ]
   }
 ];

@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PowerSourceResources } from 'src/app/pages/assets/power-sources/power-source-resources';
 import { environment } from 'src/environments/environment';
 import { AccessControlContract } from '../data-contracts/access-control-contract';
 import { HasAccess } from '../decorators/has-access.decorator';
@@ -32,23 +31,23 @@ export class PowerSourceService implements AccessControlContract {
     return this.httpClient.get<ResponseDto<ListDto<PowerSourceDto>>>(`${environment.apiUrl}/${apiEndpoint}`, { params });
   }
 
-  @HasAccess(PermissionEnum.Update, PowerSourceResources.UpdatePowerSource)
+  // @HasAccess(PermissionEnum.Update, PowerSourceResources.UpdatePowerSource)
   enablePowerSource(id: string): Observable<ResponseDto<any>> {
     const apiEndpoint = `powerSources/enable/${id}`
     return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, null);
   }
-  @HasAccess(PermissionEnum.Update, PowerSourceResources.UpdatePowerSource)
+  // @HasAccess(PermissionEnum.Update, PowerSourceResources.UpdatePowerSource)
   disablePowerSource(id: string): Observable<ResponseDto<any>> {
     const apiEndpoint = `powerSources/disable/${id}`;
     return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, null);
   }
-  @HasAccess(PermissionEnum.Create, PowerSourceResources.CreatePowerSource)
+  // @HasAccess(PermissionEnum.Create, PowerSourceResources.CreatePowerSource)
   postPowerSource(powerSource: PostPowerSourceDto): Observable<ResponseDto<PowerSourceDto>> {
     const apiEndpoint = 'powerSources';
     return this.httpClient.post<ResponseDto<PowerSourceDto>>(`${environment.apiUrl}/${apiEndpoint}`, powerSource);
   }
 
-  @HasAccess(PermissionEnum.Update, PowerSourceResources.UpdatePowerSource)
+  // @HasAccess(PermissionEnum.Update, PowerSourceResources.UpdatePowerSource)
   updatePowerSource(powerSource: UpdatePowerSourceDto): Observable<ResponseDto<any>> {
     const apiEndpoint = `powerSources/${powerSource.id}`;
     return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, powerSource);

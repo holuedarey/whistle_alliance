@@ -32,14 +32,16 @@ export class LoanService {
     return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`);
   }
 
-  getUserLoan(userID:number, limit:number, filter: any = {userId: userID,  pageNumber: 1,}): Observable<ResponseDto<any>> {
+  getUserLoan(userID:number, limit:number, filter: any = {userId: userID,  pageNumber: 2,}): Observable<ResponseDto<any>> {
     let params = new HttpParams()
     for (const key in filter) {
       params = params.set(key, filter[key])
     }
     params = params.set("pageSize", limit || 5)
+    const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token.token);
     const apiEndpoint = 'loan';
-    return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, {params});
+    return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, {params, headers: headers});
   }
   updateLoan(loan:LoanDto): Observable<ResponseDto<any>> {
     const apiEndpoint = 'loan/status';
@@ -48,6 +50,8 @@ export class LoanService {
 
   createLoan(loan:any): Observable<ResponseDto<any>> {
     const apiEndpoint = 'loan/apply';
-    return this.httpClient.post<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, loan);
+    const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token.token);
+    return this.httpClient.post<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, loan, {headers: headers});
   }
 }

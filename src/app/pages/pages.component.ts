@@ -55,7 +55,15 @@ export class PagesComponent implements OnInit, OnDestroy {
         if (m.group) {
           m.hidden = false;
         }
-      } else if (this.permissionService.canView(m.link)) {
+      } else if (this.permissionService.canAccessMenu(m.link, 'USER')) {
+        // if(m.link == '/app/repayment'){
+        //   m.hidden = true;
+        // }
+        m.hidden = false;
+      } 
+      else if (this.permissionService.canAccessMenu(m.link, 'ADMIN') && m.link === '/app/repayment') {
+        m.hidden = true;
+      }else if (this.permissionService.canView(m.link)) {
         m.hidden = false;
       } else {
         m.hidden = false;

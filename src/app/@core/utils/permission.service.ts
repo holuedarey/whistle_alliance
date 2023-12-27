@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { NbAclService } from '@nebular/security';
 import { GlobalResources } from '../maps/global-resources';
 import { RoleProvider } from './role-provider.service';
+import { log } from 'console';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class PermissionService {
 
   private canAccessByRoute(route: string, permission: string): boolean {
     const role = this.roleProvider.getRoleSync();
-    
+
     const resource = Array.from(GlobalResources.entries())
       .find(p => p[1].route === route)?.[0];
     if (resource) {
@@ -48,5 +49,21 @@ export class PermissionService {
     } else {
       return false;
     }
+  }
+  canAccessMenu(resource:string, permission:string): boolean {
+    const role = this.roleProvider.getRoleSync();
+
+    const adminRoutes:any[] = [
+      '/app/admin/overview',
+      '/app/admin/loan',
+      '/app/admin/loan-product',
+      '/app/admin/users'
+    ]
+    
+    if (role.includes(permission) && adminRoutes.includes(resource)) {
+      return true;
+    }
+
+    return false;
   }
 }

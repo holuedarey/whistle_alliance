@@ -71,7 +71,7 @@ export class AuthService implements AccessControlContract {
   getAuthenticatedUser(): UserModel | null {
     const jwtPayload = this.tokenService.getPayload();
     try {
-      return (JSON.parse(jwtPayload.sub) as UserModel)
+      return jwtPayload as any
     } catch (error) {
       return null
     }

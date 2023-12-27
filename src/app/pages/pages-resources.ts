@@ -3,9 +3,14 @@ import { ResourceNavModel } from "../@core/models/resource-nav.model";
 export enum PagesResources {
     DashboardView = 'pages:dashboard-view',
     UsersView = 'pages:users-view',
+    RepaymentView = 'pages:repayment-view',
     ConfigView = 'pages:config-view',
     NotificationView = 'pages:notification-view',
     HistoryView = 'pages:history-view',
+    Overview = 'pages:overview-view',
+    LoanView = 'pages:loan-view',
+    LoanDetailsView = 'pages:loan-details-view',
+    LoanProductView = 'pages:product-view',
 
 }
 
@@ -17,11 +22,12 @@ export const PagesResourcesNavMap = new Map<PagesResources, ResourceNavModel>([
             path: 'dashboard'
         }
     ],
+    
     [
-        PagesResources.UsersView,
+        PagesResources.RepaymentView,
         {
-            route: `/app/users`,
-            path: 'users'
+            route: `/app/repayment`,
+            path: 'repayment'
         }
     ],
     [
@@ -43,6 +49,41 @@ export const PagesResourcesNavMap = new Map<PagesResources, ResourceNavModel>([
         {
             route: `/app/history`,
             path: 'history'
+        }
+    ],
+    [
+        PagesResources.Overview,
+        {
+            route: `/app/admin/overview`,
+            path: 'admin/overview'
+        }
+    ],
+    [
+        PagesResources.UsersView,
+        {
+            route: `/app/admin/users`,
+            path: 'admin/users'
+        }
+    ],
+    [
+        PagesResources.LoanView,
+        {
+            route: `/app/admin/loan`,
+            path: 'admin/loan'
+        }
+    ],
+    [
+        PagesResources.LoanProductView,
+        {
+            route: `/app/admin/loan-product`,
+            path: 'admin/loan-product'
+        }
+    ],
+    [
+        PagesResources.LoanDetailsView,
+        {
+            route: `/app/admin/loan-details`,
+            path: 'admin/loan-details'
         }
     ],
 ])
