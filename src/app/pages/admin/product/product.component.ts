@@ -53,4 +53,7 @@ export class ProductComponent implements OnInit {
         }
       )
   }
+  changePasswordAction(){
+    
+  }
 }
