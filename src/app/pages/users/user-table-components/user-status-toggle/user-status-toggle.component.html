@@ -1,13 +1,10 @@
-<ng-container *ngIf="(accessChecker.isGranted('update', usersResources.UpdateUsers) | async)">
+<ng-container *ngIf="true">
     <nb-toggle labelPosition="end" [ngStyle]="{'opacity': isSubmitted ? '0' : '1'}" [nbSpinner]="isSubmitted"
-        [(checked)]="checked" [disabled]="(onlineStat.isOnlineSub.asObservable() | async) === false || !canUpdateRow"
+        [(checked)]="checked" [disabled]="false"
+        readonly = true
         (checkedChange)="onStatusChange($event)">
         {{checked ? 'Active' : 'Inactive'}}
     </nb-toggle>
-</ng-container>
-
-<ng-container *ngIf="(accessChecker.isGranted('update', usersResources.UpdateUsers) | async) === false">
-    {{checked ? 'Active' : 'Inactive'}}
 </ng-container>
 
 

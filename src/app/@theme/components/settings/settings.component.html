@@ -17,11 +17,8 @@
                         <nb-tabset class="mb-0 pb-0" fullWidth>
                             <nb-tab tabTitle="User">
                                 <nb-user class="mt-2 mb-3" [size]="isMobile ? 'medium': 'large'"
-                                    name="Samuel">
-                                </nb-user>
-                                <!-- <nb-user class="mt-2 mb-3" [size]="isMobile ? 'medium': 'large'"
                                     name="{{user.firstName}} {{user.lastName}}">
-                                </nb-user> -->
+                                </nb-user>
                                 <nb-list class="mb-0 pb-0">
                                     <nb-list-item class="px-0">
                                         <div class="col-3 col-lg-4">Role:</div>
@@ -29,11 +26,11 @@
                                     </nb-list-item>
                                     <nb-list-item class="px-0">
                                         <div class="col-3 col-lg-4">Email:</div>
-                                        <div class="col text-break">sam@example.com</div>
+                                        <div class="col text-break">{{user.email}}</div>
                                     </nb-list-item>
                                     <nb-list-item style="border-bottom: none" class="px-0">
                                         <div class="col-3 col-lg-4">Phone Number:</div>
-                                        <div class="col text-break">s08102020680    </div>
+                                        <div class="col text-break">{{user.phoneNumber}}</div>
                                     </nb-list-item>
                                 </nb-list>
                                 <a class="mt-5" nbButton fullWidth [routerLink]="changePasswordUrl">Update

@@ -7,27 +7,20 @@ import { switchMap } from 'rxjs/operators';
 import { UserService } from 'src/app/@core/data-services/user.service';
 import { UserDto } from 'src/app/@core/dtos/user.dto';
 import { OnlineStatService } from 'src/app/@core/utils/online-stat.service';
-import { PermissionService } from 'src/app/@core/utils/permission.service';
 import { ConfirmationDialogComponent } from 'src/app/@theme/components/confirmation-dialog/confirmation-dialog.component';
-import { UsersResources } from '../../users-resources';
 
 @Component({
-  selector: 'app-user-status-toggle',
-  templateUrl: './user-status-toggle.component.html',
-  styleUrls: ['./user-status-toggle.component.scss']
+  selector: 'app-user-button-toggle',
+  templateUrl: './user-button-toggle.component.html',
+  styleUrls: ['./user-button-toggle.component.scss']
 })
-export class UserStatusToggleComponent implements ViewCell, OnInit {
+export class UserButtonToggleComponent implements ViewCell, OnInit {
 
-  checked = true;
   isSubmitted = false;
-
-  renderValue!: string;
-  renderStatus = 'primary';
 
   @Input() value!: string | number;
   @Input() rowData!: UserDto;
 
-  usersResources = UsersResources;
 
   constructor(
     private dialogService: NbDialogService,
@@ -39,9 +32,15 @@ export class UserStatusToggleComponent implements ViewCell, OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.checked = this.value ? true : false;
   }
 
+  async onButtonClick() {
+    this.isSubmitted = true;
+    this.cd.detectChanges();
+    console.log("row", this.rowData );
+
+    
+  }
   async onStatusChange(state: boolean) {
     this.isSubmitted = true;
     this.cd.detectChanges();
@@ -68,31 +67,19 @@ export class UserStatusToggleComponent implements ViewCell, OnInit {
             if (response.status) {
               this.toastr.success('Status update successful', 'User Update', { position: NbGlobalPhysicalPosition.BOTTOM_RIGHT })
               this.isSubmitted = false;
-              this.checked = state;
+              // this.checked = state;
               this.cd.detectChanges();
             } else {
-              this.errorResponse(state, true, response.message);
+              // this.errorResponse(state, true, response.message);
             }
           },
           (error) => {
-            this.errorResponse(state);
+            // this.errorResponse(state);
           }
         )
     } else {
-      this.errorResponse(state, false);
+      // this.errorResponse(state, false);
     }
   }
 
-  errorResponse(state: boolean, showToaster = true, message?: string) {
-    this.isSubmitted = false;
-    this.checked = !state;
-    this.cd.detectChanges();
-    if (showToaster) {
-      this.toastr.danger(
-        `${message ? message : 'An error occured during execution'}`,
-        'User Update',
-        { position: NbGlobalPhysicalPosition.BOTTOM_RIGHT, duration: 3000 }
-      );
-    }
-  }
 }

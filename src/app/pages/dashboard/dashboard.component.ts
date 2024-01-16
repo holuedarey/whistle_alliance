@@ -112,7 +112,7 @@ export class DashboardComponent implements OnInit {
       (result) => {
         this.submitted = false;
         if (result.status) {
-          this.loanProducts = result.content;
+          this.loanProducts = result.content ?? [];
         } else {
           this.errors = [
             result.message as string

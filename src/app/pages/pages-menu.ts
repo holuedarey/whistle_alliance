@@ -26,7 +26,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Products',
     icon: 'briefcase-outline',
-    link: GlobalResources.get(PagesResources.LoanProductView)?.route,
+    link: GlobalResources.get(PagesResources.LoanProductsView)?.route,
     home: true,
     hidden: false
   },

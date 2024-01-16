@@ -1,5 +1,6 @@
 export class UpdatePasswordDto {
-    oldPassword = '';
-    newPassword = '';
     email = '';
+    confirmPassword =  "";
+    password = "";
+    updateType = "";
 }

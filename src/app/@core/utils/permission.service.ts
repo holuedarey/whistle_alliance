@@ -50,20 +50,36 @@ export class PermissionService {
       return false;
     }
   }
-  canAccessMenu(resource:string, permission:string): boolean {
+  canAccessMenu(resource: string, permission: string): boolean {
     const role = this.roleProvider.getRoleSync();
 
-    const adminRoutes:any[] = [
+    const generalroutes = [
+        '/app/config',
+        '/app/notification',
+    ]
+    const adminRoutes: any[] = [
       '/app/admin/overview',
       '/app/admin/loan',
-      '/app/admin/loan-product',
-      '/app/admin/users'
+      '/app/admin/loan-products',
+      '/app/admin/users',
+      ...generalroutes
     ]
-    
-    if (role.includes(permission) && adminRoutes.includes(resource)) {
-      return true;
-    }
+   
 
+    const userRoutes: any[] = [
+      '/app/repayment',
+      '/app/dashboard',
+      ...generalroutes
+    ]
+    if (role.includes('ADMIN')) {
+      if (role.includes(permission) && adminRoutes.includes(resource)) {
+        return true;
+      }
+    } else if (role.includes('USER')) {
+      if (role.includes(permission) && userRoutes.includes(resource)) {
+        return true;
+      }
+    }
     return false;
   }
 }

@@ -60,9 +60,9 @@ const routes: Routes = [
           .then(m => m.LoanDetailsModule),
       },
       {
-        path: PagesResourcesNavMap.get(PagesResources.LoanProductView)?.path,
-        loadChildren: () => import('./admin/product/product.module')
-          .then(m => m.ProductModule),
+        path: PagesResourcesNavMap.get(PagesResources.LoanProductsView)?.path,
+        loadChildren: () => import('./admin/products/products.module')
+          .then(m => m.ProductsModule),
       },
       
     ]

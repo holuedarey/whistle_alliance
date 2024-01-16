@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-3">
         <nb-card size="small" fullWidth class="no-padding">
             <nb-card-body>
                 <ul class="list-unstyled mt-3">
@@ -10,9 +10,9 @@
             </nb-card-body>
         </nb-card>
     </div>
-    <div class="col-md-9">
-        <nb-card size="large" fullWidth class="no-padding">
-            <nb-card-body>
+    <div class="col-9">
+        <nb-card size="large" fullWidth class="py-1">
+            <nb-card-body class="">
                 <div class="row m-0">
                     <div class="col-12" *ngIf="bankAccount">
                         <h3 class="heading">Bank Account</h3>
@@ -80,9 +80,9 @@
                                             </nb-icon>
                                         </button>
                                     </nb-form-field>
-                                    <ng-container *ngIf="password.invalid && password.touched ">
-                                        <p class="error-message" *ngIf="password.errors?.required">
-                                            Password is required!
+                                    <ng-container *ngIf="currentpassword.invalid && currentpassword.touched ">
+                                        <p class="error-message" *ngIf="currentpassword.errors?.required">
+                                            Current password is required!
                                         </p>
                                     </ng-container>
                                 </div>
@@ -136,7 +136,7 @@
                                 </div>
                                 <br>
                                 <div class="col-md-7 col-sm-12 col-xs-12 spacer form-control-group">
-                                    <button [nbSpinner]="submitted" nbButton fullWidth status="info"
+                                    <button [nbSpinner]="submitted" nbButton fullWidth status="primary"
                                         [disabled]="submitted || !form.valid" [class.btn-pulse]="submitted">
                                         Change Password
                                     </button>
@@ -148,20 +148,81 @@
                         <div class="col-8">
                             <h3 class="heading">Contact Us</h3>
                             <p>Send us a message and we’ll get back to you </p>
+                            <nb-alert *ngIf="errors?.length && !submitted" outline="danger" role="alert">
+                                <p class="alert-title"><b>Oh snap!</b></p>
+                                <ul class="alert-message-list list-unstyled">
+                                    <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+                                </ul>
+                            </nb-alert>
+
+                            <nb-alert *ngIf="messages?.length && !submitted" outline="success" role="alert">
+                                <p class="alert-title"><b>Hooray!</b></p>
+                                <ul class="alert-message-list list-unstyled">
+                                    <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+                                </ul>
+                            </nb-alert>
                             <form (ngSubmit)="contactUsAction()" #form="ngForm">
-                                <textarea nbInput name="message" size="large" id="message" class="form-control" rows="10" cols="30"></textarea>
+                                <div class="form-control-group">
+                                    <label class="label" for="input-title">Confirm Password</label>
+                                    <nb-form-field>
+                                        <input nbInput fullWidth [(ngModel)]="contactForm.title" #title="ngModel"
+                                            name="title" id="input-title" placeholder=" Title of Your Request" autofocus
+                                            [type]="isPasswordHiddenConf ? 'password' : 'text'"
+                                            [status]="title.dirty ? (title.invalid  ? 'danger' : 'success') : 'basic'"
+                                            [attr.aria-invalid]="title.invalid && title.touched ? true : null">
+
+                                    </nb-form-field>
+                                    <ng-container *ngIf="title.invalid && title.touched">
+                                        <p class="error-message" *ngIf="title.errors?.required">
+                                            Title required!
+                                        </p>
+                                    </ng-container>
+                                </div>
+                                <div class="form-control-group mt-3">
+                                    <textarea nbInput name="message" size="large" id="message" class="form-control"
+                                        [(ngModel)]="contactForm.message" #message="ngModel" rows="10"
+                                        cols="30"></textarea>
+                                    <ng-container *ngIf="message.invalid && message.touched">
+                                        <p class="error-message" *ngIf="message.errors?.required">
+                                            Title required!
+                                        </p>
+                                    </ng-container>
+                                </div>
+
                                 <br>
-                                <div class="">
-                                    <button nbButton type="button" fullWidth status="primary">Send
-                                        Feedback</button>
+                                <div class="col-md-12 col-sm-12 col-xs-12 spacer form-control-group">
+                                    <button [nbSpinner]="submitted" nbButton fullWidth status="primary"
+                                        [disabled]="submitted || !form.valid" [class.btn-pulse]="submitted">
+                                        Send Feedback
+                                    </button>
                                 </div>
                             </form>
                         </div>
-                        <div class="col py-4 mt-4">
-                            <span class="font-weight-g"><nb-icon icon="phone-outline"></nb-icon> +234 803 200 2205 </span>
-                            <span  class="mx-2 font-weight-g"> <nb-icon icon="email-outline"></nb-icon> info@whistlesalliance.com </span>
-                            <span  class="mx-2 font-weight-g"> <nb-icon icon="linkedin-outline"></nb-icon> LinkedIn </span>
-                            <span  class="font-weight-g"> <nb-icon icon="linkedin-outline"></nb-icon> Instagram </span>
+                        <div class="py-4 mt-0">
+                            <div class="row">
+                                <div class="col">
+                                    <p class="font-weight-g">
+                                        <nb-icon icon="phone-outline"></nb-icon> +234 803 200 2205
+                                    </p>
+                                    <p class="font-weight-g">
+                                        <nb-icon icon="email-outline"></nb-icon>
+                                        info@whistlesalliance.com
+                                    </p>
+                                </div>
+                                <div class="col">
+                                    <p class="font-weight-g">
+                                        <nb-icon icon="linkedin-outline"></nb-icon>
+                                        LinkedIn
+                                    </p>
+                                    <p class="font-weight-g">
+                                        <nb-icon icon="linkedin-outline"></nb-icon>
+                                        Instagram
+                                    </p>
+                                </div>
+                            </div>
+
+
+
                         </div>
                     </div>
                 </div>

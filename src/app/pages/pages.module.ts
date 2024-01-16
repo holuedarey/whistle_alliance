@@ -6,6 +6,7 @@ import { PagesComponent } from './pages.component';
 import { NbMenuModule } from '@nebular/theme';
 import { TranslateModule } from '@ngx-translate/core';
 import { ThemeModule } from '../@theme/theme.module';
+import { ProductsComponent } from './admin/products/products.component';
 
 @NgModule({
   declarations: [PagesComponent],

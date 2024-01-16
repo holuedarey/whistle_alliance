@@ -18,10 +18,12 @@ export class ShareDataService {
   constructor(private httpClient: HttpClient, private secureLs: SecureLocalStorageService) { }
 
   getAllProduct(): Observable<ResponseDto<any>> {
-    const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
-    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token.token);
     const apiEndpoint = 'product/loan';
-    return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, {headers: headers});
+    return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`);
   }
 
+  sendNotification(notification:any): Observable<ResponseDto<any>> {
+    const apiEndpoint = 'notification/send';
+    return this.httpClient.post<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, notification);
+  }
 }

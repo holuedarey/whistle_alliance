@@ -24,7 +24,7 @@ export class UserService implements AccessControlContract {
   ) { }
 
   getUsers(filter: any = { page: 1, size: environment.paginationLength }): Observable<ResponseDto<ListDto<UserDto>>> {
-    const apiEndpoint = 'users';
+    const apiEndpoint = 'user/';
     let params = new HttpParams()
     for (const key in filter) {
       params = params.set(key, filter[key])

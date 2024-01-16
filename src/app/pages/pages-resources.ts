@@ -11,6 +11,8 @@ export enum PagesResources {
     LoanView = 'pages:loan-view',
     LoanDetailsView = 'pages:loan-details-view',
     LoanProductView = 'pages:product-view',
+    LoanProductsView = 'pages:products-view',
+
 
 }
 
@@ -77,6 +79,13 @@ export const PagesResourcesNavMap = new Map<PagesResources, ResourceNavModel>([
         {
             route: `/app/admin/loan-product`,
             path: 'admin/loan-product'
+        }
+    ],
+    [
+        PagesResources.LoanProductsView,
+        {
+            route: `/app/admin/loan-products`,
+            path: 'admin/loan-products'
         }
     ],
     [

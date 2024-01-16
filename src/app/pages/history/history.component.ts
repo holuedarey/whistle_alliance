@@ -7,6 +7,8 @@ import { GetUniqueArray } from 'src/app/@core/functions/data-request.funtion';
 import { JwtPayloadModel } from 'src/app/@core/models/jwt-payload-model';
 import { TokenExport } from 'src/app/@core/utils/custom-token-storage/custom-token-storage.module';
 import { SecureLocalStorageService } from 'src/app/@core/utils/secure-local-storage.service';
+import { UserButtonToggleComponent } from '../users/user-table-components/user-button-toggle/user-button-toggle.component';
+import { RepaymentButtonComponent } from '../repayment/repayment-component/repayment-button/repayment-button.component';
 const helper = new JwtHelperService();
 
 
@@ -40,6 +42,12 @@ export class HistoryComponent implements OnInit {
       valuePrepareFunction: (d: any) => {
         return d[0].productName
       },
+    },
+    action: {
+      title: 'Action',
+      renderComponent: RepaymentButtonComponent,
+      type: 'custom',
+      filter:false,
     },
   }
 

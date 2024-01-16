@@ -1,18 +1,18 @@
 import { NbThemeModule, NbCardModule, NbFormFieldModule, NbIconModule, NbButtonModule, NbInputModule, NbSpinnerModule, NbAlertModule, NbAccordionModule } from '@nebular/theme';
 import { NgModule } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
-import { ProductComponent } from './product.component';
-import { ProductRoutingModule } from './product-routing.module';
+import { ProductsComponent } from './products.component';
+import { ProductsRoutingModule } from './products-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
-   ProductComponent
+   ProductsComponent
   ],
   imports: [
     CommonModule,
-    ProductRoutingModule,
+    ProductsRoutingModule,
     NbThemeModule,
     NbCardModule,
     NbButtonModule,
@@ -22,8 +22,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NbInputModule,
     NbSpinnerModule,
     NbAlertModule,
-    NbAccordionModule
+    NbAccordionModule,
+    ReactiveFormsModule
   ],
-  providers:[DecimalPipe]
+  providers:[]
 })
-export class ProductModule { }
+export class ProductsModule { }

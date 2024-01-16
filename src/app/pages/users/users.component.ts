@@ -13,6 +13,7 @@ import { PermissionService } from 'src/app/@core/utils/permission.service';
 import { UserFormComponent } from './user-form/user-form.component';
 import { UserStatusToggleComponent } from './user-table-components/user-status-toggle/user-status-toggle.component';
 import { UsersResources } from './users-resources';
+import { UserButtonToggleComponent } from './user-table-components/user-button-toggle/user-button-toggle.component';
 
 @Component({
   selector: 'app-users',
@@ -36,53 +37,10 @@ export class UsersComponent implements OnInit {
     email: {
       title: 'Email',
     },
-    phone: {
+    phoneNumber: {
       title: 'Phone Nos',
     },
-    roleId: {
-      title: 'Function',
-      filter: {
-        type: 'list',
-        config: {
-          selectText: 'Loading...',
-          list: []
-        },
-      },
-      valuePrepareFunction: (d: string, r: any) => {
-        return r.role
-      },
-      filterFunction: (x: string, y: string) => {
-        return x.toLowerCase() === y.toLowerCase();
-      }
-    },
-    ssoRole: {
-      title: 'Role',
-      filter: {
-        type: 'list',
-        config: {
-          selectText: 'Select...',
-          list: Array.from(RoleMap.entries())
-            .map(x => ({ value: x[0], title: x[1] }))
-            .filter(r => this.permissionService.canAccessByResource('view', UsersResources.ViewAllRoles) ? true : !r.value.includes('vgg')),
-        },
-      },
-      valuePrepareFunction: (d: string) => RoleMap.get(d.toLowerCase())
-    },
-    clientId: {
-      title: 'Client',
-      filter: {
-        type: 'list',
-        config: {
-          selectText: 'Loading...',
-          list: []
-        },
-      },
-      valuePrepareFunction: (d: string, r: any) => {
-        return r.client
-      },
-      hide: !this.permissionService.canAccessByResource(PermissionEnum.View, UsersResources.ViewClientColumn)
-    },
-    status: {
+    isActive: {
       title: 'Status',
       renderComponent: UserStatusToggleComponent,
       type: 'custom',
@@ -97,6 +55,12 @@ export class UsersComponent implements OnInit {
         },
       },
       filterFunction: (x: string, y: string) => x.toLowerCase() === y.toLowerCase()
+    },
+    action: {
+      title: 'Action',
+      renderComponent: UserButtonToggleComponent,
+      type: 'custom',
+      filter:false,
     },
   }
 
@@ -149,10 +113,12 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
     this.seo.setSeoData('User Management', 'Manage application users');
     this.requestData();
-    this.getAppRoles();
-    this.getClients();
   }
 
+  rowSelect(data:any){
+    console.log("data", data);
+    
+  }
   requestData(data?: any) {
     this.isLoadingData = true;
     this.userService.getUsers(data)
@@ -160,30 +126,13 @@ export class UsersComponent implements OnInit {
         (response) => {
           this.isLoadingData = false;
           if (response.status) {
-            this.users = GetUniqueArray([...(response.data?.itemList ?? [])], [...this.users]);
+            this.users = GetUniqueArray([...(response?.content ?? [])], [...this.users]);
           }
         },
         (err) => {
           this.isLoadingData = false;
         }
       )
-  }
-
-  getAppRoles() {
-    this.roleService.getAppRoles()
-      .subscribe(
-        (data) => {
-          const roles = data.data ?? [];
-          const roleSearchFilterList = roles.map(r => ({ value: r.id, title: r.name }));
-          this.columns.roleId.filter.config.selectText = 'Select...';
-          this.columns.roleId.filter.config.list = roleSearchFilterList as any;
-          this.columns = { ...this.columns }
-        }
-      )
-  }
-
-  getClients() {
-   return [];
   }
 
 }

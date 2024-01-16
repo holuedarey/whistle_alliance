@@ -9,9 +9,11 @@ import { LocalStorageKey } from 'src/app/@core/enums/local-storage-key.enum';
 import { JwtPayloadModel } from 'src/app/@core/models/jwt-payload-model';
 import { SeoService } from 'src/app/@core/utils';
 import { DbService } from 'src/app/@core/utils/db.service';
+import { RoleProvider } from 'src/app/@core/utils/role-provider.service';
 import { SecureLocalStorageService } from 'src/app/@core/utils/secure-local-storage.service';
 import { TokenService } from 'src/app/@core/utils/token.service';
 import { AppResources, AppResourcesNavMap } from 'src/app/app-resources';
+import { PagesResources, PagesResourcesNavMap } from '../../pages-resources';
 
 
 
@@ -43,7 +45,8 @@ export class LoginComponent implements OnInit {
     private tokenService: TokenService,
     private nbTokenService: NbTokenService,
     private ls: SecureLocalStorageService,
-    private seo: SeoService
+    private seo: SeoService,
+    private roleProvider: RoleProvider
   ) {
     this.redirectDelay = this.getConfigValue('forms.login.redirectDelay');
     this.showMessages = this.getConfigValue('forms.login.showMessages');
@@ -60,7 +63,7 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
 
     const loginDto: LoginDto = { email: this.user.email, password: this.user.password };
-
+    const role = this.roleProvider.getRoleSync();
     this.service.authenticate(loginDto).subscribe(
       (result) => {
         this.submitted = false;
@@ -75,7 +78,13 @@ export class LoginComponent implements OnInit {
           // this.ls.set(LocalStorageKey.REFRESH_TOKEN.toString(), result.data.refreshToken);
           this.validateUserCache();
           setTimeout(() => {
-            return this.router.navigateByUrl(AppResourcesNavMap.get(AppResources.AppView)?.route as string);
+            console.log("role", role);
+            
+            if (role.includes('guest')) {
+              return this.router.navigateByUrl(PagesResourcesNavMap.get(PagesResources.Overview)?.route as string);
+            } else {
+              return this.router.navigateByUrl(AppResourcesNavMap.get(AppResources.AppView)?.route as string);
+            }
           }, this.redirectDelay);
           this.cd.detectChanges();
         } else {

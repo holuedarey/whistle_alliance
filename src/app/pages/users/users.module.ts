@@ -10,6 +10,7 @@ import { ThemeModule } from 'src/app/@theme/theme.module';
 import { TablesModule } from 'src/app/@tables/tables.module';
 import { UserStatusToggleComponent } from './user-table-components/user-status-toggle/user-status-toggle.component';
 import { UserStatusFilterComponent } from './user-table-components/user-status-filter/user-status-filter.component';
+import { UserCardComponentComponent } from './user-table-components/user-card-component/user-card-component.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { UserStatusFilterComponent } from './user-table-components/user-status-f
     UsersComponent,
     UserFormComponent,
     UserStatusToggleComponent,
+    UserCardComponentComponent
   ],
   imports: [
     CommonModule,

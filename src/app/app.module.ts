@@ -63,8 +63,8 @@ const ls = new SecureLS({ encodingType: 'aes' });
     NbEvaIconsModule
   ],
   providers: [
-    // { provide: HTTP_INTERCEPTORS, useClass: NetworkInterceptor, multi: true } ,
-    // { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService, multi: true } ,
+    { provide: HTTP_INTERCEPTORS, useClass: NetworkInterceptor, multi: true } ,
+    { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService, multi: true } ,
 
   ],
   bootstrap: [AppComponent]

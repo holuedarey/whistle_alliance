@@ -1,0 +1,165 @@
+<div class="container-fluid p-0 m-0">
+    <div class="row">
+        <div class="col-6">
+            <nb-card size="large" fullWidth class="py-0 px-0">
+                <nb-card-body class="px-4 py-0">
+                    <nb-card-header class="no-padding">
+                        <div class="card-color card-radius-top">
+                            <h5>Available Products</h5>
+                        </div>
+                    </nb-card-header>
+                    <nb-accordion>
+                        <nb-accordion-item *ngFor="let product of loanProducts">
+                            <nb-accordion-item-header>
+                                {{ product.productName }}
+                            </nb-accordion-item-header>
+                            <nb-accordion-item-body>
+                                <div>
+                                    <h6>Description</h6>
+                                    {{ product.productDescription }}
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-6">
+                                        <h6>Min. Amount</h6>
+                                        {{ product.minAmount }}
+                                    </div>
+                                    <div class="col-6">
+                                        <h6>Max. Amount</h6>
+                                        {{ product.maxAmount }}
+                                    </div>
+                                </div>
+                                <div class="row  mt-1">
+                                    <div class="col-6">
+                                        <h6>Rate</h6>
+                                        {{ product.rate }}
+                                    </div>
+                                    <div class="col-6">
+                                        <h6>Active</h6>
+                                        {{ product.isActive }}
+                                    </div>
+                                </div>
+                            </nb-accordion-item-body>
+                        </nb-accordion-item>
+                    </nb-accordion>
+                </nb-card-body>
+            </nb-card>
+        </div>
+        <div class="col-6">
+            <nb-card size="large" fullWidth class="py-0 px-4">
+                <nb-card-body class="px-0 py-0">
+                    <nb-card-header class="no-padding">
+                        <div class="card-color card-radius-top">
+                            <h5 class="px-3">Add a product</h5>
+                        </div>
+                    </nb-card-header>
+                    <div>
+                        <nb-alert *ngIf="errors?.length && !submitted" outline="danger" role="alert">
+                            <p class="alert-title"><b>Oh snap!</b></p>
+                            <ul class="alert-message-list">
+                                <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+                            </ul>
+                        </nb-alert>
+
+                        <nb-alert *ngIf="messages?.length && !submitted" outline="success" role="alert">
+                            <p class="alert-title"><b>Hooray!</b></p>
+                            <ul class="alert-message-list">
+                                <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+                            </ul>
+                        </nb-alert>
+                        <form (ngSubmit)="addLoanProduct()" #form="ngForm">
+                            <div class="form-control-group col-md-12 col-sm-12 col-xs-12 ">
+                                <label class="label" for="input-productname">Product Name</label>
+                                <nb-form-field>
+                                    <input nbInput fullWidth [(ngModel)]="createproduct.productname"
+                                        #productname="ngModel" name="productname" type="text" id="input-productname"
+                                        placeholder="Product Name"
+                                        [status]="productname.dirty ? (productname.invalid  ? 'danger' : 'success') : 'basic'"
+                                        autofocus
+                                        [attr.aria-invalid]="productname.invalid && productname.touched ? true : null">
+                                </nb-form-field>
+                                <ng-container *ngIf="productname.invalid && productname.touched ">
+                                    <p class="error-message" *ngIf="productname.errors?.required">
+                                        Product Name is required!
+                                    </p>
+                                </ng-container>
+                            </div>
+
+                            <div class="form-control-group col-12 col-sm-12 col-xs-12 ">
+                                <label class="label" for="input-description">Description</label>
+                                <nb-form-field>
+                                    <textarea nbInput fullWidth [(ngModel)]="createproduct.description"
+                                        #description="ngModel" name="description" type="text" id="input-description"
+                                        rows="3" placeholder="Description"
+                                        [status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : 'basic'"
+                                        [required]="true"
+                                        [attr.aria-invalid]="description.invalid && description.touched ? true : null">
+                                    </textarea>
+
+                                </nb-form-field>
+                                <ng-container *ngIf="description.invalid && description.touched ">
+                                    <p class="error-message" *ngIf="description.errors?.required">
+                                        Description is required!
+                                    </p>
+                                </ng-container>
+                            </div>
+
+                            <div class="row px-3">
+                                <div class="form-control-group col-6">
+                                    <label class="label" for="input-minamount">Min Amount</label>
+                                    <nb-form-field>
+                                        <input nbInput fullWidth [(ngModel)]="createproduct.minamount"
+                                            #minamount="ngModel" name="minamount" type="text" id="input-minamount"
+                                            placeholder="Min Amount"
+                                            [status]="minamount.dirty ? (minamount.invalid  ? 'danger' : 'success') : 'basic'"
+                                            [attr.aria-invalid]="minamount.invalid && minamount.touched ? true : null">
+                                    </nb-form-field>
+                                    <ng-container *ngIf="minamount.invalid && minamount.touched ">
+                                        <p class="error-message" *ngIf="minamount.errors?.required">
+                                            Min Amount is required!
+                                        </p>
+                                    </ng-container>
+                                </div>
+                                <div class="form-control-group col-6">
+                                    <label class="label" for="input-maxamount">Max Amount</label>
+                                    <nb-form-field>
+                                        <input nbInput fullWidth [(ngModel)]="createproduct.maxamount"
+                                            #maxamount="ngModel" name="maxamount" type="text" id="input-maxamount"
+                                            placeholder="Max Amount"
+                                            [status]="maxamount.dirty ? (maxamount.invalid  ? 'danger' : 'success') : 'basic'"
+                                            [attr.aria-invalid]="maxamount.invalid && maxamount.touched ? true : null">
+                                    </nb-form-field>
+                                    <ng-container *ngIf="maxamount.invalid && maxamount.touched ">
+                                        <p class="error-message" *ngIf="maxamount.errors?.required">
+                                            Max Amount is required!
+                                        </p>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="form-control-group col-md-12 col-sm-12 col-xs-12 ">
+                                <label class="label" for="input-rate">Interest Ratee</label>
+                                <nb-form-field>
+                                    <input nbInput fullWidth [(ngModel)]="createproduct.rate" #rate="ngModel"
+                                        name="rate" type="text" id="input-rate" placeholder="Interest Rate"
+                                        [status]="rate.dirty ? (rate.invalid  ? 'danger' : 'success') : 'basic'"
+                                        [attr.aria-invalid]="rate.invalid && rate.touched ? true : null">
+                                </nb-form-field>
+                                <ng-container *ngIf="rate.invalid && rate.touched ">
+                                    <p class="error-message" *ngIf="rate.errors?.required">
+                                        Product Rate is required!
+                                    </p>
+                                </ng-container>
+                            </div>
+                            <br>
+                            <div class="col-12 col-sm-12 col-xs-12 spacer form-control-group">
+                                <button [nbSpinner]="submitted" nbButton fullWidth status="primary"
+                                    [disabled]="submitted || !form.valid" [class.btn-pulse]="submitted">
+                                    Add
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+        </div>
+    </div>
+</div>
