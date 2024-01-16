@@ -1,10 +1,10 @@
-export interface LoanProductDto {
+export interface LoanProductDtos {
     status: string
     message: string
-    content: Content[]
+    // content: Content[]
 }
 
-export interface Content {
+export interface LoanProductDto {
     id: number
     productName: string
     productDescription: string
