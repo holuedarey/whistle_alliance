@@ -16,11 +16,17 @@ export class LoanService {
 
   constructor(private httpClient: HttpClient, private secureLs: SecureLocalStorageService) { }
 
-  getAllLoan(filter: any = { pageNumber: 1, pageSize: environment.paginationLength }): Observable<ResponseDto<any>> {
+  getAllLoan(userId?:any, filter: any = { pageNumber: 1, pageSize: environment.paginationLength }): Observable<ResponseDto<any>> {
     let params = new HttpParams()
     for (const key in filter) {
       params = params.set(key, filter[key])
     }
+    
+    if(userId){
+      params = params.set('userId', userId);
+    }
+    console.log("userId ->", params);
+
     const apiEndpoint = 'loan';
     return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, {params});
   }

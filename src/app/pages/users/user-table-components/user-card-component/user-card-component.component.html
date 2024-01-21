@@ -1,7 +1,54 @@
-<nb-user [name]="'Joshua Olatunji'" [title]="'Account Created Aug 2023'">
-</nb-user>
-<div class="mt-2">
-    <button  nbButton fullWidth status="primary" >
-        View User
-    </button>
+<div class="px-3 py-3" *ngIf="show">
+    <nb-user [name]="fullname" [title]="createdDate">
+    </nb-user>
+    <div class="mt-4" *ngIf="history">
+        <button nbButton fullWidth 
+        [status]="checked ? 'danger' : 'primary'"
+        (click)="onStatusChange(!checked)"
+        >
+            {{ checked ? 'Disable User' : 'Enable User'}}
+        </button>
+    </div>
+    <div class="mt-4" *ngIf="!history">
+        <button nbButton fullWidth status="primary" routerLink="/app/admin/users/transaction">
+            View User
+        </button>
+    </div>
+    <div class="mt-4">
+
+        <div class="mb-2">
+            <p class="label ">Email</p>
+            <p>{{ userData?.email }}</p>
+        </div>
+        <div class="mb-2">
+            <p class="label ">Phone</p>
+            <p>{{ userData?.phoneNumber }}</p>
+        </div>
+        <div class="mb-2">
+            <p class="label ">DOB</p>
+            <p>{{ userData?.dateOfBirth }}</p>
+        </div>
+    </div>
+    <div class="mt-2" *ngIf="userData?.loanSummary != null">
+        <h6 class="labels">Loan Statistics</h6>
+        <nb-button-group class="mt-2 mx-auto" size="large">
+            <div class="mr-2">
+                <button nbButtonToggle class="mr-2 circular" outline status="info">{{userData.loanSummary.pending}}</button>
+                <p class="status-text">Pending</p>
+            </div>
+            <div class="mr-2">
+                <button nbButtonToggle pressed class="mr-2 circular" outline status="primary">{{userData.loanSummary.approved }}</button>
+                <p class="status-text">Approved</p>
+            </div>
+            <div class="mr-2">
+                <button nbButtonToggle class="mr-2 circular" outline status="basic">{{userData.loanSummary.repaid}}</button>
+                <p class="status-text">Repaid</p>
+            </div>
+            <div class="mr-2">
+                <button nbButtonToggle class="mr-2 circular" outline status="danger">{{userData.loanSummary.declined }}</button>
+                <p class="status-text">Declined</p>
+            </div>
+
+        </nb-button-group>
+    </div>
 </div>

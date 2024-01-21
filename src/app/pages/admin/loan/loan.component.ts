@@ -7,6 +7,7 @@ import { GetUniqueArray } from 'src/app/@core/functions/data-request.funtion';
 import { JwtPayloadModel } from 'src/app/@core/models/jwt-payload-model';
 import { TokenExport } from 'src/app/@core/utils/custom-token-storage/custom-token-storage.module';
 import { SecureLocalStorageService } from 'src/app/@core/utils/secure-local-storage.service';
+import { LoanDetailButtonComponent } from './loan-detail-button/loan-detail-button.component';
 const helper = new JwtHelperService();
 
 
@@ -70,7 +71,7 @@ export class LoanComponent implements OnInit {
     }
   }
   columns = {
-    user: {
+    applicantName: {
       title: 'User',
     },
     amount: {
@@ -94,6 +95,12 @@ export class LoanComponent implements OnInit {
         return d[0].productName
       },
     },
+    action: {
+      title: 'Action',
+      renderComponent: LoanDetailButtonComponent,
+      type: 'custom',
+      filter:false,
+    },
   }
 
   constructor(
@@ -111,7 +118,7 @@ export class LoanComponent implements OnInit {
     const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
     const user:any = helper.decodeToken(token.token) as JwtPayloadModel;
     this.isLoadingData = true;
-    this.loanService.getUserLoan(user.id, 20, data)
+    this.loanService.getAllLoan(user.id, data)
       .subscribe(
         (response) => {
           this.isLoadingData = false;

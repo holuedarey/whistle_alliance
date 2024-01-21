@@ -1,13 +1,8 @@
-import { DecimalPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
-import { LocalStorageKey } from 'src/app/@core/enums/local-storage-key.enum';
-import { GetUniqueArray } from 'src/app/@core/functions/data-request.funtion';
-import { JwtPayloadModel } from 'src/app/@core/models/jwt-payload-model';
-import { TokenExport } from 'src/app/@core/utils/custom-token-storage/custom-token-storage.module';
-import { SecureLocalStorageService } from 'src/app/@core/utils/secure-local-storage.service';
-const helper = new JwtHelperService();
+import { UserService } from 'src/app/@core/data-services/user.service';
 
 
 @Component({
@@ -17,35 +12,60 @@ const helper = new JwtHelperService();
 })
 export class LoanDetailsComponent implements OnInit {
   isLoadingData = true;
-
-  users:any[] = [];
-
+  loanId:any;
+  userId:any;
+  fullname: string = "";
+  createdDate:string = '';
+  loanData:any = [];
+  userData:any;
+  loanSchedule:any = []
   constructor(
     private loanService: LoanService,
-    private secureLs: SecureLocalStorageService,
-    private _decimalPipe: DecimalPipe
-  ) { }
+    private activatedRoute: ActivatedRoute,
+    private userService:UserService
+
+  ) { 
+    this.loanId = this.activatedRoute.snapshot.queryParams.loanId;
+    this.userId = this.activatedRoute.snapshot.queryParams.userId;
+
+  }
 
   ngOnInit(): void {
     this.requestData()
+    this.getSingleUser(this.userId)
   }
 
   requestData(data?: any) {
     this.isLoadingData = true;
-    const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
-    const user:any = helper.decodeToken(token.token) as JwtPayloadModel;
     this.isLoadingData = true;
-    this.loanService.getUserLoan(user.id, 20, data)
+    this.loanService.getSingleLoan(this.loanId)
       .subscribe(
         (response) => {
           this.isLoadingData = false;
-          if (response.status) {
-            this.users = GetUniqueArray([...(response.content ?? [])], [...this.users]);
+          if (response) {
+            this.loanData = response.content ?? {};
+            console.log("this.loanData", this.loanData);
+            
+            this.loanSchedule = this.loanData?.schedules
           }
         },
         (err) => {
           this.isLoadingData = false;
         }
       )
+  }
+
+  async getSingleUser(userId: any) {
+    this.userService.getSingleUser(userId).subscribe(
+      (result) => {
+        this.userData = result.content[0];
+        this.fullname = this.userData?.firstName + ' ' + this.userData?.lastName;
+        this.createdDate = `Account Created ${new Date(this.userData?.createdDate ?? "").toDateString()}`;
+      })
+  }
+
+  approveReject(type:any){
+    console.log("status", type);
+    
   }
 }

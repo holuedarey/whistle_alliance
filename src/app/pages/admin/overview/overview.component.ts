@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Color } from 'chart.js';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
+import { UserService } from 'src/app/@core/data-services/user.service';
 import { LocalStorageKey } from 'src/app/@core/enums/local-storage-key.enum';
 import { GetUniqueArray } from 'src/app/@core/functions/data-request.funtion';
 import { JwtPayloadModel } from 'src/app/@core/models/jwt-payload-model';
@@ -18,7 +19,7 @@ const helper = new JwtHelperService();
 })
 export class OverviewComponent implements OnInit {
   isLoadingData = true;
-
+  summaryData:any;
   bgColor: Color[] = [];
   data = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -72,11 +73,13 @@ export class OverviewComponent implements OnInit {
   constructor(
     private loanService: LoanService,
     private secureLs: SecureLocalStorageService,
-    private _decimalPipe: DecimalPipe
+    private _decimalPipe: DecimalPipe,
+    private userService:UserService
   ) { }
 
   ngOnInit(): void {
     // this.requestData()
+    this.userSummary()
   }
 
   requestData(data?: any) {
@@ -90,6 +93,23 @@ export class OverviewComponent implements OnInit {
           this.isLoadingData = false;
           if (response.status) {
             this.users = GetUniqueArray([...(response.content ?? [])], [...this.users]);
+          }
+        },
+        (err) => {
+          this.isLoadingData = false;
+        }
+      )
+  }
+
+  userSummary(data?: any) {
+    this.isLoadingData = true;
+    this.userService.getUserSummary(data)
+      .subscribe(
+        (response) => {
+          this.isLoadingData = false;
+          
+          if (response) {
+            this.summaryData = response ?? [];
           }
         },
         (err) => {

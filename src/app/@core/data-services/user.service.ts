@@ -36,6 +36,11 @@ export class UserService implements AccessControlContract {
     return this.httpClient.get<ResponseDto<UserDto>>(`${environment.apiUrl}/${apiEndpoint}`);
   }
 
+  getUserSummary(id:Number): Observable<ResponseDto<UserDto>> {
+    const apiEndpoint = `user/summary`;
+    return this.httpClient.get<ResponseDto<UserDto>>(`${environment.apiUrl}/${apiEndpoint}`);
+  }
+
   @HasAccess(PermissionEnum.Create, UsersResources.CreateUsers)
   postUser(user: PostUserDto): Observable<ResponseDto<UserDto>> {
     const apiEndpoint = 'users';

@@ -1,56 +1,95 @@
 <div class="container-fluid p-0 m-0">
     <div class="row m-0">
-        <div class="col-3">
+        <div class="col-4">
             <nb-card size="small" fullWidth class="py-0 px-0">
-                <nb-card-body>
-                    <h5>Loan Applications</h5>
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="">
-                                <p class=" grey-text">Total Processed </p>
-                                <p class="bold-text">400</p>
+                <nb-card-body class="px-0">
+                    <div class="px-3 py-3">
+                        <nb-user [name]="fullname" [title]="createdDate">
+                        </nb-user>
+                        <div class="mt-4">
+
+                            <div class="mb-2">
+                                <p class="label ">Email</p>
+                                <p>{{ userData?.email }}</p>
                             </div>
-                            <div class="mt-4">
-                                <p class="grey-text">Approved Loans </p>
-                                <p class="bold-text">400</p>
+                            <div class="mb-2">
+                                <p class="label ">Phone</p>
+                                <p>{{ userData?.phoneNumber }}</p>
                             </div>
-                            <div class="mt-4">
-                                <p class="grey-text">Declined Loans </p>
-                                <p class="bold-text">400</p>
+                            <div class="mb-2">
+                                <p class="label ">DOB</p>
+                                <p>{{ userData?.dateOfBirth }}</p>
                             </div>
                         </div>
-                        <div class="col-9">
+                        <div class="mt-2" *ngIf="userData?.loanSummary != null">
+                            <h6 class="labels">Loan Statistics</h6>
+                            <nb-button-group class="mt-2 mx-auto" size="large">
+                                <div class="mr-2">
+                                    <button nbButtonToggle class="mr-2 circular" outline
+                                        status="info">{{userData.loanSummary.pending}}</button>
+                                    <p class="status-text">Pending</p>
+                                </div>
+                                <div class="mr-2">
+                                    <button nbButtonToggle pressed class="mr-2 circular" outline
+                                        status="primary">{{userData.loanSummary.approved }}</button>
+                                    <p class="status-text">Approved</p>
+                                </div>
+                                <div class="mr-2">
+                                    <button nbButtonToggle class="mr-2 circular" outline
+                                        status="basic">{{userData.loanSummary.repaid}}</button>
+                                    <p class="status-text">Repaid</p>
+                                </div>
+                                <div class="mr-2">
+                                    <button nbButtonToggle class="mr-2 circular" outline
+                                        status="danger">{{userData.loanSummary.declined }}</button>
+                                    <p class="status-text">Declined</p>
+                                </div>
 
+                            </nb-button-group>
                         </div>
                     </div>
                 </nb-card-body>
             </nb-card>
-            <nb-card size="small" fullWidth class="py-0 px-0">
-                <nb-card-body>
+            <nb-card size="small" fullWidth class="">
+                <nb-card-body class="px-4">
                     <h5>Other Information</h5>
-                    <div class="row">
-                        <div class="col-3 mt-4">
-                            <div class="mt-4">
-                                <p class=" grey-text">Total Processed </p>
-                                <p class="bold-text">400</p>
+                    <div class="">
+                        <div class="mt-0">
+                            <div class="mt-0">
+                                <p class="grey-text">Credit Score</p>
+                                <p class="bold-text">{{userData?.userLimit || 0}}</p>
                             </div>
                             <div class="mt-4">
-                                <p class="grey-text">Approved Loans </p>
-                                <p class="bold-text">400</p>
+                                <p class="grey-text">Employment Status</p>
+                                <p class="bold-text">Employed</p>
                             </div>
                             <div class="mt-4">
-                                <p class="grey-text">Declined Loans </p>
-                                <p class="bold-text">400</p>
+                                <p class="grey-text">Employer</p>
+                                <p class="bold-text">-</p>
                             </div>
                         </div>
-                        <div class="col-9">
-
+                    </div>
+                </nb-card-body>
+            </nb-card>
+            <nb-card size="small" fullWidth class="">
+                <nb-card-body class="px-4">
+                    <h5>Admin Information</h5>
+                    <div class="">
+                        <div class="mt-0">
+                            <div class="mt-0">
+                                <p class="grey-text">Approved by</p>
+                                <p class="bold-text">{{loanData?.audit ||'-' }}</p>
+                            </div>
+                            <div class="mt-4">
+                                <p class="grey-text">Date of Approval</p>
+                                <p class="bold-text">{{loanData?.audit ||'-' }}</p>
+                            </div>
                         </div>
                     </div>
                 </nb-card-body>
             </nb-card>
         </div>
-        <div class="col-9">
+        <div class="col-8">
             <nb-card size="small" fullWidth class="py-0 px-0">
                 <nb-card-body class="px-0 py-0">
                     <nb-card-header class="no-padding">
@@ -59,82 +98,120 @@
                         </div>
                         <div class="row px-4">
                             <div class="col-4">
-                                <p>Proof of Address</p>
+                                <p class="bold-text">Proof of Address</p>
                                 <div class="box">
 
                                 </div>
-                                <div class="mt-1 col-8 px-0">
-                                    <button  class="p-1" nbButton status="primary" fullWidth>Approve</button>
+                                <div class="mt-1 col px-0">
+                                    <button class="p-1" nbButton status="primary" fullWidth>Approve</button>
                                 </div>
-                                <div class="mt-1 col-8 px-0">
-                                    <button  class="p-1" nbButton status="danger" fullWidth>Reject</button>
+                                <div class="mt-1 col px-0">
+                                    <button class="p-1" nbButton status="danger" fullWidth>Reject</button>
                                 </div>
                             </div>
                             <div class="col-4">
-                                <p>Proof of Emplyment</p>
+                                <p class="bold-text">Proof of Emplyment</p>
                                 <div class="box">
 
                                 </div>
-                                <div class="mt-1 col-8 px-0">
-                                    <button  class="p-1" nbButton status="primary" fullWidth>Approve</button>
+                                <div class="mt-1 col px-0">
+                                    <button class="p-1" nbButton status="primary" fullWidth>Approve</button>
                                 </div>
-                                <div class="mt-1 col-8 px-0">
-                                    <button  class="p-1" nbButton status="danger" fullWidth>Reject</button>
+                                <div class="mt-1 col px-0">
+                                    <button class="p-1" nbButton status="danger" fullWidth>Reject</button>
                                 </div>
                             </div>
                             <div class="col-4">
-                                <p>Proof of Identity</p>
+                                <p class="bold-text">Proof of Identity</p>
                                 <div class="box">
 
                                 </div>
-                                <div class="mt-1 col-8 px-0">
-                                    <button  class="p-1" nbButton status="primary" fullWidth>Approve</button>
+                                <div class="mt-1 col px-0">
+                                    <button class="p-1" nbButton status="primary" fullWidth>Approve</button>
                                 </div>
-                                <div class="mt-1 col-8 px-0">
-                                    <button  class="p-1" nbButton status="danger" fullWidth>Reject</button>
+                                <div class="mt-1 col px-0">
+                                    <button class="p-1" nbButton status="danger" fullWidth>Reject</button>
                                 </div>
                             </div>
                         </div>
                     </nb-card-header>
                 </nb-card-body>
             </nb-card>
-            <nb-card size="medium" fullWidth class="py-0 px-0">
+            <nb-card size="small" fullWidth class="py-0 px-0">
+                <nb-card-body  class="">
+                    <div class="card-colors card-radius-top">
+                        <h5 class="px py-3">Comments</h5>
+                        <div>
+                            <h6>Proof Of Identity</h6>
+                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea iure ratione tempora provident porro dolor</p>
+                        </div>
+                        <div class="mt-2">
+                            <h6>Proof Of Employment</h6>
+                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea iure ratione tempora provident porro dolor</p>
+                        </div>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+            <nb-card size="large" fullWidth class="py-0 px-2">
                 <nb-card-body class="px-0 py-0">
                     <nb-card-header class="no-padding">
                         <div class="card-color card-radius-top">
                             <h5 class="px-4 py-3 text-white ">Loan Details</h5>
                         </div>
                     </nb-card-header>
-                    <table class="table px-4">
+                    <table class="table">
                         <tr>
                             <th>Amount</th>
-                            <td>400,000</td>
+                            <td class="end">{{ loanData?.amount || 0 }}</td>
                         </tr>
                         <tr>
-                            <th>Amount</th>
-                            <td>400,000</td>
+                            <th>Date</th>
+                            <td class="end">400,000</td>
                         </tr>
                         <tr>
-                            <th>Amount</th>
-                            <td>400,000</td>
+                            <th>Repayment Tenure:</th>
+                            <td class="end">{{ loanData?.month }}</td>
                         </tr>
                         <tr>
-                            <th>Amount</th>
-                            <td>400,000</td>
+                            <th>Monthly Repayment Date:</th>
+                            <td class="end">{{ loanData?.paynentDate || '-'}}</td>
                         </tr>
                         <tr>
-                            <th>Amount</th>
-                            <td>400,000</td>
+                            <th>Monthly Repayment:</th>
+                            <td class="end">{{loanData?.monthlyPayment || 0.00 }}</td>
+                        </tr>
+                        <tr>
+                            <th>Interest rate:</th>
+                            <td class="end">{{ loanData?.monthlyInterestRate }}</td>
+                        </tr>
+                        <tr>
+                            <th>Loan Type:</th>
+                            <td class="end">{{ loanData?.loanType || '-'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Status:</th>
+                            <td class="end">
+                                <button size="tiny" nbButton outline
+                                    [status]="loanData?.paymentStatus == 'PENDING' ? 'warning' : 'primary'">
+                                    {{loanData?.paymentStatus}}
+                                </button>
+
+                            </td>
                         </tr>
                     </table>
-                    <div class="mt-1 col-8 px-0 mx-auto">
-                        <button  class="p-1" nbButton status="primary" fullWidth>Approve</button>
+                    <div class="mt-1 col-12 mx-auto mt-4">
+                        <button nbButton class="p-1" nbButton status="primary" fullWidth (click)="approveReject('approved')">Approve</button>
                     </div>
-                    <div class="mt-4 col-8 px-0 mx-auto">
-                        <button  class="p-1" nbButton status="danger" fullWidth>Reject</button>
+                    <div class="mt-4 col-12 mx-auto">
+                        <button nbButton class="p-1" nbButton status="danger" fullWidth (click)="approveReject('reject')">Reject</button>
                     </div>
                 </nb-card-body>
             </nb-card>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <app-loan-progress-stepper [data]="loanSchedule"></app-loan-progress-stepper>
         </div>
     </div>
 </div>

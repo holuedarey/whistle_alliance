@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/cor
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
 import { ShareDataService } from 'src/app/@core/data-services/share-data.service';
 import { UserService } from 'src/app/@core/data-services/user.service';
@@ -60,6 +61,7 @@ export class LoanApplicationComponent implements OnInit {
     private shareDataservice: ShareDataService,
     private loanservice: LoanService,
     private router: Router,
+    private toastr:NbToastrService,
     private secureLs: SecureLocalStorageService,) {
     this.firstForm = this.fb.group({
       fullname: [{ value: '', disabled: false }, Validators.required],
@@ -146,15 +148,10 @@ export class LoanApplicationComponent implements OnInit {
   }
   onFirstSubmit() {
     this.firstForm.markAsDirty();
-    // console.log("log firstForm : ", this.firstForm.value);
   }
 
   onSecondSubmit() {
     this.secondForm.markAsDirty();
-    // console.log("log 1: ", this.firstForm.value);
-
-    // console.log("log 2: ", this.secondForm.value);
-
   }
 
   onThirdSubmit() {
@@ -176,7 +173,7 @@ export class LoanApplicationComponent implements OnInit {
         this.submitted = false;
         if (result.status) {
           this.messages = ['Loan Created Successfully'];
-
+          this.toastr.success('Loan Application', 'Loan Created Successfully', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
         } else {
           this.errors = [
             result.message as string

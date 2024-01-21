@@ -9,12 +9,11 @@ import { TablesModule } from 'src/app/@tables/tables.module';
 import { RepaymentRoutingModule } from './repayments-routing.module';
 import { RepaymentModalComponent } from './repayment-component/repayment-modal/repayment-modal.component';
 import { RepaymentButtonComponent } from './repayment-component/repayment-button/repayment-button.component';
-import { LoanProgressStepperComponent } from './repayment-component/loan-progress-stepper/loan-progress-stepper.component';
 
 
 @NgModule({
   declarations: [
-    RepaymentComponent,RepaymentModalComponent, RepaymentButtonComponent, LoanProgressStepperComponent
+    RepaymentComponent,RepaymentModalComponent, RepaymentButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -35,6 +34,6 @@ import { LoanProgressStepperComponent } from './repayment-component/loan-progres
     NbStepperModule,
 
   ],
-  providers:[DecimalPipe]
+  providers:[DecimalPipe],
 })
 export class RepaymentModule { }

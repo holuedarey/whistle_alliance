@@ -1,15 +1,16 @@
-import { NbThemeModule, NbCardModule } from '@nebular/theme';
+import { NbThemeModule, NbCardModule, NbButtonModule } from '@nebular/theme';
 import { NgModule } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { LoanComponent } from './loan.component';
 import { LoanRoutingModule } from './loan-routing.module';
 import { TablesModule } from 'src/app/@tables/tables.module';
 import { ChartsModule } from 'src/app/@charts/chart.module';
+import { LoanDetailButtonComponent } from './loan-detail-button/loan-detail-button.component';
 
 
 @NgModule({
   declarations: [
-   LoanComponent
+   LoanComponent, LoanDetailButtonComponent
   ],
   imports: [
     CommonModule,
@@ -17,7 +18,8 @@ import { ChartsModule } from 'src/app/@charts/chart.module';
     NbThemeModule,
     NbCardModule,
     TablesModule,
-    ChartsModule
+    ChartsModule,
+    NbButtonModule
   ],
   providers:[DecimalPipe]
 })

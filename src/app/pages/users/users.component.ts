@@ -115,10 +115,6 @@ export class UsersComponent implements OnInit {
     this.requestData();
   }
 
-  rowSelect(data:any){
-    console.log("data", data);
-    
-  }
   requestData(data?: any) {
     this.isLoadingData = true;
     this.userService.getUsers(data)
@@ -134,5 +130,6 @@ export class UsersComponent implements OnInit {
         }
       )
   }
+
 
 }
