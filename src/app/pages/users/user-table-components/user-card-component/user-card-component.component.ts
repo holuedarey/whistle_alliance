@@ -16,7 +16,7 @@ import { ConfirmationDialogComponent } from 'src/app/@theme/components/confirmat
 export class UserCardComponentComponent implements OnInit, OnDestroy {
 
   rowData!: UserDto;
-  userData!: UserDto;
+  userData!: any;
   fullname: string = "";
   createdDate: any;
   show: boolean = false;
