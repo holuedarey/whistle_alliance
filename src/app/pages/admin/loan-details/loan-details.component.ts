@@ -66,6 +66,11 @@ export class LoanDetailsComponent implements OnInit {
 
   approveReject(type:any){
     console.log("status", type);
-    
+    this.userService.getSingleUser(1).subscribe(
+      (result) => {
+        this.userData = result.content[0];
+        this.fullname = this.userData?.firstName + ' ' + this.userData?.lastName;
+        this.createdDate = `Account Created ${new Date(this.userData?.createdDate ?? "").toDateString()}`;
+      })
   }
 }

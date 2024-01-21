@@ -25,8 +25,6 @@ export class LoanService {
     if(userId){
       params = params.set('userId', userId);
     }
-    console.log("userId ->", params);
-
     const apiEndpoint = 'loan';
     return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, {params});
   }

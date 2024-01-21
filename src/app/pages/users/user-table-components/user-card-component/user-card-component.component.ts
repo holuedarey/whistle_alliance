@@ -48,7 +48,7 @@ export class UserCardComponentComponent implements OnInit, OnDestroy {
     this.userService.getSingleUser(userId).subscribe(
       (result) => {
         this.userData = result.content[0];
-        this.checked = this.userData.isActive;
+        this.checked = this.userData.active;
         this.fullname = this.userData?.firstName + ' ' + this.userData?.lastName;
         this.createdDate = `Account Created ${new Date(this.userData?.createdDate ?? "").toDateString()}`;
         this.show = true;

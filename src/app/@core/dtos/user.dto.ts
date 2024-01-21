@@ -14,5 +14,5 @@ export interface UserDto {
     dateDeactivated: null;
     id: string;
     createdDate:string,
-    isActive:boolean
+    active:boolean
 }
