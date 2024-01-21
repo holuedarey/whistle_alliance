@@ -2,7 +2,7 @@
     <div class="row m-0">
         <div class="col-8">
             <app-table [isLoading]="isLoadingData" title="Users" subTitle="" [data]="users" [columns]="columns"
-                (requestData)="requestData($event)" (userRowSelect) ="rowSelect($event)">
+                (requestData)="requestData($event)" >
             </app-table>
         </div>
         <div class="col-4">

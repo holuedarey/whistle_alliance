@@ -120,7 +120,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       firstName: [this.userForUpdate.firstName, Validators.required],
       lastName: [this.userForUpdate.lastName, Validators.required],
       phoneNumber: [
-        this.userForUpdate.phone, [
+        this.userForUpdate.phoneNumber, [
           Validators.required,
           this.validatePhoneNumber.bind(this)
         ]

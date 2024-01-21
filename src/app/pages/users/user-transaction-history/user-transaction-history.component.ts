@@ -59,7 +59,7 @@ export class UserTransactionHistoryComponent implements OnInit {
     private messageService:MessageService,
     private userService:UserService,
   ) { 
-    this.messageService.getMessage.subscribe((data:UserDto) => {
+    this.messageService.getMessage.subscribe((data:any) => {
       this.getSingleUser(data?.id);
     });
   }

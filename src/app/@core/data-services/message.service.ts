@@ -8,22 +8,24 @@ import { BehaviorSubject } from 'rxjs';
 export class MessageService {
 
   private message = new BehaviorSubject({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    status: "",
-    ssoUserId: "",
-    ssoRole: "",
-    role: "",
-    client: "",
-    clientId: "",
-    roleId: "",
-    deActivatedBy: null,
-    dateDeactivated: null,
-    id: "",
-    createdDate: "",
-    active: true
+    // firstName: "",
+    // lastName: "",
+    // email: "",
+    // phoneNumber: "",
+    // status: "",
+    // ssoUserId: "",
+    // ssoRole: "",
+    // role: "",
+    // client: "",
+    // clientId: "",
+    // roleId: "",
+    // deActivatedBy: null,
+    // dateDeactivated: null,
+    // id: "",
+    // createdDate: "",
+    // active: true,
+    // dateOfBirth:"",
+    // loanSummary:""
   });
   
   getMessage = this.message.asObservable();

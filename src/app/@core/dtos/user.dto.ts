@@ -2,7 +2,7 @@ export interface UserDto {
     firstName: string;
     lastName: string;
     email: string;
-    phone: string;
+    phoneNumber: string;
     status: string;
     ssoUserId: string;
     ssoRole: string;
@@ -14,5 +14,6 @@ export interface UserDto {
     dateDeactivated: null;
     id: string;
     createdDate:string,
-    active:boolean
+    active:boolean,
+    loanSummary?:[]
 }

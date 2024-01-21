@@ -31,7 +31,7 @@ export class UserCardComponentComponent implements OnInit, OnDestroy {
     private toastr: NbToastrService,
     ) {
 
-    this.messageService.getMessage.subscribe((data: UserDto) => {
+    this.messageService.getMessage.subscribe((data:any) => {
       this.getSingleUser(data?.id);
     });
   }
