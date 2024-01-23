@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/@core/data-services/auth.service';
 import { ShareDataService } from 'src/app/@core/data-services/share-data.service';
 import { ResponseDto } from 'src/app/@core/dtos/response-dto';
@@ -34,7 +35,7 @@ export class SettingsComponent implements OnInit {
   errors: string[] = [];
   messages: string[] = [];
 
-  constructor(private authService: AuthService, private shareData:ShareDataService) { }
+  constructor(private authService: AuthService, private shareData:ShareDataService, private router:Router) { }
 
   ngOnInit(): void {
     this.changePassword = true;
@@ -79,7 +80,7 @@ export class SettingsComponent implements OnInit {
     console.log(value)
   }
   changePasswordAction() {
-
+    
     this.errors = [];
     this.messages = [];
     this.submitted = true;
@@ -89,6 +90,8 @@ export class SettingsComponent implements OnInit {
       password: this.user.confirmpassword,
       updateType: "ACCOUNT"
     };
+
+   
     this.authService.updatePassword(passwords).subscribe(
       (result) => {
         this.submitted = false;
@@ -97,6 +100,8 @@ export class SettingsComponent implements OnInit {
           this.messages = ["Password Change Successfully"
           ];
           this.user = {};
+          localStorage.clear();
+          this.router.navigateByUrl('/')
         }
       },
       (error: ResponseDto<string>) => {
@@ -107,9 +112,7 @@ export class SettingsComponent implements OnInit {
       }
     );
   }
-  contactUsAction() { 
-    console.log("clkick action");
-    
+  contactUsAction() {     
     this.errors = [];
     this.messages = [];
     this.submitted = true;

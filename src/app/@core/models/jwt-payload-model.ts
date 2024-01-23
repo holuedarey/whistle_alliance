@@ -5,4 +5,5 @@ export interface JwtPayloadModel {
     exp: number;
     iss: string;
     aud: string;
+    id:string
 }

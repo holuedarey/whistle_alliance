@@ -19,7 +19,8 @@ const helper = new JwtHelperService();
 })
 export class OverviewComponent implements OnInit {
   isLoadingData = true;
-  summaryData:any;
+  summaryData: any;
+  topUsers: any[] = [];
   bgColor: Color[] = [];
   data = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -33,6 +34,8 @@ export class OverviewComponent implements OnInit {
 
     ]
   };
+
+  users: any[] = [];
 
   dataDoughnut = {
     labels: ["Web", "Mobile", "Other"],
@@ -63,18 +66,11 @@ export class OverviewComponent implements OnInit {
     }
   }
 
-  users: { name: string, title: string }[] = [
-    { name: 'Carla Espinosa', title: 'Nurse' },
-    { name: 'Bob Kelso', title: 'Doctor of Medicine' },
-    { name: 'Janitor', title: 'Janitor' },
-    { name: 'Perry Cox', title: 'Doctor of Medicine' },
-    { name: 'Ben Sullivan', title: 'Carpenter and photographer' },
-  ];
   constructor(
     private loanService: LoanService,
     private secureLs: SecureLocalStorageService,
     private _decimalPipe: DecimalPipe,
-    private userService:UserService
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -107,9 +103,20 @@ export class OverviewComponent implements OnInit {
       .subscribe(
         (response) => {
           this.isLoadingData = false;
-          
+
           if (response) {
             this.summaryData = response ?? [];
+            this.topUsers = this.summaryData.topUsers;
+            // Pass a function to map
+            this.topUsers = this.topUsers.map((x) => {
+              return  {
+                fullname: `${x.firstName} ${x.lastName}`, 
+                date: `Created ${new Date(x?.createdDate ?? "").toDateString()}`
+              }
+
+          });
+
+            console.log(this.topUsers);
           }
         },
         (err) => {
