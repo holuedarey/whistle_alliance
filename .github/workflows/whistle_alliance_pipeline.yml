@@ -24,4 +24,4 @@ jobs:
       - name: Deleting Old Container
         run: docker rm -f whistle_alliance-container
       - name: Run docker container 
-        run: docker run -d -p  80:80 --name whistle_alliance-container holudarey/whistle_alliance
+        run: docker run -d -p  443:443 --name whistle_alliance-container holudarey/whistle_alliance
