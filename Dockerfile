@@ -16,5 +16,5 @@ RUN mkdir -p  /etc/nginx/certs
 COPY /certs/* /etc/nginx/certs
 
 COPY --from=build /usr/src/app/dist/argus-front-end /usr/share/nginx/html
-#EXPOSE 80
+EXPOSE 80
 EXPOSE 443
