@@ -3,7 +3,7 @@
         <nb-card size="small" fullWidth class="no-padding">
             <nb-card-body>
                 <ul class="list-unstyled mt-3">
-                    <li *ngFor="let item of menu" class="mb-3">
+                    <li *ngFor="let item of menu">
                         <a href="#" (click)="changeView(item, $event)"> {{ item }}</a>
                     </li>
                 </ul>
@@ -179,8 +179,8 @@
                                     </ng-container>
                                 </div>
                                 <div class="form-control-group mt-3">
-                                    <textarea nbInput name="message" size="large" id="message" class="form-control"
-                                        [(ngModel)]="contactForm.message" #message="ngModel" rows="10"
+                                    <textarea nbInput name="message" size="small" id="message" class="form-control"
+                                        [(ngModel)]="contactForm.message" #message="ngModel" rows="4"
                                         cols="30"></textarea>
                                     <ng-container *ngIf="message.invalid && message.touched">
                                         <p class="error-message" *ngIf="message.errors?.required">
@@ -198,7 +198,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="py-4 mt-0">
+                        <div class="py-4 mt-4">
                             <div class="row">
                                 <div class="col">
                                     <p class="font-weight-g">

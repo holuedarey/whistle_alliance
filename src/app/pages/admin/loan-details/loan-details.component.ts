@@ -17,6 +17,8 @@ export class LoanDetailsComponent implements OnInit {
   fullname: string = "";
   createdDate:string = '';
   loanData:any = [];
+  loanDataFile:any = [];
+
   userData:any;
   loanSchedule:any = []
   constructor(
@@ -33,21 +35,37 @@ export class LoanDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.requestData()
     this.getSingleUser(this.userId)
+
+    this.loanFile()
   }
 
   requestData(data?: any) {
     this.isLoadingData = true;
     this.isLoadingData = true;
-    this.loanService.getSingleLoan(this.loanId)
+    this.loanService.getSingleLoanById(this.loanId)
       .subscribe(
         (response) => {
           this.isLoadingData = false;
           if (response) {
-            this.loanData = response.content ?? {};
-            console.log("this.loanData", this.loanData);
-            
+            this.loanData = response.content ?? {};            
             this.loanSchedule = this.loanData?.schedules
           }
+        },
+        (err) => {
+          this.isLoadingData = false;
+        }
+      )
+  }
+  loanFile(data?: any) {
+    this.isLoadingData = true;
+    this.loanService.getSingleLoanFile(this.loanId)
+      .subscribe(
+        (response) => {
+          this.isLoadingData = false;
+          if (response) {
+            this.loanDataFile = response.content ?? {};
+            console.log("this.loanDataFile", this.loanDataFile);
+                      }
         },
         (err) => {
           this.isLoadingData = false;

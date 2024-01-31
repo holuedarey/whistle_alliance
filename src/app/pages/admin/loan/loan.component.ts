@@ -2,12 +2,10 @@ import { DecimalPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
-import { LocalStorageKey } from 'src/app/@core/enums/local-storage-key.enum';
 import { GetUniqueArray } from 'src/app/@core/functions/data-request.funtion';
-import { JwtPayloadModel } from 'src/app/@core/models/jwt-payload-model';
-import { TokenExport } from 'src/app/@core/utils/custom-token-storage/custom-token-storage.module';
 import { SecureLocalStorageService } from 'src/app/@core/utils/secure-local-storage.service';
 import { LoanDetailButtonComponent } from './loan-detail-button/loan-detail-button.component';
+import { UserService } from 'src/app/@core/data-services/user.service';
 const helper = new JwtHelperService();
 
 
@@ -19,10 +17,12 @@ const helper = new JwtHelperService();
 export class LoanComponent implements OnInit {
   isLoadingData = true;
 
-  users:any[] = [];
+  loans: any[] = [];
+  laonSummaryData: any = {};
+  summaryDataChannel:any;
 
   dataDoughnut = {
-    labels: ["Web", "Mobile", "Device", "Other"],
+    labels: [''],
     datasets: [
       {
         data: [65, 59, 80, 40],
@@ -38,10 +38,10 @@ export class LoanComponent implements OnInit {
     ]
   };
   dataBarChart = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    labels: [''],
     datasets: [
       {
-        data: [39, 39, 41, 39, 52, 40],
+        data: [''],
         backgroundColor: '#2B645D',
         barPercentage: 0.5,
         barThickness: 15,
@@ -70,6 +70,7 @@ export class LoanComponent implements OnInit {
       position: 'right'
     }
   }
+
   columns = {
     applicantName: {
       title: 'User',
@@ -99,31 +100,70 @@ export class LoanComponent implements OnInit {
       title: 'Action',
       renderComponent: LoanDetailButtonComponent,
       type: 'custom',
-      filter:false,
+      filter: false,
     },
   }
 
   constructor(
     private loanService: LoanService,
     private secureLs: SecureLocalStorageService,
-    private _decimalPipe: DecimalPipe
+    private _decimalPipe: DecimalPipe,
+    private userService:UserService
   ) { }
 
   ngOnInit(): void {
-    this.requestData()
+    this.requestData();
+    this.loanSummary();
+    this.userSummaryChannel()
   }
 
   requestData(data?: any) {
     this.isLoadingData = true;
-    const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
-    const user:any = helper.decodeToken(token.token) as JwtPayloadModel;
-    this.isLoadingData = true;
-    this.loanService.getAllLoan(user.id, data)
+    this.loanService.getAllLoan(data)
       .subscribe(
         (response) => {
           this.isLoadingData = false;
           if (response.status) {
-            this.users = GetUniqueArray([...(response.content ?? [])], [...this.users]);
+            this.loans = GetUniqueArray([...(response.content ?? [])], [...this.loans]);
+          }
+        },
+        (err) => {
+          this.isLoadingData = false;
+        }
+      )
+  }
+
+  loanSummary(data?: any) {
+    this.isLoadingData = true;
+    this.loanService.getLoanSummary(data)
+      .subscribe(
+        (response) => {
+          this.isLoadingData = false;
+          if (response) {
+            this.laonSummaryData = response;
+            this.dataBarChart.labels = Object.keys(this.laonSummaryData?.monthlyBreakdown);
+            this.dataBarChart.datasets[0].data = Object.values(this.laonSummaryData?.monthlyBreakdown)
+          }
+        },
+        (err) => {
+          this.isLoadingData = false;
+        }
+      )
+  }
+
+  userSummaryChannel(data?: any) {
+    this.isLoadingData = true;
+    this.userService.getUserSummaryChannel(data)
+      .subscribe(
+        (response) => {
+          this.isLoadingData = false;
+
+          if (response) {
+            this.summaryDataChannel = response?.channel ?? [];
+            this.dataDoughnut.labels = Object.keys(this.summaryDataChannel);
+            this.dataDoughnut.datasets[0].data = Object.values(this.summaryDataChannel) || [1, 0, 0]
+            console.log(this.dataDoughnut);
+            
           }
         },
         (err) => {

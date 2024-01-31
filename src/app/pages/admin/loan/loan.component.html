@@ -8,15 +8,15 @@
                         <div class="col-3 mt-4">
                             <div class="mt-4">
                                 <p class=" grey-text">Total Processed </p>
-                                <p class="bold-text">400</p>
+                                <p class="bold-text">{{laonSummaryData?.total || 0}}</p>
                             </div>
                             <div class="mt-4">
                                 <p class="grey-text">Approved Loans </p>
-                                <p class="bold-text">400</p>
+                                <p class="bold-text">{{laonSummaryData?.approved || 0}}</p>
                             </div>
                             <div class="mt-4">
                                 <p class="grey-text">Declined Loans </p>
-                                <p class="bold-text">400</p>
+                                <p class="bold-text">{{laonSummaryData?.declined || 0}}</p>
                             </div>
                         </div>
                         <div class="col-9">
@@ -39,7 +39,7 @@
 
     <div class="row m-0">
         <div class="col-12">
-            <app-table [isLoading]="isLoadingData" title="Loan" subTitle="" [data]="users" [columns]="columns"
+            <app-table [isLoading]="isLoadingData" title="Loan" subTitle="" [data]="loans" [columns]="columns"
                 (requestData)="requestData($event)">
             </app-table>
         </div>

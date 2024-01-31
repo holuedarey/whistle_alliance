@@ -34,6 +34,25 @@ export class LoanService {
     return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`);
   }
 
+  getSingleLoanById(loanId:Number): Observable<ResponseDto<any>> {
+    const apiEndpoint = `loan/${loanId}`;
+    return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`);
+  }
+
+  getSingleLoanFile(loanId:Number): Observable<ResponseDto<any>> {
+    const apiEndpoint = `loans/file/download/${loanId}`;
+    return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`);
+  }
+
+  approveRejectLoanFile(loanId:Number, payload:any): Observable<ResponseDto<any>> {
+    const apiEndpoint = `loans/file/update/${loanId}`;
+    return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, payload);
+  }
+  approveRejectLoan(loanId:Number, payload:any): Observable<ResponseDto<any>> {
+    const apiEndpoint = `loan/status/${loanId}`;
+    return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, payload);
+  }
+
   getUserLoan(userID:number, limit:number, filter: any = {pageNumber: 1}): Observable<ResponseDto<any>> {
     let params = new HttpParams()
     for (const key in filter) {
@@ -43,17 +62,21 @@ export class LoanService {
     const apiEndpoint = 'loan';
     return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, {params});
   }
-  updateLoan(loan:LoanDto): Observable<ResponseDto<any>> {
-    const apiEndpoint = 'loan/status';
-    return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, loan);
-  }
+ 
 
   createLoan(loan:any): Observable<ResponseDto<any>> {
     const apiEndpoint = 'loan/apply';
     return this.httpClient.post<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, loan);
   }
 
-
+  getLoanSummary(filter: any = { pageNumber: 1, pageSize: environment.paginationLength }): Observable<ResponseDto<any>> {
+    let params = new HttpParams()
+    for (const key in filter) {
+      params = params.set(key, filter[key])
+    }
+    const apiEndpoint = 'loan/summary';
+    return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, {params});
+  }
   createLoanProduct(loanProduct:LoanProductRequestDto): Observable<ResponseDto<any>> {
     const apiEndpoint = 'product/loan/create';
     return this.httpClient.post<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, loanProduct);

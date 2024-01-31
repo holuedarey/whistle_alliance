@@ -20,14 +20,16 @@ const helper = new JwtHelperService();
 export class OverviewComponent implements OnInit {
   isLoadingData = true;
   summaryData: any;
+  summaryDataChannel: any;
+
   topUsers: any[] = [];
   bgColor: Color[] = [];
   data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: [""],
     datasets: [
       {
         // label: "Users by month",
-        data: [65, 59, 80, 81, 56, 55, 40],
+        data: [],
         borderColor: '#2B645D',
         backgroundColor: '#2B645D70',
       },
@@ -41,7 +43,7 @@ export class OverviewComponent implements OnInit {
     labels: ["Web", "Mobile", "Other"],
     datasets: [
       {
-        data: [65, 59, 80],
+        data: [1, 0,0],
         backgroundColor: [
           'rgb(255, 99, 132)',
           'rgb(54, 162, 235)',
@@ -76,6 +78,7 @@ export class OverviewComponent implements OnInit {
   ngOnInit(): void {
     // this.requestData()
     this.userSummary()
+    this.userSummaryChannel();
   }
 
   requestData(data?: any) {
@@ -109,14 +112,34 @@ export class OverviewComponent implements OnInit {
             this.topUsers = this.summaryData.topUsers;
             // Pass a function to map
             this.topUsers = this.topUsers.map((x) => {
-              return  {
-                fullname: `${x.firstName} ${x.lastName}`, 
-                date: `Created ${new Date(x?.createdDate ?? "").toDateString()}`
+              return {
+                fullname: `${x.firstName} ${x.lastName}`,
+                date: ` Created ${new Date(x?.createdDate ?? "").toDateString()}`
               }
+            });
 
-          });
+            this.data.labels = Object.keys(this.summaryData?.monthlyBreakdown);
+            this.data.datasets[0].data = Object.values(this.summaryData?.monthlyBreakdown)
 
-            console.log(this.topUsers);
+          }
+        },
+        (err) => {
+          this.isLoadingData = false;
+        }
+      )
+  }
+
+  userSummaryChannel(data?: any) {
+    this.isLoadingData = true;
+    this.userService.getUserSummaryChannel(data)
+      .subscribe(
+        (response) => {
+          this.isLoadingData = false;
+
+          if (response) {
+            this.summaryDataChannel = response?.channel ?? [];
+            this.dataDoughnut.labels = Object.keys(this.summaryDataChannel);
+            this.dataDoughnut.datasets[0].data = Object.values(this.summaryDataChannel) || [1, 0,0]
           }
         },
         (err) => {
