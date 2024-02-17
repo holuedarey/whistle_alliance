@@ -125,8 +125,7 @@ export class LoanDetailsComponent implements OnInit {
       })
   }
 
-  approveLoan(type: any) {
-    console.log("status", type);
+  approveLoan() {
     const payload = {
       "comment": "",
       "loanId": this.loanId,
