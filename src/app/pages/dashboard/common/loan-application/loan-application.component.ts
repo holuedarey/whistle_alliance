@@ -54,6 +54,7 @@ export class LoanApplicationComponent implements OnInit {
   pofEmployment: any = null;
 
   isShowModal:boolean = true;
+  showMessages: any = {};
 
   constructor(
     private fb: FormBuilder,
@@ -87,7 +88,7 @@ export class LoanApplicationComponent implements OnInit {
   getAllProducts(): void {
     this.errors = [];
     this.messages = [];
-    this.submitted = false;
+    this.submitted = true;
 
     this.shareDataservice.getAllProduct().subscribe(
       (result) => {
@@ -156,13 +157,18 @@ export class LoanApplicationComponent implements OnInit {
 
   onThirdSubmit() {
     this.thirdForm.markAsDirty();
-
+    this.errors = [];
+    this.messages = [];
+    this.submitted = true;
 
     const formData = new FormData();
     // Store form name as "file" with file data 
     formData.append("amount", this.secondForm.value.amount.replace(/[\s,]/g, ''));
     formData.append("month", this.secondForm.value.tenure);
-    formData.append("userId", this.userData.id);
+    formData.append("name", `${this.userData.firstName} ${this.userData.lastName}`);
+    formData.append("employerName", this.firstForm.value.employer);
+    formData.append("employmentStatus", this.firstForm.value.employmentStatus);
+
     formData.append("loanProductId", this.secondForm.value.productType);
     formData.append("proofOfAddress", this.address, this.address.name);
     formData.append("proofOfEmployment", this.pofEmployment, this.pofEmployment.name);
@@ -185,7 +191,7 @@ export class LoanApplicationComponent implements OnInit {
         console.log("Error from serer: ", error);
 
         this.errors = [
-          'An Error occured while logging you in.',
+          'An Error occured while creating Loan.',
         ];
       }
     );

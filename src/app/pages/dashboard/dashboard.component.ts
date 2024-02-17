@@ -7,10 +7,8 @@ import { UserDto } from 'src/app/@core/dtos/user.dto';
 import { Months } from 'src/app/@core/enums/month-of-year.enum';
 import { ShareDataService } from 'src/app/@core/data-services/share-data.service';
 import { ResponseDto } from 'src/app/@core/dtos/response-dto';
-import { LoanProductDto } from 'src/app/@core/dtos/loan-product.dto';
 import { LoanCalculateDto } from 'src/app/@core/dtos/loan-calculate.dto';
 import { DashboardService } from 'src/app/@core/data-services/dashboard.service';
-import { GetUniqueArray } from 'src/app/@core/functions/data-request.funtion';
 import { SecureLocalStorageService } from 'src/app/@core/utils/secure-local-storage.service';
 import { TokenExport } from 'src/app/@core/utils/custom-token-storage/custom-token-storage.module';
 import { LocalStorageKey } from 'src/app/@core/enums/local-storage-key.enum';
@@ -18,8 +16,7 @@ import { JwtPayloadModel } from 'src/app/@core/models/jwt-payload-model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
 import { UserService } from 'src/app/@core/data-services/user.service';
-import { DecimalPipe } from '@angular/common';
-import { NumberWithCommasPipe } from 'src/app/@theme/pipes';
+import { DatePipe, DecimalPipe } from '@angular/common';
 const helper = new JwtHelperService();
 
 @Component({
@@ -65,6 +62,9 @@ export class DashboardComponent implements OnInit {
     },
     applicationDate: {
       title: 'Application Date',
+      valuePrepareFunction: (num: any) => {
+        return this._datePipe.transform(num, 'mediumDate')
+      },
     },
     product: {
       title: 'Loan Type',
@@ -82,7 +82,9 @@ export class DashboardComponent implements OnInit {
     private loanService: LoanService,
     private userService: UserService,
     private secureLs: SecureLocalStorageService,
-    private _decimalPipe: DecimalPipe
+    private _decimalPipe: DecimalPipe,
+    private _datePipe: DatePipe,
+    
   ) { }
 
   async ngOnInit() {

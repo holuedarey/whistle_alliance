@@ -5,6 +5,7 @@ import { LandingResources, LandingResourcesNavMap } from '../../landing-resource
 import { OnboardingService } from 'src/app/@core/data-services/onboarding.service';
 import { ResponseDto } from 'src/app/@core/dtos/response-dto';
 import { UserService } from 'src/app/@core/data-services/user.service';
+import { MessageService } from 'src/app/@core/data-services/message.service';
 
 @Component({
   selector: 'app-personal-info-form',
@@ -34,31 +35,45 @@ export class PersonalInfoFormComponent implements OnInit {
     protected router: Router,
     protected userService: UserService,
     private activatedRoute: ActivatedRoute,
+    private messageService: MessageService
   ) {
+    this.messageService.getMessage.subscribe((data: any) => {
+      this.userData = (data);
+      this.setUSerData();
+
+    });
   }
 
   ngOnInit(): void {
     this.userId = this.activatedRoute.snapshot.queryParams.user;
     this.nin = this.activatedRoute.snapshot.queryParams.nin;
 
-    this.getSingleUser();
+    // this.getSingleUser(); 
   }
 
   async getSingleUser() {
     this.userService.getSingleUser(this.userId).subscribe(
       (result) => {
         this.userData = result.content[0];
-        this.setUSerData();
       })
   }
   setUSerData() {
-    this.user.firstname = this.userData.firstName;
-    this.user.lastname = this.userData.lastName;
-    this.user.dob = this.userData.dateOfBirth;
-    this.user.phonenumber = this.userData.phoneNumber;
-    this.user.nin = this.userData.nin || this.nin;
-    this.user.password = "";
-    this.user.confirmpassword = "";
+    if (typeof this.userData !== 'undefined' && this.userData) {
+      this.userData = this.userData[0]
+      this.user.firstname = this.userData.firstName;
+      this.user.lastname = this.userData.lastName;
+      this.user.dob = this.userData.dateOfBirth;
+      this.user.phonenumber = this.userData.phoneNumber;
+      this.user.nin = this.userData.idNumber || this.nin;
+      this.user.password = "";
+      this.user.confirmpassword = "";
+      return;
+    } else {
+      return this.router.navigate(
+        [LandingResourcesNavMap.get(LandingResources.NinView)?.route as string]
+      );
+    }
+
 
   }
 
@@ -76,14 +91,13 @@ export class PersonalInfoFormComponent implements OnInit {
     this.service.processInfo(personalInfoDto, this.userId).subscribe(
       (result) => {
         this.submitted = false;
-        console.log("result:", result);
-        
+
         if (result.status == "200") {
           setTimeout(() => {
             return this.router.navigate(
-              [LandingResourcesNavMap.get(LandingResources.OtpView)?.route as string], 
+              [LandingResourcesNavMap.get(LandingResources.OtpView)?.route as string],
               {
-                queryParams: { user: result['content'][0].id},
+                queryParams: { user: result['content'][0].id },
                 queryParamsHandling: 'merge'
               }
             );

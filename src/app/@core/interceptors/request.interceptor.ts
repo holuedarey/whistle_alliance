@@ -39,13 +39,13 @@ export class RequestInterceptorService implements HttpInterceptor {
     }
     
     if (request.headers.get('Content-Type') == 'multipart/form-data') {
-      request = request.clone({ headers: request.headers.set('Content-Type', 'multipart/form-data') });
+      // request = request.clone({ headers: request.headers.set('Content-Type', 'multipart/form-data') });
     }else{
-      request = request.clone({ headers: request.headers.set('Accept', 'application/json') });
+      // request = request.clone({ headers: request.headers.set('Accept', 'application/json') });
     }
 
     if (!request.headers.has('Content-Type')) {
-      request = request.clone({ headers: request.headers.set('Content-Type', 'application/json') });
+      // request = request.clone({ headers: request.headers.set('Content-Type', 'application/json') });
     }
     
 

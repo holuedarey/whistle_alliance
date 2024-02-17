@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { NbDialogService, NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
 import { UserService } from 'src/app/@core/data-services/user.service';
+import { ConfirmationDialogComponent } from 'src/app/@theme/components/confirmation-dialog/confirmation-dialog.component';
+import { LoanCommentComponent } from './loan-comment/loan-comment.component';
 
 
 @Component({
@@ -12,21 +17,33 @@ import { UserService } from 'src/app/@core/data-services/user.service';
 })
 export class LoanDetailsComponent implements OnInit {
   isLoadingData = true;
-  loanId:any;
-  userId:any;
+  loanId: any;
+  userId: any;
   fullname: string = "";
-  createdDate:string = '';
-  loanData:any = [];
-  loanDataFile:any = [];
+  createdDate: string = '';
+  loanData: any = [];
+  loanDataFile: any = [];
 
-  userData:any;
-  loanSchedule:any = []
+  userData: any;
+  loanSchedule: any = [];
+  loanType: string = ''
+  monthlyPayment: any;
+
+
+  isSubmitted: boolean = false;
+
+  comment: any = [];
+  IfComment: boolean = false;
+  isApproved = false;
   constructor(
     private loanService: LoanService,
     private activatedRoute: ActivatedRoute,
-    private userService:UserService
+    private userService: UserService,
+    private dialogService: NbDialogService,
+    private cd: ChangeDetectorRef,
+    private toastr: NbToastrService,
 
-  ) { 
+  ) {
     this.loanId = this.activatedRoute.snapshot.queryParams.loanId;
     this.userId = this.activatedRoute.snapshot.queryParams.userId;
 
@@ -35,8 +52,7 @@ export class LoanDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.requestData()
     this.getSingleUser(this.userId)
-
-    this.loanFile()
+    this.requestDataRepayment();
   }
 
   requestData(data?: any) {
@@ -47,8 +63,15 @@ export class LoanDetailsComponent implements OnInit {
         (response) => {
           this.isLoadingData = false;
           if (response) {
-            this.loanData = response.content ?? {};            
-            this.loanSchedule = this.loanData?.schedules
+            this.loanData = response.content[0] ?? {};
+            this.loanType = this.loanData.product[0]?.productName;
+            this.loanDataFile = this.loanData?.files || [];
+            this.comment = this.loanDataFile;
+            this.isApproved = ['DECLINED', 'APPROVED'].includes(this.loanData?.status)  ? true : false; 
+
+            this.comment = this.comment.filter((item: any) => item?.comments[item?.comments.at(-1)]?.status == 'DECLINED' ?? []);
+          
+            this.IfComment = this.comment.length > 0 ? true : false;
           }
         },
         (err) => {
@@ -56,16 +79,36 @@ export class LoanDetailsComponent implements OnInit {
         }
       )
   }
-  loanFile(data?: any) {
+
+  requestDataRepayment(data?: any) {
     this.isLoadingData = true;
-    this.loanService.getSingleLoanFile(this.loanId)
+    this.isLoadingData = true;
+    this.loanService.getSingleLoan(this.loanId)
       .subscribe(
         (response) => {
           this.isLoadingData = false;
           if (response) {
-            this.loanDataFile = response.content ?? {};
-            console.log("this.loanDataFile", this.loanDataFile);
-                      }
+            const loanData = response.content ?? {};
+            this.monthlyPayment = loanData.monthlyPayment;
+            this.loanSchedule = loanData?.schedules
+          }
+        },
+        (err) => {
+          this.isLoadingData = false;
+        }
+      )
+  }
+
+  downloadLoanFile(id?: any) {
+    this.isLoadingData = true;
+    this.loanService.getSingleLoanFile(id)
+      .subscribe(
+        (response) => {
+          this.isLoadingData = false;
+          if (response) {
+            console.log("this.loanDataFile", response);
+
+          }
         },
         (err) => {
           this.isLoadingData = false;
@@ -82,13 +125,141 @@ export class LoanDetailsComponent implements OnInit {
       })
   }
 
-  approveReject(type:any){
+  approveLoan(type: any) {
     console.log("status", type);
-    this.userService.getSingleUser(1).subscribe(
+    const payload = {
+      "comment": "",
+      "loanId": this.loanId,
+      "loanStatus": "APPROVED"
+    }
+    this.loanService.approveRejectLoan(payload).subscribe(
       (result) => {
-        this.userData = result.content[0];
-        this.fullname = this.userData?.firstName + ' ' + this.userData?.lastName;
-        this.createdDate = `Account Created ${new Date(this.userData?.createdDate ?? "").toDateString()}`;
+        this.requestDataRepayment();
+            this.requestData()
+        this.toastr.success('Loan Application', 'Loan Approved Successfully', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
+      }, (error) => {
+        this.toastr.danger('Loan Application', error.message || 'Loan Approval  Failed', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
       })
   }
+
+  async rejectLoan() {
+    this.cd.detectChanges();
+    const confirmed = await this.dialogService.open(
+      LoanCommentComponent,
+      {
+        context: {
+          context: `Are you sure you wish to proceed?`,
+          title: `Reject Loan?`
+        },
+      })
+      .onClose.toPromise();
+
+    if (confirmed) {
+
+      const payload = {
+        "comment": "",
+        "loanId": this.loanId,
+        "loanStatus": "DECLINED"
+      }
+      this.loanService.approveRejectLoan(payload).subscribe(
+        (response) => {
+          if (response) {
+            this.requestDataRepayment();
+            this.requestData()
+            this.toastr.success('Loan Rejected successful', 'Loan Rejected Successfully', {
+              position: NbGlobalPhysicalPosition
+                .BOTTOM_RIGHT
+            })
+            this.isSubmitted = false;
+            this.cd.detectChanges();
+          } else {
+            // this.errorResponse(true, true, response.message);
+          }
+        },
+        (error) => {
+          // this.errorResponse(true);
+        this.toastr.danger('Loan Application', error.message || 'Loan Approval  Failed', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
+
+        }
+      )
+    } else {
+      // this.errorResponse(true, false);
+    }
+  }
+  approveFile(loan: any) {
+    const payload = {
+      "comment": "",
+      "status": "APPROVED"
+    }
+    this.loanService.approveRejectLoanFile(loan.id, payload).subscribe(
+      (response) => {
+        if (response) {
+          console.log("approv", response);
+          this.requestDataRepayment();
+          this.requestData()
+          this.toastr.success('Document Approved successful', 'User Update', {
+            position: NbGlobalPhysicalPosition
+              .BOTTOM_RIGHT
+          })
+          this.isSubmitted = false;
+          this.cd.detectChanges();
+        } else {
+          // this.errorResponse(true, true, response.message);
+        }
+      },
+      (error) => {
+        // this.errorResponse(true);
+        this.toastr.danger('Loan Application', error.message || 'Loan File Approval  Failed', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
+
+      });
+  }
+
+  async rejectFile(loan: any) {
+
+    this.isSubmitted = true;
+    this.cd.detectChanges();
+    const confirmed = await this.dialogService.open(
+      LoanCommentComponent,
+      {
+        context: {
+          context: `Are you sure you wish to proceed?`,
+          title: `Reject Document?`
+        },
+      })
+      .onClose.toPromise();
+
+    if (confirmed) {
+
+      console.log("got here", loan.id, confirmed.comment);
+      const payload = {
+        "comment": confirmed.comment || "",
+        "status": "DECLINED"
+      }
+      this.loanService.approveRejectLoanFile(loan.id, payload).subscribe(
+        (response) => {
+          if (response) {
+            this.requestDataRepayment();
+            this.requestData()
+            this.toastr.success('Document Rejected successful', 'User Update', {
+              position: NbGlobalPhysicalPosition
+                .BOTTOM_RIGHT
+            })
+            this.isSubmitted = false;
+            this.cd.detectChanges();
+          } else {
+            // this.errorResponse(true, true, response.message);
+          }
+        },
+        (error) => {
+          // this.errorResponse(true);
+        this.toastr.danger('Loan Application', error.message || 'Loan File Reject Failed', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
+
+        }
+      )
+    } else {
+      // this.errorResponse(true, false);
+    }
+  }
+
+  
 }

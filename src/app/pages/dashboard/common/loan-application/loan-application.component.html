@@ -1,4 +1,4 @@
-<div class="col-md-6 offset-md-0"  *ngIf="isShowModal">
+<div class="col-md-6 offset-md-0" *ngIf="isShowModal">
   <nb-card class="card-width">
     <nb-card-body>
       <nb-stepper #stepper>
@@ -10,15 +10,13 @@
             <div class="form-group">
               <label class="label" for="input-fullname">First Name</label>
               <input nbInput size="large" type="text" placeholder="Enter your name" class="form-control size-large"
-                formControlName="fullname"
-                readonly
+                formControlName="fullname" readonly
                 [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
             </div>
             <div class="form-group mt-2">
               <label class="label" for="input-email">Email</label>
               <input nbInput size="large" type="text" placeholder="Enter your name" class="form-control size-large"
-                formControlName="email"
-                readonly
+                formControlName="email" readonly
                 [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
             </div>
             <div class="form-group mt-2">
@@ -132,13 +130,24 @@
         </nb-step>
         <nb-step [stepControl]="thirdForm" [hidden]="true" label="">
           <div class="step-container">
-            <div class="col-md-8 offset-md-2 mx-auto">
-              <img src="assets/icons/complete_loan.png" class="img img-responsive position-center" alt="">
-              <p class="text-application">Application Submitted sucessfully</p>
+            <div class="col mx-auto">
+              <nb-alert *ngIf="errors?.length && !submitted" outline="danger" role="alert">
+                <p class="alert-title"><b>Oh snap!</b></p>
+                <ul class="alert-message-list px-0">
+                  <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+                </ul>
+              </nb-alert>
+              <div [nbSpinner]="submitted" size="large"></div>
+              <nb-alert *ngIf=" messages?.length && !submitted" outline="success" role="alert">
+                <img src="assets/icons/complete_loan.png" class="img img-responsive position-center" alt="">
+
+                <ul class="alert-message-list mt-4">
+                  <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+                </ul>
+              </nb-alert>
             </div>
             <br>
-            <button nbButton type="button" (click)="complete()" fullWidth
-              status="primary" >Close</button>
+            <button nbButton type="button" (click)="complete()" fullWidth status="primary">Close</button>
 
           </div>
         </nb-step>

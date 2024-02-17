@@ -7,7 +7,7 @@ import { PermissionService } from 'src/app/@core/utils/permission.service';
 import { RepaymentResources } from './repayments-resources';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
 import { SecureLocalStorageService } from 'src/app/@core/utils/secure-local-storage.service';
-import { DecimalPipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { LocalStorageKey } from 'src/app/@core/enums/local-storage-key.enum';
 import { TokenExport } from 'src/app/@core/utils/custom-token-storage/custom-token-storage.module';
 import { JwtPayloadModel } from 'src/app/@core/models/jwt-payload-model';
@@ -41,6 +41,9 @@ export class RepaymentComponent implements OnInit {
     },
     applicationDate: {
       title: 'Application Date',
+      valuePrepareFunction: (num: any) => {
+        return this._datePipe.transform(num, 'mediumDate')
+      },
     },
     product: {
       title: 'Loan Type',
@@ -63,7 +66,8 @@ export class RepaymentComponent implements OnInit {
     public permissionService: PermissionService,
     private loanService: LoanService,
     private secureLs: SecureLocalStorageService,
-    private _decimalPipe: DecimalPipe
+    private _decimalPipe: DecimalPipe,
+    private _datePipe:DatePipe
   ) { }
 
 

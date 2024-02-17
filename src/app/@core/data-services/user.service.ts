@@ -23,7 +23,7 @@ export class UserService implements AccessControlContract {
     public permissionService: PermissionService
   ) { }
 
-  getUsers(filter: any = { page: 1, size: environment.paginationLength }): Observable<ResponseDto<ListDto<UserDto>>> {
+  getUsers(filter: any = { pageNumber: 1, pageSize: environment.paginationLength }): Observable<ResponseDto<ListDto<UserDto>>> {
     const apiEndpoint = 'user/';
     let params = new HttpParams()
     for (const key in filter) {

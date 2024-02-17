@@ -4,6 +4,7 @@ import { LandingResources, LandingResourcesNavMap } from '../../landing-resource
 import { ResponseDto } from 'src/app/@core/dtos/response-dto';
 import { OnboardingService } from 'src/app/@core/data-services/onboarding.service';
 import { NinDto } from 'src/app/@core/dtos/nin.dto';
+import { MessageService } from 'src/app/@core/data-services/message.service';
 
 @Component({
   selector: 'app-nin-form',
@@ -28,6 +29,7 @@ export class NinFormComponent implements OnInit {
     protected cd: ChangeDetectorRef,
     protected router: Router,
     private _route: ActivatedRoute,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -43,7 +45,7 @@ export class NinFormComponent implements OnInit {
     this.messages = [];
     this.submitted = true;
 
-    const ninDto: NinDto = { 
+    const ninDto: NinDto = {
       id: this.user.nin,
       idType: "NIN"
     };
@@ -52,15 +54,38 @@ export class NinFormComponent implements OnInit {
         this.submitted = false;
         console.log(result)
         if (result.status === "200") {
-          this.messages = ['Login successful'];
+          this.messages = ['Verify Successfully'];
           setTimeout(() => {
-            return this.router.navigate(
-              [LandingResourcesNavMap.get(LandingResources.PersonalInfoView)?.route as string], 
-              {
-                queryParams: { user: result['content'][0].id, nin: this.user.nin },
-                queryParamsHandling: 'merge'
-              }
-            );
+            console.log('set data:', result.content[0].registrationNextStep);
+
+            this.messageService.setMessage(result.content);
+            const navigateRoute = result.content[0].registrationNextStep;
+            if (navigateRoute == 'CREDENTIAL_UPDATE') {
+              return this.router.navigate(
+                [LandingResourcesNavMap.get(LandingResources.PersonalInfoView)?.route as string],
+                {
+                  queryParams: { user: result['content'][0].id, nin: this.user.nin },
+                  queryParamsHandling: 'merge'
+                }
+              );
+            } else if (navigateRoute == 'ACCOUNT_ACTIVATION') {
+              return this.router.navigate(
+                [LandingResourcesNavMap.get(LandingResources.OtpView)?.route as string], 
+                {
+                  queryParams: { user: result['content'][0].id, nin: this.user.nin },
+                  queryParamsHandling: 'merge'
+                }
+              );
+            } else {
+              return this.router.navigate(
+                [LandingResourcesNavMap.get(LandingResources.PersonalInfoView)?.route as string],
+                {
+                  queryParams: { user: result['content'][0].id, nin: this.user.nin },
+                  queryParamsHandling: 'merge'
+                }
+              );
+            }
+
           }, this.redirectDelay);
           this.cd.detectChanges();
         } else {

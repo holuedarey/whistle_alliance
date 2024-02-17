@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseDto } from '../dtos/response-dto';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams,  } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { LoanDto } from '../dtos/loan.dto';
 import { SecureLocalStorageService } from '../utils/secure-local-storage.service';
@@ -39,17 +39,17 @@ export class LoanService {
     return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`);
   }
 
-  getSingleLoanFile(loanId:Number): Observable<ResponseDto<any>> {
-    const apiEndpoint = `loans/file/download/${loanId}`;
+  getSingleLoanFile(fileId:Number): Observable<ResponseDto<any>> {
+    const apiEndpoint = `loans/file/download/${fileId}`;
     return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`);
   }
 
-  approveRejectLoanFile(loanId:Number, payload:any): Observable<ResponseDto<any>> {
-    const apiEndpoint = `loans/file/update/${loanId}`;
+  approveRejectLoanFile(fileId:Number, payload:any): Observable<ResponseDto<any>> {
+    const apiEndpoint = `loans/file/update/${fileId}`;
     return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, payload);
   }
-  approveRejectLoan(loanId:Number, payload:any): Observable<ResponseDto<any>> {
-    const apiEndpoint = `loan/status/${loanId}`;
+  approveRejectLoan(payload:any): Observable<ResponseDto<any>> {
+    const apiEndpoint = `loan/status`;
     return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, payload);
   }
 
@@ -65,8 +65,13 @@ export class LoanService {
  
 
   createLoan(loan:any): Observable<ResponseDto<any>> {
+    let headers = new HttpHeaders();
+    /** In Angular 5, including the header Content-Type can invalidate your request */
+    headers.append('Content-Type', 'multipart/form-data');
+    headers.append('Accept', 'application/json')
+    
     const apiEndpoint = 'loan/apply';
-    return this.httpClient.post<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, loan);
+    return this.httpClient.post<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, loan, {headers:headers});
   }
 
   getLoanSummary(filter: any = { pageNumber: 1, pageSize: environment.paginationLength }): Observable<ResponseDto<any>> {

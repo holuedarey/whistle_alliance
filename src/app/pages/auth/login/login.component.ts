@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
 
     const loginDto: LoginDto = { email: this.user.email, password: this.user.password };
-    const role = this.roleProvider.getRoleSync();
+    
     this.service.authenticate(loginDto).subscribe(
       (result) => {
         this.submitted = false;
@@ -78,9 +78,9 @@ export class LoginComponent implements OnInit {
           // this.ls.set(LocalStorageKey.REFRESH_TOKEN.toString(), result.data.refreshToken);
           this.validateUserCache();
           setTimeout(() => {
-            console.log("role", role);
-            
-            if (role.includes('guest')) {
+            console.log("role", result.content[0].roles.map((el:any) => el.name));
+            const role = result.content[0].roles.map((el:any) => el.name)
+            if (role.includes('ADMIN')) {
               return this.router.navigateByUrl(PagesResourcesNavMap.get(PagesResources.Overview)?.route as string);
             } else {
               return this.router.navigateByUrl(AppResourcesNavMap.get(AppResources.AppView)?.route as string);

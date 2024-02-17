@@ -7,4 +7,5 @@ export interface UserModel {
     ssoRole: string;
     appRole: string;
     clientId: string;
+    roles?:any
 }

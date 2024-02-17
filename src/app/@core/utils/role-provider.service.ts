@@ -17,6 +17,7 @@ export class RoleProvider implements NbRoleProvider {
 
   getRoleSync() {
     const payload = this.tokenService.getPayload();
+    
     if (payload) {
       try {
         const user = payload as any;

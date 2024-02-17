@@ -34,9 +34,9 @@
                             </ul>
                         </nb-alert>
 
-                        <nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success"
+                        <nb-alert *ngIf="showMessages.success && messages?.length" outline="success"
                             role="alert">
-                            <p class="alert-title"><b>Hooray!</b></p>
+                            <p class="alert-title"><b>Success</b></p>
                             <ul class="alert-message-list">
                                 <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
                             </ul>
@@ -142,7 +142,7 @@
 
                         <nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success"
                             role="alert">
-                            <p class="alert-title"><b>Hooray!</b></p>
+                            <p class="alert-title"><b>Success</b></p>
                             <ul class="alert-message-list">
                                 <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
                             </ul>

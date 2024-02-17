@@ -1,4 +1,4 @@
-import { DecimalPipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
@@ -36,6 +36,9 @@ export class HistoryComponent implements OnInit {
     },
     applicationDate: {
       title: 'Application Date',
+      valuePrepareFunction: (num: any) => {
+        return this._datePipe.transform(num, 'mediumDate')
+      },
     },
     product: {
       title: 'Loan Type',
@@ -54,7 +57,8 @@ export class HistoryComponent implements OnInit {
   constructor(
     private loanService: LoanService,
     private secureLs: SecureLocalStorageService,
-    private _decimalPipe: DecimalPipe
+    private _decimalPipe: DecimalPipe,
+    private _datePipe:DatePipe
   ) { }
 
   ngOnInit(): void {
