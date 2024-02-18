@@ -5,6 +5,8 @@ import { ResponseDto } from 'src/app/@core/dtos/response-dto';
 import { OnboardingService } from 'src/app/@core/data-services/onboarding.service';
 import { NinDto } from 'src/app/@core/dtos/nin.dto';
 import { MessageService } from 'src/app/@core/data-services/message.service';
+import { NbDialogService, NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
+import { TermsAndConditionComponent } from 'src/app/@theme/components/terms-condition-modal/terms-condition-modal.component';
 
 @Component({
   selector: 'app-nin-form',
@@ -29,7 +31,9 @@ export class NinFormComponent implements OnInit {
     protected cd: ChangeDetectorRef,
     protected router: Router,
     private _route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private dialogService: NbDialogService,
+    private toastr:NbToastrService
   ) { }
 
   ngOnInit(): void {
@@ -45,6 +49,14 @@ export class NinFormComponent implements OnInit {
     this.messages = [];
     this.submitted = true;
 
+    if(!this.checked){
+      this.submitted = false;
+      this.toastr.danger('You have to Accept Terms and Condition', 'Terms and Condition Error', {
+        position: NbGlobalPhysicalPosition.TOP_RIGHT
+      })
+      this.errors = [ 'Accept Terms and Condtiton To Continue'];
+      return;
+    }
     const ninDto: NinDto = {
       id: this.user.nin,
       idType: "NIN"
@@ -103,4 +115,10 @@ export class NinFormComponent implements OnInit {
       }
     );
   }
+
+  async termsAndCondition(){
+    await this.dialogService.open(TermsAndConditionComponent, {
+    }).onClose.toPromise();
+    
+   }
 }

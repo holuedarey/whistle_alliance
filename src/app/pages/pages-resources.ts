@@ -12,6 +12,8 @@ export enum PagesResources {
     LoanDetailsView = 'pages:loan-details-view',
     LoanProductView = 'pages:product-view',
     LoanProductsView = 'pages:products-view',
+    UserTransactionHistoryView = 'pages:transaction-history-view',
+
 
 
 }
@@ -93,6 +95,14 @@ export const PagesResourcesNavMap = new Map<PagesResources, ResourceNavModel>([
         {
             route: `/app/admin/loan-details`,
             path: 'admin/loan-details'
+        }
+    ],
+    [
+        PagesResources.UserTransactionHistoryView,
+        {
+            
+            route: `/app/admin/users/transaction`,
+            path: 'users/transaction'
         }
     ],
 ])

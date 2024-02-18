@@ -52,19 +52,24 @@ export class UserService implements AccessControlContract {
     return this.httpClient.post<ResponseDto<UserDto>>(`${environment.apiUrl}/${apiEndpoint}`, user);
   }
 
-  @HasAccess(PermissionEnum.Update, UsersResources.UpdateUsers)
+  // @HasAccess(PermissionEnum.Update, UsersResources.UpdateUsers)
   updateUser(user: UpdateUserDto): Observable<ResponseDto<any>> {
     const apiEndpoint = `users/${user.id}`;
     return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, user);
   }
 
-  @HasAccess(PermissionEnum.Update, UsersResources.UpdateUsers)
+  enableDisableUser(id: string, payload:any): Observable<ResponseDto<any>> {
+    const apiEndpoint = `user/update/${id}`;
+    return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, payload);
+  }
+
+  // @HasAccess(PermissionEnum.Update, UsersResources.UpdateUsers)
   enableUser(id: string): Observable<ResponseDto<any>> {
-    const apiEndpoint = `users/enable/${id}`;
+    const apiEndpoint = `user/update/${id}`;
     return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, null);
   }
 
-  @HasAccess(PermissionEnum.Update, UsersResources.UpdateUsers)
+  // @HasAccess(PermissionEnum.Update, UsersResources.UpdateUsers)
   disableUser(id: string): Observable<ResponseDto<any>> {
     const apiEndpoint = `users/disable/${id}`;
     return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, null);

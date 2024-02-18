@@ -56,12 +56,17 @@ export class UserStatusToggleComponent implements ViewCell, OnInit {
       .onClose.toPromise();
 
     if (confirmed) {
+      const payload = {
+        "lock": state,
+        "active": state,
+        "updateType": "ACCOUNT_STATUS"
+      }
       of(state)
         .pipe(switchMap((state) => {
           if (state) {
-            return this.userService.enableUser(this.rowData.id)
+            return this.userService.enableDisableUser(this.rowData.id, payload)
           }
-          return this.userService.disableUser(this.rowData.id)
+          return this.userService.enableDisableUser(this.rowData.id, payload)
         }))
         .subscribe(
           (response) => {

@@ -101,16 +101,28 @@ export class LoanDetailsComponent implements OnInit {
 
   downloadLoanFile(id?: any) {
     this.isLoadingData = true;
+    console.log("this.loanDataFile  now", );
+
     this.loanService.getSingleLoanFile(id)
       .subscribe(
         (response) => {
           this.isLoadingData = false;
           if (response) {
-            console.log("this.loanDataFile", response);
+            console.log("this.loanDataFile", );
+            const file = new window.Blob([response.data], { type: 'contentType' });
 
+            const downloadAncher = document.createElement("a");
+            downloadAncher.style.display = "none";
+            
+            const fileURL = URL.createObjectURL(file);
+            downloadAncher.href = fileURL;
+            downloadAncher.download = 'fileName';
+            downloadAncher.click();
           }
         },
         (err) => {
+          console.log("error", err);
+          
           this.isLoadingData = false;
         }
       )

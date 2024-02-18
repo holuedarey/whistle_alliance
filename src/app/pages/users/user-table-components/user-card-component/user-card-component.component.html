@@ -10,7 +10,7 @@
         </button>
     </div>
     <div class="mt-4" *ngIf="!history">
-        <button nbButton fullWidth status="primary" routerLink="/app/admin/users/transaction">
+        <button nbButton fullWidth status="primary" (click)="gotoUserTrans()">
             View User
         </button>
     </div>

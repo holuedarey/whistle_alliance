@@ -49,26 +49,27 @@
                     <div class="col-12" *ngIf="changePassword">
                         <h3 class="heading">Change Password</h3>
                         <div class="col-12">
-                            <nb-alert *ngIf="errors?.length && !submitted" outline="danger" role="alert">
+                            <nb-alert *ngIf="errorsPass?.length && !submitted" outline="danger" role="alert">
                                 <p class="alert-title"><b>Oh snap!</b></p>
                                 <ul class="alert-message-list">
                                     <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
                                 </ul>
                             </nb-alert>
 
-                            <nb-alert *ngIf="messages?.length && !submitted" outline="success" role="alert">
+                            <nb-alert *ngIf="messagesPass?.length && !submittedPass" outline="success" role="alert">
                                 <p class="alert-title"><b>Success</b></p>
                                 <ul class="alert-message-list">
-                                    <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+                                    <li *ngFor="let message of messagesPass" class="alert-message">{{ message }}</li>
                                 </ul>
                             </nb-alert>
-                            <form (ngSubmit)="changePasswordAction()" #form="ngForm">
+                            <form (ngSubmit)="changePasswordAction()" #ChangePassform="ngForm">
                                 <div class="form-control-group col-md-7 col-sm-12 col-xs-12 ">
                                     <label class="label" for="input-password">Current Password:</label>
                                     <nb-form-field>
-                                        <input nbInput fullWidth [(ngModel)]="user.password" #currentpassword="ngModel"
-                                            name="currentpassword" [type]="isPasswordHidden ? 'password' : 'text'"
-                                            id="input-currentpassword" placeholder="Current Password"
+                                        <input nbInput fullWidth [(ngModel)]="user.currentpassword"
+                                            #currentpassword="ngModel" name="currentpassword"
+                                            [type]="isPasswordHidden ? 'password' : 'text'" id="input-currentpassword"
+                                            placeholder="Current Password"
                                             [status]="currentpassword.dirty ? (currentpassword.invalid  ? 'danger' : 'success') : 'basic'"
                                             [required]="true" [minlength]="8" [maxlength]="32"
                                             [attr.aria-invalid]="currentpassword.invalid && currentpassword.touched ? true : null">
@@ -117,7 +118,8 @@
                                         <input nbInput fullWidth [(ngModel)]="user.confirmpassword"
                                             #confirmpassword="ngModel" name="confirmpassword" id="input-confirmpassword"
                                             placeholder=" Comfirm Password" autofocus
-                                            [type]="isPasswordHiddenConf ? 'password' : 'text'"
+                                            [type]="isPasswordHiddenConf ? 'password' : 'text'" [required]="true"
+                                            [minlength]="8" [maxlength]="32"
                                             [status]="confirmpassword.dirty ? (confirmpassword.invalid  ? 'danger' : 'success') : 'basic'"
                                             [attr.aria-invalid]="confirmpassword.invalid && confirmpassword.touched ? true : null">
                                         <button nbSuffix nbButton ghost type="button"
@@ -132,12 +134,16 @@
                                         <p class="error-message" *ngIf="confirmpassword.errors?.required">
                                             Confirm Password is required!
                                         </p>
+                                        <p class="error-message" *ngIf="password.value !== confirmpassword.value ">
+                                            Password does not match the confirm password.
+                                        </p>
                                     </ng-container>
                                 </div>
                                 <br>
                                 <div class="col-md-7 col-sm-12 col-xs-12 spacer form-control-group">
                                     <button [nbSpinner]="submitted" nbButton fullWidth status="primary"
-                                        [disabled]="submitted || !form.valid" [class.btn-pulse]="submitted">
+                                        [disabled]="submitted || !ChangePassform.valid || (password.value !== confirmpassword.value)"
+                                        [class.btn-pulse]="submitted">
                                         Change Password
                                     </button>
                                 </div>
@@ -205,17 +211,17 @@
                                         <nb-icon icon="phone-outline"></nb-icon> +234 803 200 2205
                                     </p>
                                     <p class="font-weight-g">
-                                        <nb-icon icon="email-outline"></nb-icon>
+                                        <nb-icon icon="email"></nb-icon>
                                         info@whistlesalliance.com
                                     </p>
                                 </div>
                                 <div class="col">
                                     <p class="font-weight-g">
-                                        <nb-icon icon="linkedin-outline"></nb-icon>
+                                        <nb-icon icon="linkedin-my" pack="social-networks"></nb-icon>
                                         LinkedIn
                                     </p>
                                     <p class="font-weight-g">
-                                        <nb-icon icon="linkedin-outline"></nb-icon>
+                                        <nb-icon icon="instagram" pack="social-networks"></nb-icon>
                                         Instagram
                                     </p>
                                 </div>

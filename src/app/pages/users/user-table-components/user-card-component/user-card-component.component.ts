@@ -1,12 +1,15 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogService, NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 import { createDecipheriv } from 'crypto';
+import { ViewCell } from 'ng2-smart-table';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { MessageService } from 'src/app/@core/data-services/message.service';
 import { UserService } from 'src/app/@core/data-services/user.service';
 import { UserDto } from 'src/app/@core/dtos/user.dto';
 import { ConfirmationDialogComponent } from 'src/app/@theme/components/confirmation-dialog/confirmation-dialog.component';
+import { PagesResources, PagesResourcesNavMap } from 'src/app/pages/pages-resources';
 
 @Component({
   selector: 'app-user-card-component',
@@ -15,27 +18,47 @@ import { ConfirmationDialogComponent } from 'src/app/@theme/components/confirmat
 })
 export class UserCardComponentComponent implements OnInit, OnDestroy {
 
-  rowData!: UserDto;
   userData!: any;
   fullname: string = "";
   createdDate: any;
   show: boolean = false;
+
   isSubmitted:boolean = false;
   @Input() history: any
+
   checked:boolean = false;  
+
+  userId:any;
+
   constructor(
     private messageService: MessageService, 
     private userService: UserService,
     private dialogService: NbDialogService,
     private cd: ChangeDetectorRef,
     private toastr: NbToastrService,
+    private router:Router,
+    private activatedRoute: ActivatedRoute,
     ) {
 
     this.messageService.getMessage.subscribe((data:any) => {
-      this.getSingleUser(data?.id);
+      this.userId = data?.id;
+      if(this.userId){
+        this.getSingleUser(data?.id);
+      }else{
+        this.userId = this.activatedRoute.snapshot.queryParams.user;
+        this.getSingleUser(this.userId);
+      }
     });
   }
 
+  gotoUserTrans(){
+    return this.router.navigate(
+      [PagesResourcesNavMap.get(PagesResources.UserTransactionHistoryView)?.route as string],
+      {
+        queryParams: { user: this.userId },
+      }
+    );
+  }
   ngOnInit(): void {
     this.show = this.history ? true : false;
   }
@@ -52,7 +75,6 @@ export class UserCardComponentComponent implements OnInit, OnDestroy {
         this.fullname = this.userData?.firstName + ' ' + this.userData?.lastName;
         this.createdDate = `Account Created ${new Date(this.userData?.createdDate ?? "").toDateString()}`;
         this.show = true;
-
       })
   }
 
@@ -71,12 +93,17 @@ export class UserCardComponentComponent implements OnInit, OnDestroy {
       .onClose.toPromise();
 
     if (confirmed) {
+      const payload = {
+        "lock": state,
+        "active": state,
+        "updateType": "ACCOUNT_STATUS"
+      }
       of(state)
         .pipe(switchMap((state) => {
           if (state) {
-            return this.userService.enableUser(this.rowData.id)
+            return this.userService.enableDisableUser(this.userId, payload)
           }
-          return this.userService.disableUser(this.rowData.id)
+          return this.userService.enableDisableUser(this.userId, payload)
         }))
         .subscribe(
           (response) => {
@@ -90,10 +117,14 @@ export class UserCardComponentComponent implements OnInit, OnDestroy {
             }
           },
           (error) => {
+            console.log("got to error", error);
+            
             this.errorResponse(state);
           }
         )
     } else {
+      console.log("not confirmed error");
+      
       this.errorResponse(state, false);
     }
   }

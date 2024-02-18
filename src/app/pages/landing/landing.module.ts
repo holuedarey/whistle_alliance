@@ -16,10 +16,11 @@ import { OtpFormComponent } from './forms/otp-form/otp-form.component';
 import { NinFormComponent } from './forms/nin-form/nin-form.component';
 import { LogoHeaderComponent } from './common/logo-header/logo-header.component';
 import { OtpSuccessComponent } from 'src/app/@theme/components/otp-success/otp-success.component';
+import { TermsAndConditionComponent } from 'src/app/@theme/components/terms-condition-modal/terms-condition-modal.component';
 
 
 @NgModule({
-  declarations: [LandingComponent, NinComponent, PersonalInfoComponent, OtpComponent, PreSigninComponent, PersonalInfoFormComponent, OtpFormComponent, NinFormComponent, LogoHeaderComponent, OtpSuccessComponent],
+  declarations: [LandingComponent, NinComponent, PersonalInfoComponent, OtpComponent, PreSigninComponent, PersonalInfoFormComponent, OtpFormComponent, NinFormComponent, LogoHeaderComponent, OtpSuccessComponent, TermsAndConditionComponent],
   imports: [
     CommonModule,
     LandingRoutingModule,

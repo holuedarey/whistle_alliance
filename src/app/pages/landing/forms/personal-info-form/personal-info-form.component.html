@@ -111,8 +111,8 @@
         <label class="label" for="input-confirmpassword">Confirm Password</label>
         <nb-form-field>
             <input nbInput fullWidth [(ngModel)]="user.confirmpassword" #confirmpassword="ngModel"
-                name="confirmpassword" id="input-confirmpassword" placeholder=" Comfirm Password"
-                autofocus [type]="isPasswordHiddenConf ? 'password' : 'text'"
+                name="confirmpassword" id="input-confirmpassword" placeholder=" Comfirm Password" autofocus
+                [type]="isPasswordHiddenConf ? 'password' : 'text'"
                 [status]="confirmpassword.dirty ? (confirmpassword.invalid  ? 'danger' : 'success') : 'basic'"
                 [attr.aria-invalid]="confirmpassword.invalid && confirmpassword.touched ? true : null">
             <button nbSuffix nbButton ghost type="button" (click)="isPasswordHiddenConf = !isPasswordHiddenConf">
@@ -125,11 +125,15 @@
             <p class="error-message" *ngIf="confirmpassword.errors?.required">
                 Confirm Password is required!
             </p>
+            <p class="error-message" *ngIf="password.value !== confirmpassword.value ">
+                Password does not match the confirm password.
+            </p>
         </ng-container>
     </div>
     <br>
     <div class="col-md-7 col-sm-12 col-xs-12 spacer form-control-group">
-        <button [nbSpinner]="submitted" nbButton fullWidth status="info" [disabled]="submitted || !form.valid"
+        <button [nbSpinner]="submitted" nbButton fullWidth status="info"
+            [disabled]="submitted || !form.valid || (password.value !== confirmpassword.value)"
             [class.btn-pulse]="submitted">
             Register
         </button>
