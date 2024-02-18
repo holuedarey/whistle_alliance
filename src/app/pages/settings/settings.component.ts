@@ -146,7 +146,7 @@ export class SettingsComponent implements OnInit {
       message: this.contactForm.message,
       title: this.contactForm.title
     };
-    this.shareData.sendNotification(contactForm).subscribe(
+    this.shareData.contactUs(contactForm).subscribe(
       (result) => {
         this.submitted = false;
         this.user = {};

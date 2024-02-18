@@ -22,8 +22,8 @@ export class ShareDataService {
     return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`);
   }
 
-  sendNotification(notification:any): Observable<ResponseDto<any>> {
-    const apiEndpoint = 'notification/send';
+  contactUs(notification:any): Observable<ResponseDto<any>> {
+    const apiEndpoint = 'contactus';
     return this.httpClient.post<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, notification);
   }
 }
