@@ -8,7 +8,7 @@
             <p class="lorem">Please provide the following information.</p>
 
             <div class="form-group">
-              <label class="label" for="input-fullname">First Name</label>
+              <label class="label" for="input-fullname">Full Name</label>
               <input nbInput size="large" type="text" placeholder="Enter your name" class="form-control size-large"
                 formControlName="fullname" readonly
                 [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
@@ -29,7 +29,7 @@
 
             <div class="form-group mt-2">
               <label class="label" for="input-employer">Employer</label>
-              <input nbInput type="text" placeholder="Enter your name" class="form-control size-large"
+              <input nbInput type="text" placeholder="Enter your Employer Name" class="form-control size-large"
                 formControlName="employer"
                 [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
             </div>
@@ -63,6 +63,7 @@
               <label class="label" for="input-amount">Loan Amount</label>
               <input nbInput type="text" placeholder="Enter Loan Amount" class="form-control size-large"
                 formControlName="amount" (keyup)="numberFormatComma()"
+                [max] = "userLoanLimit"
                 [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">
             </div>
             <div class="form-group mt-2">

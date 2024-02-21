@@ -6,7 +6,7 @@
           <p class="my-0 py-0 label">Pending</p>
           <p class="my-0 py-0 label">{{monthNames[index].label}} Payment</p>
           <h6 class="my-0 py-0 currency">{{item.monthlyPayment | currency :  "N"}}</h6>
-          <p class="my-0 py-0 label">5th of October </p>
+          <p class="my-0 py-0 label">{{item?.date }}</p>
         </ng-template>
       </nb-step>
     </nb-stepper>

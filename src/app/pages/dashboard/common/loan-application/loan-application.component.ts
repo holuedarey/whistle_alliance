@@ -56,6 +56,8 @@ export class LoanApplicationComponent implements OnInit {
   isShowModal:boolean = true;
   showMessages: any = {};
 
+  userLoanLimit:string  = '';
+
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -128,6 +130,7 @@ export class LoanApplicationComponent implements OnInit {
     this.userService.getSingleUser(this.userId).subscribe(
       (result) => {
         this.userData = result.content[0];
+        this.userLoanLimit = this.userData?.userLimit;
         this.setUSerData();
       })
   }
@@ -177,7 +180,7 @@ export class LoanApplicationComponent implements OnInit {
     this.loanservice.createLoan(formData).subscribe(
       (result) => {
         this.submitted = false;
-        if (result.status) {
+        if (result.status === '200') {
           this.messages = ['Loan Created Successfully'];
           this.toastr.success('Loan Application', 'Loan Created Successfully', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
         } else {
