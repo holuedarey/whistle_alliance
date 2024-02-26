@@ -25,7 +25,7 @@ export class NotificationService {
     if(userId){
       params = params.set('userId', userId);
     }
-    const apiEndpoint = 'notification';
+    const apiEndpoint = 'notification/';
     return this.httpClient.get<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, {params});
   }
 

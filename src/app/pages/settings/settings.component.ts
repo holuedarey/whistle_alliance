@@ -113,7 +113,7 @@ export class SettingsComponent implements OnInit {
     const passwords: any = {
       confirmPassword: this.user.confirmpassword,
       password: this.user.confirmpassword,
-      updateType: "ACCOUNT"
+      updateType: "PASSWORD_CHANGE"
     };
 
 

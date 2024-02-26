@@ -94,8 +94,8 @@ export class UserCardComponentComponent implements OnInit, OnDestroy {
 
     if (confirmed) {
       const payload = {
-        "lock": state,
-        "active": state,
+        "lock": !state,
+        "active": !state,
         "updateType": "ACCOUNT_STATUS"
       }
       of(state)
