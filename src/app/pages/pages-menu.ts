@@ -37,7 +37,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
-    title: 'Repayment',
+    title: 'Loans',
     link: GlobalResources.get(PagesResources.RepaymentView)?.route,
     icon: 'credit-card-outline',
   },
