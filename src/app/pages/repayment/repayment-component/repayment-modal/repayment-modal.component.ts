@@ -2,13 +2,7 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { NbAccessChecker } from '@nebular/security';
 import { NbDialogRef, NbDialogService, NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 import { log } from 'console';
-import { ViewCell } from 'ng2-smart-table';
-import { of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
-import { UserService } from 'src/app/@core/data-services/user.service';
-import { UserDto } from 'src/app/@core/dtos/user.dto';
-import { OnlineStatService } from 'src/app/@core/utils/online-stat.service';
 
 @Component({
   selector: 'app-repayment-modal',
@@ -25,6 +19,8 @@ export class RepaymentModalComponent implements OnInit {
   loanDetails:any = [];
   loanSchedule:any[] = [];
   loanType: any;
+  pofForm :any = {};
+  
   constructor(
     public dialogRef: NbDialogRef<RepaymentModalComponent>,
     public accessChecker: NbAccessChecker,
@@ -32,6 +28,8 @@ export class RepaymentModalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log("incoming", this.loan);
+    
     this.requestData()
   }
 
@@ -55,9 +53,7 @@ export class RepaymentModalComponent implements OnInit {
       )
   }
 
-  requestDataTable(){
-
-  }  
+   
   close(): void {
     this.dialogRef.close(false);
   }

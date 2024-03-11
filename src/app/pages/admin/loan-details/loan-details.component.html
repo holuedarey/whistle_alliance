@@ -99,7 +99,8 @@
                         <div class="row px-4">
                             <div class="col-4" *ngFor="let item of loanDataFile; let i=index">
                                 <p class="bold-text">{{(item?.filetype).toString().replaceAll("_", " ")  | titlecase }}</p>
-                                <div class="box" (click)="downloadLoanFile(item.id)" style="cursor: pointer;">
+                                <div class="box px-4 py-4">
+                                <a href="{{item.fileUrl}}" target="_blank" class="mx-auto">View File</a>
 
                                 </div>
                                 <div class="mt-1 col px-0">

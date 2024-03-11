@@ -1,5 +1,5 @@
 export class ResetPasswordDto {
-    newPassword = '';
-    token = '';
-    tokenId = '';
+    "resetLink": String;
+    "password": String;
+    "confirmPassword" : String;
 }

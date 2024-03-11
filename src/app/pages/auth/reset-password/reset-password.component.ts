@@ -25,6 +25,7 @@ export class ResetPasswordComponent {
   messages: string[] = [];
   user: any = {};
   isNewPassword: boolean;
+  link: string = '';
 
   constructor(
     protected service: AuthService,
@@ -37,6 +38,8 @@ export class ResetPasswordComponent {
     this.showMessages = this.getConfigValue('forms.resetPassword.showMessages');
     this.strategy = this.getConfigValue('forms.resetPassword.strategy');
     this.isNewPassword = route.snapshot.data.isNewPassword;
+    this.link = route.snapshot.data.link;
+
   }
 
 
@@ -45,38 +48,33 @@ export class ResetPasswordComponent {
     this.submitted = true;
 
     const resetPasswordDto: ResetPasswordDto = {
-      newPassword: this.user.password,
-      token: this.route.snapshot.queryParams.token,
-      tokenId: this.route.snapshot.queryParams.tokenId
+      "resetLink": this.route.snapshot.queryParams.link,
+      "password": this.user.password,
+      "confirmPassword": this.user.password
     };
 
-    of(this.isNewPassword)
-      .pipe(
-        switchMap((isNewPassword) => {
-          return isNewPassword ? this.service.newPassword(resetPasswordDto) : this.service.resetPassword(resetPasswordDto)
-        })
-      ).subscribe(
-        (result) => {
-          this.submitted = false;
-          if (result.status) {
-            this.messages = [`Your password was ${this.isNewPassword ? 'set' : 'changed'} successfully`];
-            setTimeout(() => {
-              return this.router.navigateByUrl('/auth/login');
-            }, this.redirectDelay);
-            this.cd.detectChanges();
-          } else {
-            this.errors = [
-              result.message as string
-            ];
-          }
-        },
-        (error: ResponseDto<string>) => {
-          this.submitted = false;
+    this.service.resetPassword(resetPasswordDto).subscribe(
+      (result) => {
+        this.submitted = false;
+        if (result.status == "200") {
+          this.messages = [`Your password was Reset successfully`];
+          setTimeout(() => {
+            return this.router.navigateByUrl('/auth/login');
+          }, this.redirectDelay);
+          this.cd.detectChanges();
+        } else {
           this.errors = [
-            `An Error occured while ${this.isNewPassword ? 'setting' : 'changing'} your password`,
+            result.message as string
           ];
         }
-      );
+      },
+      (error: ResponseDto<string>) => {
+        this.submitted = false;
+        this.errors = [
+          `An Error occured while ${this.isNewPassword ? 'setting' : 'changing'} your password`,
+        ];
+      }
+    );
   }
 
   getConfigValue(key: string): any {

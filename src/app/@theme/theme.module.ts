@@ -45,7 +45,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SlideOutComponent } from './components/slide-out/slide-out.component';
-import { LoanProgressStepperComponent } from '../pages/repayment/repayment-component/loan-progress-stepper/loan-progress-stepper.component';
+import { RepaymentPopModalComponent } from './components/repayment-pop-modal/repayment-pop-modal.component';
+import { LoanProgressStepperComponent } from './components/loan-progress-stepper/loan-progress-stepper.component';
 
 
 const NB_MODULES = [
@@ -83,7 +84,8 @@ const COMPONENTS = [
   ConfirmationDialogComponent,
   SettingsComponent,
   SlideOutComponent,
-  LoanProgressStepperComponent
+  LoanProgressStepperComponent,
+  RepaymentPopModalComponent
 ];
 const PIPES = [
   CapitalizePipe,

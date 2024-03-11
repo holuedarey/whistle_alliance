@@ -1,4 +1,4 @@
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NbButtonModule, NbDialogModule, NbInputModule, NbCardModule, NbFormFieldModule, NbSpinnerModule, NbIconModule, NbAlertModule, NbSelectModule, NbAutocompleteModule, NbStepperModule } from '@nebular/theme';
 import { NgModule } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
@@ -32,6 +32,7 @@ import { RepaymentButtonComponent } from './repayment-component/repayment-button
     TablesModule,
     NbAutocompleteModule,
     NbStepperModule,
+    FormsModule
 
   ],
   providers:[DecimalPipe],

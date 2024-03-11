@@ -1,0 +1,55 @@
+<div class="container-fluid p-0 m-0">
+    <div class="row m-0">
+
+        <div class="col-10 mx-auto">
+            <nb-card class="card-width">
+                <nb-card-header>Proof of Payment </nb-card-header>
+                <nb-card-body>
+                    <div class="col-12">
+                        <div class="" *ngIf="!isAdmin && !isFilePresent">
+                            <div class="form-control-group">
+                                <div class="form-group">
+                                    <label class="label" for="input-address">Proof of Address</label>
+                                    <input nbInput type="file" class="form-control size-large file-field"
+                                        (change)="onChangeFile($event)">
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="col-md-12 col-sm-12 col-xs-12 spacer form-control-group">
+                                <button nbButton status="primary" (click)="submitPof()">
+                                    Upload Proof of Payment
+                                </button>
+                            </div>
+                        </div>
+                        <div class="" *ngIf="isFilePresent">
+                            <div class="col mt-5 mb-5">
+                                <!-- <embed [src]="filePresent" type="application/pdf" width="100%" height="100%">
+                                <iframe width="500" height="600" [src]="filePresent" type="application/pdf"></iframe> -->
+                                <!-- <object data="filePresent" width="100%" height="100%" type='application/pdf'>
+                                    <p>Sorry, the PDF couldn't be displayed :(</p>
+                                  </object> -->
+
+                                  <a href="{{filePresent}}" target="_blank">View File</a>
+
+                            </div>
+                        </div>
+                        <div class="" *ngIf="isAdmin">
+                            <div class="col-md-12 col-sm-12 col-xs-12 spacer form-control-group">
+                                <button nbButton status="primary" (click)="approveRejectPop('approve')" class="mr-2">
+                                    Approve Repayment
+                                </button>
+                                <!-- <button nbButton status="primary" (click)="approveRejectPop('reject')">
+                                    Reject Payment
+                                </button> -->
+                            </div>
+                        </div>
+                    </div>
+                </nb-card-body>
+                <nb-card-footer>
+                    <button nbButton fullWidth (click)="close()" status="danger">Close</button>
+                </nb-card-footer>
+            </nb-card>
+        </div>
+    </div>
+</div>

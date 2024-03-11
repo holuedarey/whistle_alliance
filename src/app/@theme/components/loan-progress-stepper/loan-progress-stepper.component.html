@@ -1,12 +1,13 @@
 <nb-card style="width: 76vw;">
-  <nb-card-body class="mx-4">
+  <nb-card-body class="mx-5 px-5">
     <nb-stepper orientation="horizontal" class="mx-3">
       <nb-step [label]="labelOne" *ngFor="let item of data let index = index">
-        <ng-template #labelOne class="px- mx-auto">
-          <p class="my-0 py-0 label">Pending</p>
+        <ng-template #labelOne class="px-4 mx-4">
+          <p class="my-0 py-0 label">{{item?.paymentStatus || "Pending" }}</p>
           <p class="my-0 py-0 label">{{monthNames[index].label}} Payment</p>
           <h6 class="my-0 py-0 currency">{{item.monthlyPayment | currency :  "N"}}</h6>
-          <p class="my-0 py-0 label">5th of October </p>
+          <p class="my-0 py-0 label">{{item?.date }}</p>
+          <button nbButton (click)="SendProof(item)" size="small" status="primary" *ngIf="item?.paymentStatus == 'PENDING'">{{ isAdmin ? "View Proof": "Send Proof"}}</button>
         </ng-template>
       </nb-step>
     </nb-stepper>

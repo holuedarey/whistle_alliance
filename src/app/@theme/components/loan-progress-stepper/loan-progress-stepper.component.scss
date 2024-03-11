@@ -1,6 +1,7 @@
 .label {
     font-size: 10px;
     color: #A6A6A6;
+    text-align: center !important;
 }
 nb-stepper {
     counter-reset: stepper;
@@ -15,4 +16,5 @@ nb-stepper .nb-checkmark::before {
 }
 .currency{
     font-size: 13px;
+    text-align: center !important;
 }

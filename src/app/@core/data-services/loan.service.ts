@@ -74,6 +74,16 @@ export class LoanService {
     return this.httpClient.post<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, loan, {headers:headers});
   }
 
+  approveRejectLoanPOP(payload:any): Observable<ResponseDto<any>> {
+    const apiEndpoint = `payment/confirm`;
+    return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, payload);
+  }
+
+  createLoanPOP(payload:any): Observable<ResponseDto<any>> {
+    const apiEndpoint = `payment/upload`;
+    return this.httpClient.post<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, payload);
+  }
+
   getLoanSummary(filter: any = { pageNumber: 1, pageSize: environment.paginationLength }): Observable<ResponseDto<any>> {
     let params = new HttpParams()
     for (const key in filter) {

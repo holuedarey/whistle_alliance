@@ -62,8 +62,11 @@ export class LoanDetailsComponent implements OnInit {
       .subscribe(
         (response) => {
           this.isLoadingData = false;
+          
           if (response) {
             this.loanData = response.content[0] ?? {};
+            console.log("data 1", this.loanData);
+            
             this.loanType = this.loanData.product[0]?.productName;
             this.loanDataFile = this.loanData?.files || [];
             this.comment = this.loanDataFile;
@@ -91,6 +94,8 @@ export class LoanDetailsComponent implements OnInit {
             const loanData = response.content ?? {};
             this.monthlyPayment = loanData.monthlyPayment;
             this.loanSchedule = loanData?.schedules
+            console.log("data 2", this.loanData);
+
           }
         },
         (err) => {

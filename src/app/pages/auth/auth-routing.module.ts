@@ -10,17 +10,6 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { UpdatePasswordComponent } from './update-password/update-password.component';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   children: [
-      
-  //   ]
-  // },
-
-  // {
-  //   path: '',
-  //   redirectTo: AuthResourcesNavMap.get(AuthResources.LoginView)?.path
-  // },
   {
     path: AuthResourcesNavMap.get(AuthResources.LoginView)?.path,
     component: LoginComponent
