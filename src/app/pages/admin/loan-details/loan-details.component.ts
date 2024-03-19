@@ -152,9 +152,10 @@ export class LoanDetailsComponent implements OnInit {
       (result) => {
         this.requestDataRepayment();
             this.requestData()
-        this.toastr.success('Loan Application', 'Loan Approved Successfully', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
+        this.toastr.success( 'Loan Approved Successfully','Loan Application', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
       }, (error) => {
-        this.toastr.danger('Loan Application', error.message || 'Loan Approval  Failed', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
+        console.log(error)
+        this.toastr.danger( error.error.message || 'Loan Approval  Failed', 'Loan Application', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
       })
   }
 
@@ -194,7 +195,7 @@ export class LoanDetailsComponent implements OnInit {
         },
         (error) => {
           // this.errorResponse(true);
-        this.toastr.danger('Loan Application', error.message || 'Loan Approval  Failed', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
+        this.toastr.danger(error.error.message || 'Loan Approval  Failed',  'Loan Application', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
 
         }
       )

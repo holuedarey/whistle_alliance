@@ -24,19 +24,13 @@
                         </div>
                         <div class="" *ngIf="isFilePresent">
                             <div class="col mt-5 mb-5">
-                                <!-- <embed [src]="filePresent" type="application/pdf" width="100%" height="100%">
-                                <iframe width="500" height="600" [src]="filePresent" type="application/pdf"></iframe> -->
-                                <!-- <object data="filePresent" width="100%" height="100%" type='application/pdf'>
-                                    <p>Sorry, the PDF couldn't be displayed :(</p>
-                                  </object> -->
-
                                   <a href="{{filePresent}}" target="_blank">View File</a>
-
                             </div>
                         </div>
                         <div class="" *ngIf="isAdmin">
                             <div class="col-md-12 col-sm-12 col-xs-12 spacer form-control-group">
-                                <button nbButton status="primary" (click)="approveRejectPop()" class="mr-2">
+                                <p  *ngIf="!isFilePresent" class="text-center">No File uploaded  Yet</p>
+                                <button nbButton status="primary" (click)="approveRejectPop()" class="mr-2" *ngIf="isFilePresent">
                                     Approve Repayment
                                 </button>
                                 <!-- <button nbButton status="primary" (click)="approveRejectPop('reject')">

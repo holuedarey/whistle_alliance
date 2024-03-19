@@ -7,14 +7,6 @@ COPY . .
 RUN npm run build:prod
 
 # Nginx Serve
-FROM nginx:1.18.0-alpine
-COPY /nginx.conf /etc/nginx/conf.d/default.conf
 
-#certificate config
-USER $CONTAINER_USER_ID
-RUN mkdir -p  /etc/nginx/certs
-COPY /certs/* /etc/nginx/certs
-
-COPY --from=build /usr/src/app/dist/argus-front-end /usr/share/nginx/html
 EXPOSE 80
 EXPOSE 443
