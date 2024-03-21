@@ -7,7 +7,7 @@ import { AccessControl } from "./access-control-config";
 export const environment = {
   production: false,
   appUrl: 'https://argusapp-web.test.vggdev.com',
-  apiUrl: 'http://38.242.128.143:8989/api',
+  apiUrl: 'https://loanapi.whistlesalliance.com:4433/api',
   apiDomain: 'argusgateway-api.test.vggdev.com',
   googleMapKey: 'AIzaSyDnwVXdPAfWb3f2OwfsimrxuLIPhHtYZcc',
   accessControlConfig: AccessControl[0],
