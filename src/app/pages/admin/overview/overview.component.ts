@@ -118,7 +118,7 @@ export class OverviewComponent implements OnInit {
               }
             });
 
-            this.data.labels = Object.keys(this.summaryData?.monthlyBreakdown);
+            this.data.labels = Object.keys(this.summaryData?.monthlyBreakdown).map((el)=> el.split('_')[1]);
             this.data.datasets[0].data = Object.values(this.summaryData?.monthlyBreakdown)
 
           }
