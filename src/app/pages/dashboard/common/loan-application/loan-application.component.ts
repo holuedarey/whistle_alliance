@@ -160,7 +160,7 @@ export class LoanApplicationComponent implements OnInit {
     this.firstForm.markAsDirty();
   }
 
-  onSecondSubmit(status:any) {
+  onSecondSubmit() {
     this.secondForm.markAsDirty();
   }
 
