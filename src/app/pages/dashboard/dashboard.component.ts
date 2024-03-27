@@ -84,7 +84,7 @@ export class DashboardComponent implements OnInit {
     private secureLs: SecureLocalStorageService,
     private _decimalPipe: DecimalPipe,
     private _datePipe: DatePipe,
-    
+
   ) { }
 
   async ngOnInit() {
@@ -131,11 +131,16 @@ export class DashboardComponent implements OnInit {
   }
 
   openLoanApplication() {
-    this.dialogService.open(LoanApplicationComponent, {
-      context: {
-        title: 'This is a title passed to the dialog component',
-      },
-    });
+    console.log("default", this.userLoanLimit);
+
+    this.dialogService.open(LoanApplicationComponent,
+      {
+        context: {
+          context: "Title",
+          userLimit: this.userLoanLimit
+        },
+      }
+    );
   }
 
   async calculateLoan() {
@@ -189,8 +194,8 @@ export class DashboardComponent implements OnInit {
       )
   }
 
-  numberFormatComma(value:any){
-    return this.loan.amount =  value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  numberFormatComma(value: any) {
+    return this.loan.amount = value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   }
 
 

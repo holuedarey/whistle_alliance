@@ -31,7 +31,8 @@ export class LoanApplicationComponent implements OnInit {
   filterFn = (date: any) => date.getDay() < Date.now();
 
   @Input() context = '';
-  @Input() title = '';
+  @Input() userLimit:number = 500000;
+  
   user: any = {};
   userId: any;
   selectedItem = '2';
@@ -59,7 +60,6 @@ export class LoanApplicationComponent implements OnInit {
   isShowModal: boolean = true;
   showMessages: any = {};
 
-  userLoanLimit: any = 0;
   amount: any = 0;
   constructor(
     private fb: FormBuilder,
@@ -79,8 +79,7 @@ export class LoanApplicationComponent implements OnInit {
     this.secondForm = this.fb.group({
       productType: ['', Validators.required],
       tenure: ['', Validators.required],
-      amount: ['', [Validators.required, ]],
-
+      amount: ['', [Validators.required, this.maxValue(this.userLimit)]],
     });
 
     this.thirdForm = this.fb.group({
@@ -88,6 +87,9 @@ export class LoanApplicationComponent implements OnInit {
       pofIdentity: ['', Validators.required],
       pofEmployment: ['', Validators.required],
     });
+
+    console.log("userLoanLimit init", this.userLimit);
+
   }
 
   getAllProducts(): void {
@@ -133,7 +135,6 @@ export class LoanApplicationComponent implements OnInit {
     this.userService.getSingleUser(this.userId).subscribe(
       (result) => {
         this.userData = result.content[0];
-        this.userLoanLimit = this.userData?.userLimit;
         this.setUSerData();
       })
   }
@@ -152,16 +153,18 @@ export class LoanApplicationComponent implements OnInit {
     this.userId = user['id'];
     this.getSingleUser();
     this.getAllProducts();
+
+    
   }
   onFirstSubmit() {
     this.firstForm.markAsDirty();
   }
 
-  onSecondSubmit() {
+  onSecondSubmit(status:any) {
     this.secondForm.markAsDirty();
   }
 
-  onThirdSubmit() {
+  async onThirdSubmit() {
     this.thirdForm.markAsDirty();
     this.errors = [];
     this.messages = [];
@@ -183,9 +186,13 @@ export class LoanApplicationComponent implements OnInit {
     this.loanservice.createLoan(formData).subscribe(
       (result) => {
         this.submitted = false;
+        
         if (result.status === '200') {
+
           this.messages = ['Loan Created Successfully'];
-          this.toastr.success('Loan Application', 'Loan Created Successfully', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
+          console.log(this.messages, this.submitted);
+          
+          // this.toastr.success('Loan Application', 'Loan Created Successfully', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
         } else {
           this.errors = [
             result.message as string
@@ -211,15 +218,15 @@ export class LoanApplicationComponent implements OnInit {
   }
 
 
-  maxValue(max: number): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } => {
+  maxValue(max: number): ValidatorFn {    
+    return (control: AbstractControl) :any => {
       const input = control.value;
-      const isValid = input.replace(/[\s,]/g, '') <= max;
-
+      const isValid = parseInt(input.replace(/[\s,]/g, '')) <= max;
+      
       if (isValid) {
-        return { 'maxValue': true }
-      } else {
-        return { 'maxValue': false };
+        return null
+      }else{
+        return { 'maxValue': !isValid }
       }
     };
   }

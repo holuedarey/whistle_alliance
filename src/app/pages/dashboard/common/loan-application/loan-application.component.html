@@ -6,7 +6,7 @@
           <form [formGroup]="firstForm" class="step-container">
             <h4 class="headings">Personal Information</h4>
             <p class="lorem">Please provide the following information.</p>
-            
+
             <div class="form-group">
               <label class="label" for="input-fullname">Full Name</label>
               <input nbInput size="large" type="text" placeholder="Enter your name" class="form-control size-large"
@@ -62,20 +62,18 @@
             <div class="form-groups">
               <label class="label" for="input-amount">Loan Amount</label>
               <input nbInput type="text" placeholder="Enter Loan Amount" class="form-control size-large"
-                formControlName="amount" (keyup)="numberFormatComma()"
-                formControlName="amount" (keyup)="numberFormatComma()"
-                [max] = "userLoanLimit"
-                formControlName="amount" (keyup)="numberFormatComma()" 
-                [max] = "userLoanLimit"
+                formControlName="amount" 
+                (keyup)="numberFormatComma()"
                 [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">
             </div>
 
-            <div *ngIf="(secondForm.get('amount').hasError('required')) && secondForm.get('amount').touched">
-              <p class="error-message mt-2"> Amount is required.</p>
-            </div> 
-            <!-- <div *ngIf="!secondForm.controls.amount.errors.maxValue">
+            <div *ngIf="(secondForm.get('amount')?.hasError('required')) && secondForm.get('amount')?.touched">
+              <p class="error-message mt-2 alert alert-danger"> Amount is required.</p>
+            </div>
+
+            <div *ngIf="secondForm.controls?.amount?.errors?.maxValue">
               <p class="error-message mt-2">Available Loan Limit exceeded</p>
-            </div> -->
+            </div>
 
             <div class="form-group mt-2">
               <label class="label" for="input-laontenure">Repayment Tenure (Months)</label>
@@ -85,15 +83,7 @@
                 <nb-option [value]="month.value" *ngFor="let month of months">{{month.label}}</nb-option>
               </nb-select>
             </div>
-            <!-- <div class="form-group mt-2">
-              <label class="label" for="input-password">Monthly Repayment Date</label>
-              <input nbInput type="text" placeholder="Monthly Repayment Date" class="form-control size-large"
-                formControlName="paymentDate"
-                [nbDatepicker]="dateTimePicker"
-                 [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">
-                <nb-datepicker #dateTimePicker [filter]="filterFn"></nb-datepicker>
-            </div> -->
-
+          
             <br>
             <div class="row">
               <div class="col-3">
@@ -154,6 +144,9 @@
                 <nb-card-body class="control-status-example">
                 </nb-card-body>
               </nb-card>
+              {{ submitted }}
+              {{ messages | json }}
+
               <nb-alert *ngIf="!submitted" outline="success" role="alert">
                 <img src="assets/icons/complete_loan.png" class="img img-responsive position-center" alt="">
 
