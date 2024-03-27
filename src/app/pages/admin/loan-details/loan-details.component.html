@@ -57,7 +57,7 @@
                         <div class="mt-0">
                             <div class="mt-0">
                                 <p class="grey-text">Credit Score</p>
-                                <p class="bold-text">{{userData?.userLimit  | currency :  "N" || 0}}</p>
+                                <p class="bold-text">{{userData?.userLimit | currency : "N" || 0}}</p>
                             </div>
                             <div class="mt-4">
                                 <p class="grey-text">Employment Status</p>
@@ -82,7 +82,7 @@
                             </div>
                             <div class="mt-4">
                                 <p class="grey-text">Date of Approval</p>
-                                <p class="bold-text">{{loanData?.approvedDate |  date  }}</p>
+                                <p class="bold-text">{{loanData?.approvedDate | date }}</p>
                             </div>
                         </div>
                     </div>
@@ -98,16 +98,21 @@
                         </div>
                         <div class="row px-4">
                             <div class="col-4" *ngFor="let item of loanDataFile; let i=index">
-                                <p class="bold-text">{{(item?.filetype).toString().replaceAll("_", " ")  | titlecase }}</p>
+                                <p class="bold-text">{{(item?.filetype).toString().replaceAll("_", " ") | titlecase }}
+                                </p>
                                 <div class="box px-4 py-4">
-                                <a href="{{item.fileUrl}}" target="_blank" class="mx-auto">View File</a>
+                                    <a href="{{item.fileUrl}}" target="_blank" class="mx-auto">View File</a>
 
                                 </div>
                                 <div class="mt-1 col px-0">
-                                    <button class="p-1" nbButton status="primary" [disabled]="item?.comments.at(-1) ? item?.comments.at(-1)?.status  == 'APPROVED' : false " fullWidth (click)="approveFile(item)">Approve</button>
+                                    <button class="p-1" nbButton status="primary"
+                                        [disabled]="item?.comments.at(-1) ? item?.comments.at(-1)?.status  == 'APPROVED' : false "
+                                        fullWidth (click)="approveFile(item)">Approve</button>
                                 </div>
-                                <div class="mt-1 col px-0" *ngIf="item?.comments.at(-1) ? item?.comments.at(-1)?.status  != 'APPROVED' : true  ">
-                                    <button class="p-1"  nbButton status="danger"  fullWidth (click)="rejectFile(item)">Reject</button>
+                                <div class="mt-1 col px-0"
+                                    *ngIf="item?.comments.at(-1) ? item?.comments.at(-1)?.status  != 'APPROVED' : true  ">
+                                    <button class="p-1" nbButton status="danger" fullWidth
+                                        (click)="rejectFile(item)">Reject</button>
                                 </div>
                             </div>
                         </div>
@@ -115,12 +120,12 @@
                 </nb-card-body>
             </nb-card>
             <nb-card size="small" fullWidth class="py-0 px-0" *ngIf="IfComment">
-                <nb-card-body  class="">
+                <nb-card-body class="">
                     <div class="card-colors card-radius-top">
                         <h5 class="px py-3">Comments</h5>
-                        
-                        <div class="mb-2"  *ngFor="let item of comment; let i=index">
-                            <h6>{{(item.filetype).toString().replaceAll("_", " ")  | titlecase }}</h6>
+
+                        <div class="mb-2" *ngFor="let item of comment; let i=index">
+                            <h6>{{(item.filetype).toString().replaceAll("_", " ") | titlecase }}</h6>
                             <p>{{ item?.comments[0]?.content }}</p>
                         </div>
                     </div>
@@ -133,14 +138,14 @@
                             <h5 class="px-4 py-3 text-white ">Loan Details</h5>
                         </div>
                     </nb-card-header>
-                    <table class="table">
+                    <table class="table mt-2">
                         <tr>
                             <th>Amount</th>
-                            <td class="end">{{ loanData?.amount  | currency :  "N" || 0 }}</td>
+                            <td class="end">{{ loanData?.amount | currency : "N" || 0 }}</td>
                         </tr>
                         <tr>
                             <th>Date</th>
-                            <td class="end">{{ loanData?.applicationDate  | date }}</td>
+                            <td class="end">{{ loanData?.applicationDate | date }}</td>
                         </tr>
                         <tr>
                             <th>Repayment Tenure:</th>
@@ -152,7 +157,7 @@
                         </tr>
                         <tr>
                             <th>Monthly Repayment:</th>
-                            <td class="end">{{monthlyPayment | currency :  "N" || 0.00  }}</td>
+                            <td class="end">{{monthlyPayment | currency : "N" || 0.00 }}</td>
                         </tr>
                         <tr>
                             <th>Interest rate:</th>
@@ -174,10 +179,12 @@
                         </tr>
                     </table>
                     <div class="mt-1 col-12 mx-auto mt-4">
-                        <button nbButton class="p-1" nbButton status="primary" fullWidth (click)="approveLoan()" [disabled]="isApproved">Approve</button>
+                        <button nbButton class="p-1" nbButton status="primary" fullWidth (click)="approveLoan()"
+                            [disabled]="isApproved">Approve</button>
                     </div>
                     <div class="mt-4 col-12 mx-auto">
-                        <button nbButton class="p-1" nbButton status="danger" fullWidth (click)="rejectLoan()" [disabled]="isApproved">Reject</button>
+                        <button nbButton class="p-1" nbButton status="danger" fullWidth (click)="rejectLoan()"
+                            [disabled]="isApproved">Reject</button>
                     </div>
                 </nb-card-body>
             </nb-card>

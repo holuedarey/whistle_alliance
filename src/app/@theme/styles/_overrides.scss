@@ -27,7 +27,9 @@
   button info{
     background-color: #FFCF0F !important;
   }
-
+  table td, .table th {
+    color: nb-theme(smart-table-fg);
+  }
   .alert-message-list{
     padding-left: 0px !important;
   }
