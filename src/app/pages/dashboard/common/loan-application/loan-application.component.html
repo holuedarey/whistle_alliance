@@ -150,10 +150,10 @@
                   <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
                 </ul>
               </nb-alert>
-              <!-- <nb-card *ngIf="submitted" [nbSpinner]="submitted" nbSpinnerStatus="control">
+              <nb-card *ngIf="submitted" [nbSpinner]="submitted" nbSpinnerStatus="control">
                 <nb-card-body class="control-status-example">
                 </nb-card-body>
-              </nb-card> -->
+              </nb-card>
               <nb-alert *ngIf="!submitted" outline="success" role="alert">
                 <img src="assets/icons/complete_loan.png" class="img img-responsive position-center" alt="">
 
