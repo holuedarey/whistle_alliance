@@ -27,9 +27,7 @@ export class RepaymentModalComponent implements OnInit {
     private loanService:LoanService
   ) { }
 
-  ngOnInit(): void {
-    console.log("incoming", this.loan);
-    
+  ngOnInit(): void {    
     this.requestData()
   }
 

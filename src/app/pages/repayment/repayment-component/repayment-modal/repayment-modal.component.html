@@ -37,14 +37,12 @@
                                                 class="col-5 text-bold">{{loanDetails.managementFee | currency : "₦" }}</span></p>
                                         <p class="row"><span class="col-7">Total Payment:</span> <span
                                                 class="col-5 text-bold">{{loanDetails.totalPayment | currency : "₦" }}</span></p>
-                                        <p class="row"><span class="col-7">Account Details:</span> <span
-                                                class="col-5 text-bold">{{loanDetails.totalPayment | currency : "₦" }}</span></p>
 
                                     </nb-card-body>
                                 </nb-card>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" *ngIf="loanDetails.status == 'APPROVED'">
                             <div class="col-12">
                                 <app-loan-progress-stepper [data]="loanSchedule"></app-loan-progress-stepper>
                             </div>

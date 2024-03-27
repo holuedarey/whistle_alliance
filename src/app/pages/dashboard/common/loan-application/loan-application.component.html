@@ -6,9 +6,9 @@
           <form [formGroup]="firstForm" class="step-container">
             <h4 class="headings">Personal Information</h4>
             <p class="lorem">Please provide the following information.</p>
-
+            
             <div class="form-group">
-              <label class="label" for="input-fullname">Fullre Name</label>
+              <label class="label" for="input-fullname">Full Name</label>
               <input nbInput size="large" type="text" placeholder="Enter your name" class="form-control size-large"
                 formControlName="fullname" readonly
                 [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}">
@@ -63,9 +63,20 @@
               <label class="label" for="input-amount">Loan Amount</label>
               <input nbInput type="text" placeholder="Enter Loan Amount" class="form-control size-large"
                 formControlName="amount" (keyup)="numberFormatComma()"
+                formControlName="amount" (keyup)="numberFormatComma()"
+                [max] = "userLoanLimit"
+                formControlName="amount" (keyup)="numberFormatComma()" 
                 [max] = "userLoanLimit"
                 [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">
             </div>
+
+            <div *ngIf="(secondForm.get('amount').hasError('required')) && secondForm.get('amount').touched">
+              <p class="error-message mt-2"> Amount is required.</p>
+            </div> 
+            <!-- <div *ngIf="!secondForm.controls.amount.errors.maxValue">
+              <p class="error-message mt-2">Available Loan Limit exceeded</p>
+            </div> -->
+
             <div class="form-group mt-2">
               <label class="label" for="input-laontenure">Repayment Tenure (Months)</label>
               <nb-select fullWidth placeholder="Select Loan Tenure" [(selected)]="selectedMonth" required="true"
@@ -98,24 +109,25 @@
         <nb-step [stepControl]="thirdForm" label="">
           <form [formGroup]="thirdForm" class="step-container">
             <h4 class="headings">KYC</h4>
+
             <p class="lorem">Please provide any of the following documents.</p>
 
             <div class="form-group">
               <label class="label" for="input-address">Proof of Address</label>
-              <input nbInput type="file" placeholder="Enter favorite movie" class="form-control size-large file-field"
-                formControlName="address" (change)="onChangeFile($event, 'address')"
+              <input nbInput type="file" class="form-control size-large file-field" formControlName="address"
+                (change)="onChangeFile($event, 'address')"
                 [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
             </div>
             <div class="form-group">
               <label class="label" for="input-employment">Proof of Employment</label>
-              <input nbInput type="file" placeholder="Enter favorite movie" class="form-control size-large file-field"
-                formControlName="pofEmployment" (change)="onChangeFile($event, 'employement')"
+              <input nbInput type="file" class="form-control size-large file-field" formControlName="pofEmployment"
+                (change)="onChangeFile($event, 'employement')"
                 [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
             </div>
             <div class="form-group">
               <label class="label" for="input-identity">Proof of Identity</label>
-              <input nbInput type="file" placeholder="Enter favorite movie" class="form-control size-large file-field"
-                formControlName="pofIdentity" (change)="onChangeFile($event, 'identity')"
+              <input nbInput type="file" class="form-control size-large file-field" formControlName="pofIdentity"
+                (change)="onChangeFile($event, 'identity')"
                 [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
             </div>
             <div class="row">
@@ -138,8 +150,11 @@
                   <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
                 </ul>
               </nb-alert>
-              <div [nbSpinner]="submitted" size="large"></div>
-              <nb-alert *ngIf=" messages?.length && !submitted" outline="success" role="alert">
+              <!-- <nb-card *ngIf="submitted" [nbSpinner]="submitted" nbSpinnerStatus="control">
+                <nb-card-body class="control-status-example">
+                </nb-card-body>
+              </nb-card> -->
+              <nb-alert *ngIf="!submitted" outline="success" role="alert">
                 <img src="assets/icons/complete_loan.png" class="img img-responsive position-center" alt="">
 
                 <ul class="alert-message-list mt-4">
@@ -148,7 +163,8 @@
               </nb-alert>
             </div>
             <br>
-            <button nbButton type="button" (click)="complete()" fullWidth status="primary">Close</button>
+            <button nbButton type="button" (click)="complete()" fullWidth status="primary"
+              [disabled]="!submitted">Close</button>
 
           </div>
         </nb-step>

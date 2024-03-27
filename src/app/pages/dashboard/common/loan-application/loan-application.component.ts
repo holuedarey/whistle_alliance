@@ -1,8 +1,9 @@
-import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
+import { log } from 'console';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
 import { ShareDataService } from 'src/app/@core/data-services/share-data.service';
 import { UserService } from 'src/app/@core/data-services/user.service';
@@ -15,13 +16,15 @@ import { JwtPayloadModel } from 'src/app/@core/models/jwt-payload-model';
 import { TokenExport } from 'src/app/@core/utils/custom-token-storage/custom-token-storage.module';
 import { SecureLocalStorageService } from 'src/app/@core/utils/secure-local-storage.service';
 import { AppResources, AppResourcesNavMap } from 'src/app/app-resources';
+import { PagesResources, PagesResourcesNavMap } from 'src/app/pages/pages-resources';
 const helper = new JwtHelperService();
 
 @Component({
   selector: 'app-loan-application',
   templateUrl: './loan-application.component.html',
   styleUrls: ['./loan-application.component.scss'],
-  providers: [FormBuilder]
+  providers: [FormBuilder],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoanApplicationComponent implements OnInit {
 
@@ -53,18 +56,18 @@ export class LoanApplicationComponent implements OnInit {
   pofIdentity: any = null;
   pofEmployment: any = null;
 
-  isShowModal:boolean = true;
+  isShowModal: boolean = true;
   showMessages: any = {};
 
-  userLoanLimit:string  = '';
-
+  userLoanLimit: any = 0;
+  amount: any = 0;
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private shareDataservice: ShareDataService,
     private loanservice: LoanService,
     private router: Router,
-    private toastr:NbToastrService,
+    private toastr: NbToastrService,
     private secureLs: SecureLocalStorageService,) {
     this.firstForm = this.fb.group({
       fullname: [{ value: '', disabled: false }, Validators.required],
@@ -76,7 +79,7 @@ export class LoanApplicationComponent implements OnInit {
     this.secondForm = this.fb.group({
       productType: ['', Validators.required],
       tenure: ['', Validators.required],
-      amount: ['', Validators.required],
+      amount: ['', [Validators.required, ]],
 
     });
 
@@ -208,9 +211,21 @@ export class LoanApplicationComponent implements OnInit {
   }
 
 
+  maxValue(max: number): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      const input = control.value;
+      const isValid = input.replace(/[\s,]/g, '') <= max;
+
+      if (isValid) {
+        return { 'maxValue': true }
+      } else {
+        return { 'maxValue': false };
+      }
+    };
+  }
   complete() {
     this.isShowModal = !this.isShowModal;
-    this.router.navigateByUrl(AppResourcesNavMap.get(AppResources.AppView)?.route as string);
+    this.router.navigateByUrl(PagesResourcesNavMap.get(PagesResources.RepaymentView)?.route as string);
 
   }
 }
