@@ -187,12 +187,12 @@ export class LoanApplicationComponent implements OnInit {
       (result) => {
         this.submitted = false;
         
-        if (result.status === '200') {
+        if (result.status == '200') {
 
           this.messages = ['Loan Created Successfully'];
           console.log(this.messages, this.submitted);
           
-          // this.toastr.success('Loan Application', 'Loan Created Successfully', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
+          this.toastr.success('Loan Application', 'Loan Created Successfully', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
         } else {
           this.errors = [
             result.message as string

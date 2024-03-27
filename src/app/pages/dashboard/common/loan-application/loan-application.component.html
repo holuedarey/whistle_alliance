@@ -144,10 +144,8 @@
                 <nb-card-body class="control-status-example">
                 </nb-card-body>
               </nb-card>
-              {{ submitted }}
-              {{ messages | json }}
 
-              <nb-alert *ngIf="!submitted" outline="success" role="alert">
+              <nb-alert *ngIf="messages.length && !submitted" outline="success" role="alert">
                 <img src="assets/icons/complete_loan.png" class="img img-responsive position-center" alt="">
 
                 <ul class="alert-message-list mt-4">
@@ -157,7 +155,7 @@
             </div>
             <br>
             <button nbButton type="button" (click)="complete()" fullWidth status="primary"
-              [disabled]="!submitted">Close</button>
+              [disabled]="messages.length && !submitted">Close</button>
 
           </div>
         </nb-step>
