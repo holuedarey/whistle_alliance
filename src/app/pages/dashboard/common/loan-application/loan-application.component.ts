@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -68,7 +68,9 @@ export class LoanApplicationComponent implements OnInit {
     private loanservice: LoanService,
     private router: Router,
     private toastr: NbToastrService,
-    private secureLs: SecureLocalStorageService,) {
+    private secureLs: SecureLocalStorageService,
+    protected cd: ChangeDetectorRef,
+    ) {
     this.firstForm = this.fb.group({
       fullname: [{ value: '', disabled: false }, Validators.required],
       email: [{ value: '', disabled: false }, Validators.required],
@@ -191,6 +193,7 @@ export class LoanApplicationComponent implements OnInit {
 
           this.messages = ['Loan Created Successfully'];
           console.log(this.messages, this.submitted);
+          this.cd.detectChanges();
           
           this.toastr.success('Loan Application', 'Loan Created Successfully', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
         } else {

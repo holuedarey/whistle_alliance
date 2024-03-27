@@ -149,13 +149,13 @@
                 <img src="assets/icons/complete_loan.png" class="img img-responsive position-center" alt="">
 
                 <ul class="alert-message-list mt-4">
-                  <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+                  <li *ngFor="let message of messages" class="alert-message" style="text-align: center;">{{ message }}</li>
                 </ul>
               </nb-alert>
             </div>
             <br>
             <button nbButton type="button" (click)="complete()" fullWidth status="primary"
-              [disabled]="!submitted">Close</button>
+              [disabled]="submitted">Close</button>
 
           </div>
         </nb-step>
