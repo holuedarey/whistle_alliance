@@ -5,5 +5,7 @@ export class ResponseDto<T> {
     message?: string;
     token?: string;
     channel?:T;
+    error?: T;
+
 
 }

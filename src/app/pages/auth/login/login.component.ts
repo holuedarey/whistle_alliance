@@ -67,7 +67,9 @@ export class LoginComponent implements OnInit {
     this.service.authenticate(loginDto).subscribe(
       (result) => {
         this.submitted = false;
-        if (result.status) {
+        console.log("status", result.status);
+        
+        if (result.status == "200") {
           this.messages = ['Login successful'];
           this.nbTokenService.set(
             new NbAuthJWTToken(
@@ -93,10 +95,10 @@ export class LoginComponent implements OnInit {
           ];
         }
       },
-      (error: ResponseDto<string>) => {
-        this.submitted = false;
+      (error: ResponseDto<any>) => {
+        this.submitted = false; 
         this.errors = [
-          'An Error occured while logging you in.',
+          error?.error?.message as string || 'An Error occured while logging you in.',
         ];
       }
     );
