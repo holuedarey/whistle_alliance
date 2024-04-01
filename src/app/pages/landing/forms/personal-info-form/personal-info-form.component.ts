@@ -6,6 +6,7 @@ import { OnboardingService } from 'src/app/@core/data-services/onboarding.servic
 import { ResponseDto } from 'src/app/@core/dtos/response-dto';
 import { UserService } from 'src/app/@core/data-services/user.service';
 import { MessageService } from 'src/app/@core/data-services/message.service';
+import { getDeepFromObject } from '@nebular/auth';
 
 @Component({
   selector: 'app-personal-info-form',
@@ -35,7 +36,8 @@ export class PersonalInfoFormComponent implements OnInit {
     protected router: Router,
     protected userService: UserService,
     private activatedRoute: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    protected options = {},
   ) {
     this.messageService.getMessage.subscribe((data: any) => {
       this.userData = (data);
@@ -117,5 +119,8 @@ export class PersonalInfoFormComponent implements OnInit {
         ];
       }
     );
+  }
+  getConfigValue(key: string): any {
+    return getDeepFromObject(this.options, key, null);
   }
 }

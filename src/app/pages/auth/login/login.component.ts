@@ -38,7 +38,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     protected service: AuthService,
-    @Inject(NB_AUTH_OPTIONS) protected options = {},
+    @Inject(NB_AUTH_OPTIONS) 
+    protected options = {},
     protected cd: ChangeDetectorRef,
     protected router: Router,
     private dbService: DbService,
