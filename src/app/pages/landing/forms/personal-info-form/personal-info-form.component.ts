@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PersonalInfoDto } from 'src/app/@core/dtos/personal-info.dto';
 import { LandingResources, LandingResourcesNavMap } from '../../landing-resources';
@@ -6,7 +6,7 @@ import { OnboardingService } from 'src/app/@core/data-services/onboarding.servic
 import { ResponseDto } from 'src/app/@core/dtos/response-dto';
 import { UserService } from 'src/app/@core/data-services/user.service';
 import { MessageService } from 'src/app/@core/data-services/message.service';
-import { getDeepFromObject } from '@nebular/auth';
+import { NB_AUTH_OPTIONS, getDeepFromObject } from '@nebular/auth';
 
 @Component({
   selector: 'app-personal-info-form',
@@ -37,7 +37,7 @@ export class PersonalInfoFormComponent implements OnInit {
     protected userService: UserService,
     private activatedRoute: ActivatedRoute,
     private messageService: MessageService,
-    protected options = {},
+    @Inject(NB_AUTH_OPTIONS)  protected options = {},
   ) {
     this.messageService.getMessage.subscribe((data: any) => {
       this.userData = (data);
