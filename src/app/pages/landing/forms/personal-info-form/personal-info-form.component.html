@@ -91,8 +91,12 @@
         <nb-form-field>
             <input nbInput fullWidth [(ngModel)]="user.password" #password="ngModel" name="password"
                 [type]="isPasswordHidden ? 'password' : 'text'" id="input-password" placeholder="Password"
-                [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'" [required]="true"
-                [minlength]="8" [maxlength]="32"
+                [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'" 
+                autofocus fullWidth [type]="isPasswordHidden ? 'password' : 'text'"
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,50}"
+                [required]="getConfigValue('forms.validation.password.required')"
+                [minlength]="getConfigValue('forms.validation.password.minLength')"
+                [maxlength]="getConfigValue('forms.validation.password.maxLength')"
                 [attr.aria-invalid]="password.invalid && password.touched ? true : null">
             <button nbSuffix nbButton ghost type="button" (click)="isPasswordHidden = !isPasswordHidden">
                 <nb-icon [icon]="isPasswordHidden ? 'eye-outline' : 'eye-off-2-outline'" pack="eva"
@@ -100,9 +104,20 @@
                 </nb-icon>
             </button>
         </nb-form-field>
-        <ng-container *ngIf="password.invalid && password.touched ">
+        <ng-container *ngIf="password.invalid && password.touched">
             <p class="error-message" *ngIf="password.errors?.required">
                 Password is required!
+            </p>
+            <p class="error-message"
+                *ngIf="password.errors?.minlength || password.errors?.pattern">
+                A strong password is required!
+            </p>
+            <p class="error-message"
+                *ngIf="password.errors?.minlength || password.errors?.maxlength">
+                Password should contains
+                from {{getConfigValue('forms.validation.password.minLength')}}
+                to {{getConfigValue('forms.validation.password.maxLength')}}
+                characters
             </p>
         </ng-container>
     </div>
@@ -111,9 +126,14 @@
         <label class="label" for="input-confirmpassword">Confirm Password</label>
         <nb-form-field>
             <input nbInput fullWidth [(ngModel)]="user.confirmpassword" #confirmpassword="ngModel"
-                name="confirmpassword" id="input-confirmpassword" placeholder=" Comfirm Password" autofocus
-                [type]="isPasswordHiddenConf ? 'password' : 'text'"
-                [status]="confirmpassword.dirty ? (confirmpassword.invalid  ? 'danger' : 'success') : 'basic'"
+                name="confirmpassword" id="input-confirmpassword"
+                placeholder=" Comfirm Password" autofocus
+                [type]="isPasswordHidden ? 'password' : 'text'" id="input-password" placeholder="Password"
+                [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"  
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,50}"
+                [required]="getConfigValue('forms.validation.password.required')"
+                [minlength]="getConfigValue('forms.validation.password.minLength')"
+                [maxlength]="getConfigValue('forms.validation.password.maxLength')"
                 [attr.aria-invalid]="confirmpassword.invalid && confirmpassword.touched ? true : null">
             <button nbSuffix nbButton ghost type="button" (click)="isPasswordHiddenConf = !isPasswordHiddenConf">
                 <nb-icon [icon]="isPasswordHiddenConf ? 'eye-outline' : 'eye-off-2-outline'" pack="eva"
@@ -121,12 +141,20 @@
                 </nb-icon>
             </button>
         </nb-form-field>
-        <ng-container *ngIf="confirmpassword.invalid && confirmpassword.touched">
-            <p class="error-message" *ngIf="confirmpassword.errors?.required">
-                Confirm Password is required!
+        <ng-container *ngIf="password.invalid && password.touched">
+            <p class="error-message" *ngIf="password.errors?.required">
+                Password is required!
             </p>
-            <p class="error-message" *ngIf="password.value !== confirmpassword.value ">
-                Password does not match the confirm password.
+            <p class="error-message"
+                *ngIf="password.errors?.minlength || password.errors?.pattern">
+                A strong password is required!
+            </p>
+            <p class="error-message"
+                *ngIf="password.errors?.minlength || password.errors?.maxlength">
+                Password should contains
+                from {{getConfigValue('forms.validation.password.minLength')}}
+                to {{getConfigValue('forms.validation.password.maxLength')}}
+                characters
             </p>
         </ng-container>
     </div>

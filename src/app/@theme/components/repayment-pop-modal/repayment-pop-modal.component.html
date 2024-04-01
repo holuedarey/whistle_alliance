@@ -16,21 +16,23 @@
                             </div>
 
                             <br>
-                            <div class="col-md-12 col-sm-12 col-xs-12 spacer form-control-group">
-                                <button nbButton status="primary" (click)="submitPof()">
+                            <div class="spacer form-control-group">
+                                <button [nbSpinner]="submitted" fullWidth [disabled]="submitted" nbButton
+                                    status="primary" (click)="submitPof()">
                                     Upload Proof of Payment
                                 </button>
                             </div>
                         </div>
                         <div class="" *ngIf="isFilePresent">
                             <div class="col mt-5 mb-5">
-                                  <a href="{{filePresent}}" target="_blank">View File</a>
+                                <a href="{{filePresent}}" target="_blank">View File</a>
                             </div>
                         </div>
                         <div class="" *ngIf="isAdmin">
                             <div class="col-md-12 col-sm-12 col-xs-12 spacer form-control-group">
-                                <p  *ngIf="!isFilePresent" class="text-center">No File uploaded  Yet</p>
-                                <button nbButton status="primary" (click)="approveRejectPop()" class="mr-2" *ngIf="isFilePresent">
+                                <p *ngIf="!isFilePresent" class="text-center">No File uploaded Yet</p>
+                                <button nbButton status="primary" (click)="approveRejectPop()" class="mr-2"
+                                    *ngIf="isFilePresent">
                                     Approve Repayment
                                 </button>
                                 <!-- <button nbButton status="primary" (click)="approveRejectPop('reject')">

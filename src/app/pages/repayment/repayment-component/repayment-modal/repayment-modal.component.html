@@ -9,19 +9,23 @@
                         <div class="row">
                             <div class="col-6">
                                 <nb-card>
+
                                     <nb-card-body class="px-4 my-2" style="overflow: hidden;">
                                         <div class="row">
                                             <p class="col-7">Loan Amount:</p>
                                             <p class="col-5 text-bold">{{loanDetails.amount | currency : "₦"}}</p>
                                         </div>
                                         <p class="row">
-                                            <span class="col-7">Laon Tenure:</span> 
-                                            <span class="col-5 text-bold">{{loanDetails.month}} Month{{loanDetails.month  > 1 ? 's' : ''}}</span></p>
+                                            <span class="col-7">Laon Tenure:</span>
+                                            <span class="col-5 text-bold">{{loanDetails.month}} Month{{loanDetails.month
+                                                > 1 ? 's' : ''}}</span>
+                                        </p>
                                         <p class="row">
-                                            <span class="col-7">Loan Status:</span> 
-                                            <span class="col-5 text-bold">{{loanDetails.paymentStatus}}</span></p>
+                                            <span class="col-7">Loan Status:</span>
+                                            <span class="col-5 text-bold">{{loanDetails.loanStatus}}</span>
+                                        </p>
                                         <p class="row">
-                                            <span class="col-7">Monthly Interest:</span> 
+                                            <span class="col-7">Monthly Interest:</span>
                                             <span class="col-5 text-bold">{{loanDetails.monthlyInterestRate}}%</span>
                                         </p>
                                     </nb-card-body>
@@ -34,15 +38,17 @@
                                         <p class="row"><span class="col-7">Loan Type:</span> <span
                                                 class="col-5 text-bold">{{loanType}}</span></p>
                                         <p class="row"><span class="col-7">Management Fee:</span> <span
-                                                class="col-5 text-bold">{{loanDetails.managementFee | currency : "₦" }}</span></p>
+                                                class="col-5 text-bold">{{loanDetails.managementFee | currency : "₦"
+                                                }}</span></p>
                                         <p class="row"><span class="col-7">Total Payment:</span> <span
-                                                class="col-5 text-bold">{{loanDetails.totalPayment | currency : "₦" }}</span></p>
+                                                class="col-5 text-bold">{{loanDetails.totalPayment | currency : "₦"
+                                                }}</span></p>
 
                                     </nb-card-body>
                                 </nb-card>
                             </div>
                         </div>
-                        <div class="row" *ngIf="loanDetails.status == 'APPROVED'">
+                        <div class="row">
                             <div class="col-12">
                                 <app-loan-progress-stepper [data]="loanSchedule"></app-loan-progress-stepper>
                             </div>
@@ -51,7 +57,7 @@
                     <nb-card [nbSpinner]="true" nbSpinnerStatus="primary" *ngIf="submitted && !loanDetails">
                         <nb-card-body>
                         </nb-card-body>
-                      </nb-card>
+                    </nb-card>
                 </nb-card-body>
                 <nb-card-footer>
                     <button nbButton fullWidth (click)="close()" status="danger">Close</button>

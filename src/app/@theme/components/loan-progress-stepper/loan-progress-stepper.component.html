@@ -7,7 +7,13 @@
           <p class="my-0 py-0 label">{{monthNames[index].label}} Payment</p>
           <h6 class="my-0 py-0 currency">{{item.monthlyPayment | currency :  "N"}}</h6>
           <p class="my-0 py-0 label">{{item?.date }}</p>
-          <button nbButton (click)="SendProof(item)" size="small" status="primary" *ngIf="item?.paymentStatus == 'PENDING'">{{ isAdmin ? "View Proof": "Send Proof"}}</button>
+          <div *ngIf="isAdmin; else elseBlock">
+            <button nbButton (click)="SendProof(item)" size="small" status="primary" *ngIf="item?.paymentStatus != 'PENDING'">View Proof</button>
+          </div>
+          <ng-template #elseBlock>
+            <button nbButton (click)="SendProof(item)" size="small" status="primary">Send Proof</button>
+          </ng-template>
+
         </ng-template>
       </nb-step>
     </nb-stepper>

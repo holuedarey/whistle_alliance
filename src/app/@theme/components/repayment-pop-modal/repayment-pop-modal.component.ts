@@ -21,21 +21,22 @@ export class RepaymentPopModalComponent implements OnInit {
   loanType: any;
   pofFile: any;
   isAdmin = false;
-  filePresent:any;
-  isFilePresent:boolean = false;
+  filePresent: any;
+  isFilePresent: boolean = false;
   constructor(
     public dialogRef: NbDialogRef<RepaymentPopModalComponent>,
     public accessChecker: NbAccessChecker,
     private loanService: LoanService,
     private toastr: NbToastrService,
-    private roleProvider: RoleProvider
+    private roleProvider: RoleProvider,
+    protected cd: ChangeDetectorRef,
 
   ) { }
 
   ngOnInit(): void {
 
     console.log("loan", this.loan.paymentFileUrl);
-    
+
     this.isFilePresent = !!this.loan.paymentFileUrl || false;
     this.filePresent = this.loan.paymentFileUrl
     const role = this.roleProvider.getRoleSync();
@@ -51,11 +52,11 @@ export class RepaymentPopModalComponent implements OnInit {
     this.messages = [];
     this.submitted = true;
 
-   const payload = {
-    "scheduleId": this.loan.id,
-    "loanId":this.loan.loanId
+    const payload = {
+      "scheduleId": this.loan.id,
+      "loanId": this.loan.loanId
 
-   }
+    }
     this.loanService.approveRejectLoanPOP(payload).subscribe(
       (result) => {
         this.submitted = false;
@@ -68,6 +69,9 @@ export class RepaymentPopModalComponent implements OnInit {
             result.message as string
           ];
         }
+        this.isFilePresent = true;
+        this.filePresent = this.loan.paymentFileUrl
+        this.cd.detectChanges();
       },
       (error: ResponseDto<string>) => {
         this.submitted = false;
@@ -81,7 +85,7 @@ export class RepaymentPopModalComponent implements OnInit {
 
   submitPof() {
     if (!this.pofFile) {
-      this.toastr.danger( 'You must Select a file to proceed', 'File Selection', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
+      this.toastr.danger('You must Select a file to proceed', 'File Selection', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
     }
     else {
       //upload the file
@@ -93,21 +97,24 @@ export class RepaymentPopModalComponent implements OnInit {
       formData.append("proofOfPayment", this.pofFile, this.pofFile.name);
       formData.append("paymentDate", new Date().toDateString())
       formData.append("amount", this.loan.monthlyPayment)
-      formData.append("scheduleId",this.loan.id)
+      formData.append("scheduleId", this.loan.id)
       formData.append("loanId", this.loan.loanId)
-      
+
       this.loanService.createLoanPOP(formData).subscribe(
         (result) => {
           this.submitted = false;
           if (result.status === '200') {
             this.messages = ['Loan Created Successfully'];
-            this.toastr.success( 'Your Proof of Payment submitted  Successfully','Proof of Payment', { position: NbGlobalPhysicalPosition.TOP_RIGHT });
+            this.toastr.success('Your Proof of Payment submitted  Successfully', 'Proof of Payment', { position: NbGlobalPhysicalPosition.TOP_RIGHT });
             this.dialogRef.close(true)
           } else {
             this.errors = [
               result.message as string
             ];
           }
+          this.isFilePresent = true;
+          this.filePresent = this.loan.paymentFileUrl
+          this.cd.detectChanges();
         },
         (error: ResponseDto<string>) => {
           this.submitted = false;
@@ -117,7 +124,7 @@ export class RepaymentPopModalComponent implements OnInit {
           ];
         }
       );
-  
+
     }
   }
 

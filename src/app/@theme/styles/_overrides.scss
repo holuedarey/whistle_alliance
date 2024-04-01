@@ -20,17 +20,17 @@
     }
   }
 
-  button primary{
+  ::ng-deep button primary{
     background-color: #2B645D !important;
   }
 
-  button info{
+  ::ng-deep button info{
     background-color: #FFCF0F !important;
   }
-  table td, .table th {
+  ::ng-deep table td, .table th {
     color: nb-theme(smart-table-fg);
   }
-  .alert-message-list{
+  ::ng-deep .alert-message-list{
     padding-left: 0px !important;
   }
 }

@@ -104,7 +104,7 @@
                                     <a href="{{item.fileUrl}}" target="_blank" class="mx-auto">View File</a>
 
                                 </div>
-                                <div class="mt-1 col px-0">
+                                <div class="mt-1 col px-0 mb-2">
                                     <button class="p-1" nbButton status="primary"
                                         [disabled]="item?.comments.at(-1) ? item?.comments.at(-1)?.status  == 'APPROVED' : false "
                                         fullWidth (click)="approveFile(item)">Approve</button>
@@ -140,11 +140,11 @@
                     </nb-card-header>
                     <table class="table mt-2">
                         <tr>
-                            <th>Amount</th>
+                            <th>Amount:</th>
                             <td class="end">{{ loanData?.amount | currency : "N" || 0 }}</td>
                         </tr>
                         <tr>
-                            <th>Date</th>
+                            <th>Date:</th>
                             <td class="end">{{ loanData?.applicationDate | date }}</td>
                         </tr>
                         <tr>
