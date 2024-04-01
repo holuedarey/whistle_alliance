@@ -19,6 +19,7 @@ import {
   NbToggleModule,
   NbInputModule,
   NbStepperModule,
+  NbSpinnerModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
@@ -73,7 +74,8 @@ const NB_MODULES = [
   ReactiveFormsModule,
   NbInputModule,
   NbCardModule,
-  NbStepperModule
+  NbStepperModule,
+  NbSpinnerModule
 ];
 const COMPONENTS = [
   HeaderComponent,
