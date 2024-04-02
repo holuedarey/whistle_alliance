@@ -8,7 +8,7 @@
                     <div class="col-12" *ngIf="!submitted && loanDetails">
                         <div class="row">
                             <div class="col-6">
-                                <nb-card>
+                                <nb-card  size="small" fullWidth>
 
                                     <nb-card-body class="px-4 my-2" style="overflow: hidden;">
                                         <div class="row">
@@ -33,14 +33,14 @@
 
                             </div>
                             <div class="col-6">
-                                <nb-card>
+                                <nb-card fullWidth size="small">
                                     <nb-card-body class="px-4 my-2" s style="overflow: hidden;">
                                         <p class="row"><span class="col-7">Loan Type:</span> <span
                                                 class="col-5 text-bold">{{loanType}}</span></p>
                                         <p class="row"><span class="col-7">Management Fee:</span> <span
                                                 class="col-5 text-bold">{{loanDetails.managementFee | currency : "₦"
                                                 }}</span></p>
-                                        <p class="row"><span class="col-7">Total Payment:</span> <span
+                                        <p class="row"><span class="col-7">Total Repayment:</span> <span
                                                 class="col-5 text-bold">{{loanDetails.totalPayment | currency : "₦"
                                                 }}</span></p>
 
