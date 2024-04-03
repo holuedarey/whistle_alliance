@@ -8,7 +8,8 @@
           <h6 class="my-0 py-0 currency">{{item.monthlyPayment | currency :  "N"}}</h6>
           <p class="my-0 py-0 label">{{item?.date }}</p>
           <div *ngIf="isAdmin; else elseBlock">
-            <button nbButton (click)="SendProof(item)" size="small" status="primary" *ngIf="item?.paymentStatus != 'PENDING'">View Proof</button>
+           
+            <button nbButton (click)="SendProof(item)" size="small" status="primary">View Proof</button>
           </div>
           <ng-template #elseBlock>
             <button nbButton (click)="SendProof(item)" size="small" status="primary">Upload Proof</button>
