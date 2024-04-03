@@ -28,7 +28,9 @@
     </div>
     <div class="col mt-2 mb-2">
         <nb-checkbox (checkedChange)="toggle($event)" status="infos">Accept Terms And Condition</nb-checkbox>
-        <span  (click)="termsAndCondition()" style="cursor: pointer;    color: #fff;  position: relative; left: 8px;  top: -7px; font-size: 13px; font-weight: 700;">Click Here to Read</span>
+        <span   style="cursor: pointer;    color: #fff;  position: relative; left: 8px;  top: -7px; font-size: 13px; font-weight: 700;">
+            <a href="https://whistlesalliance.com/docs-wa/policy.pdf" target="_blank" class="mx-auto" style="color: #fff; text-decoration: none;"> Click Here to Read</a>
+        </span>
     </div>
     <div class="col-md-7 col-sm-12 col-xs-12 spacer">
         <button [nbSpinner]="submitted" nbButton fullWidth status="info" [disabled]="submitted || !form.valid"
