@@ -31,7 +31,7 @@ export class LoanApplicationComponent implements OnInit {
   filterFn = (date: any) => date.getDay() < Date.now();
 
   @Input() context = '';
-  @Input() userLimit:number = 500000;
+  @Input() userLimit:number = 0;
   
   user: any = {};
   userId: any;
@@ -51,6 +51,7 @@ export class LoanApplicationComponent implements OnInit {
 
   submitted = false;
   errors: string[] = [];
+  validationErrors :string[] = [];
   messages: string[] = [];
 
   address: any;
@@ -72,8 +73,8 @@ export class LoanApplicationComponent implements OnInit {
     protected cd: ChangeDetectorRef,
     ) {
     this.firstForm = this.fb.group({
-      fullname: [{ value: '', disabled: false }, Validators.required],
-      email: [{ value: '', disabled: false }, Validators.required],
+      fullname: [{ value: '', disabled: true }, Validators.required],
+      email: [{ value: '', disabled: true }, Validators.required],
       employmentStatus: ['', Validators.required],
       employer: ['', Validators.required],
     });
@@ -159,14 +160,52 @@ export class LoanApplicationComponent implements OnInit {
     
   }
   onFirstSubmit() {
+    this.validationErrors = [];
+    const employer =  this.firstForm.value.employer;
+    const employmentStatus =  this.firstForm.value.employmentStatus;
+    if(employer == ""){
+      this.validationErrors.push("Employer cannot be empty")
+    }
+    if(employmentStatus == ""){
+      this.validationErrors.push("Employment Status cannot be empty")
+    }
+    
     this.firstForm.markAsDirty();
   }
 
   onSecondSubmit() {
+    this.validationErrors = [];
+    const amount =  this.secondForm.value.amount.replace(/[\s,]/g, '');
+    const month =  this.secondForm.value.tenure;
+    const loanType= this.secondForm.value.productType
+    if(amount == ""){
+      this.validationErrors.push("Loan Amount cannot be empty")
+    }
+    if(loanType == ""){
+      this.validationErrors.push("Loan Type cannot be empty")
+    }
+
+    if(month == ""){
+      this.validationErrors.push("Loan Tenure cannot be empty")
+    }
     this.secondForm.markAsDirty();
   }
 
   async onThirdSubmit() {
+    this.validationErrors = [];
+    const proofOfAddress =  this.secondForm.value.amount.replace(/[\s,]/g, '');
+    const proofOfEmployment =  this.secondForm.value.tenure;
+    const proofOfIdentity= this.secondForm.value.productType
+    if(proofOfAddress == ""){
+      this.validationErrors.push("Proof Of Address Document Required")
+    }
+    if(proofOfEmployment == ""){
+      this.validationErrors.push("Proof Of Employment Document Required")
+    }
+
+    if(proofOfIdentity == ""){
+      this.validationErrors.push("Proof Of Identity Document Required")
+    }
     this.thirdForm.markAsDirty();
     this.errors = [];
     this.messages = [];

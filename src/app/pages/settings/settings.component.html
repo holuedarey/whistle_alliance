@@ -16,17 +16,59 @@
                 <div class="row m-0">
                     <div class="col-12" *ngIf="bankAccount">
                         <h3 class="heading">Bank Account</h3>
-                        <div *ngIf="!bankAccountData.length">
-                            <div class="mt-2">
-                                <img class="mx-auto d-block img img-responsive" src="assets/icons/bankAccount.png"
-                                    alt="bankAccount" />
-                                <p class="text-center">You haven’t added any bank accounts yet</p>
+                        <div class="row">
+                            <div class="col-4" *ngIf="!isBank">
+                                <div class="mt-2" >
+                                    <img class="mx-auto d-block img img-responsive" src="assets/icons/bankAccount.png"
+                                        alt="bankAccount" />
+                                    <p class="text-center">You haven’t added any bank accounts yet</p>
+                                </div>
                             </div>
-                            <div class="mt-2">
-                                <button fullWidth nbButton status="primary" size="large"
-                                    (click)="startProcess('bankAccount')">
-                                    Add Bank Account
-                                </button>
+                            <div class="col">
+                                <form (ngSubmit)="contactUsAction()" #bankform="ngForm">
+                                    <div class="form-control-group">
+                                        <label class="label" for="input-accountNumber">Account Number</label>
+                                        <nb-form-field>
+                                            <input nbInput fullWidth [(ngModel)]="bankForm.accountNumber" #accountNumber="ngModel"
+                                                name="accountNumber" id="input-accountNumber" placeholder=" Account Number"
+                                                autofocus type="text"
+                                                [value] ="isBank ? userData.accountNumber : ''"
+                                                [status]="accountNumber.dirty ? (accountNumber.invalid  ? 'danger' : 'success') : 'basic'"
+                                                [attr.aria-invalid]="accountNumber.invalid && accountNumber.touched ? true : null">
+
+                                        </nb-form-field>
+                                        <ng-container *ngIf="accountNumber.invalid && accountNumber.touched">
+                                            <p class="error-message" *ngIf="accountNumber.errors?.required">
+                                                Account Number required!
+                                            </p>
+                                        </ng-container>
+                                    </div>
+                                    <div class="form-control-group">
+                                        <label class="label" for="input-title">Bank Name</label>
+                                        <nb-form-field>
+                                            <input nbInput fullWidth [(ngModel)]="bankForm.bankName" #bankName="ngModel"
+                                                name="bankName" id="input-bankName" placeholder=" Bank Name"
+                                                autofocus type="text"
+                                                [value] ="isBank ? userData.bankName : ''"
+                                                [status]="bankName.dirty ? (bankName.invalid  ? 'danger' : 'success') : 'basic'"
+                                                [attr.aria-invalid]="bankName.invalid && bankName.touched ? true : null">
+
+                                        </nb-form-field>
+                                        <ng-container *ngIf="bankName.invalid && bankName.touched">
+                                            <p class="error-message" *ngIf="bankName.errors?.required">
+                                                Bank Name required!
+                                            </p>
+                                        </ng-container>
+                                    </div>
+                                    <br>
+                                    <div class="spacer form-control-group">
+                                        <button [nbSpinner]="submitted" nbButton fullWidth status="primary"
+                                            [disabled]="submitted || !bankform.valid" [class.btn-pulse]="submitted"
+                                            (click)="updateUserBank()">
+                                            {{ isBank ? 'Update Bank Account' : 'Add Bank Account' }} 
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -169,7 +211,7 @@
                             </nb-alert>
                             <form (ngSubmit)="contactUsAction()" #form="ngForm">
                                 <div class="form-control-group">
-                                    <label class="label" for="input-title">Confirm Password</label>
+                                    <label class="label" for="input-title">Tile</label>
                                     <nb-form-field>
                                         <input nbInput fullWidth [(ngModel)]="contactForm.title" #title="ngModel"
                                             name="title" id="input-title" placeholder=" Title of Your Request" autofocus
@@ -190,13 +232,13 @@
                                         cols="30"></textarea>
                                     <ng-container *ngIf="message.invalid && message.touched">
                                         <p class="error-message" *ngIf="message.errors?.required">
-                                            Title required!
+                                            Message required!
                                         </p>
                                     </ng-container>
                                 </div>
 
                                 <br>
-                                <div class="col-md-12 col-sm-12 col-xs-12 spacer form-control-group">
+                                <div class="spacer form-control-group">
                                     <button [nbSpinner]="submitted" nbButton fullWidth status="primary"
                                         [disabled]="submitted || !form.valid" [class.btn-pulse]="submitted">
                                         Send Feedback

@@ -58,6 +58,11 @@ export class UserService implements AccessControlContract {
     return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, user);
   }
 
+
+  updateUserBank(user: any): Observable<ResponseDto<any>> {
+    const apiEndpoint = `user/bank`;
+    return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, user);
+  }
   enableDisableUser(id: string, payload:any): Observable<ResponseDto<any>> {
     const apiEndpoint = `user/update/${id}`;
     return this.httpClient.put<ResponseDto<any>>(`${environment.apiUrl}/${apiEndpoint}`, payload);

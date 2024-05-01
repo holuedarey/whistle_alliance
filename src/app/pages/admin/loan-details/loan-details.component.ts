@@ -65,7 +65,6 @@ export class LoanDetailsComponent implements OnInit {
           
           if (response) {
             this.loanData = response.content[0] ?? {};
-            console.log("data 1", this.loanData);
             
             this.loanType = this.loanData.product[0]?.productName;
             this.loanDataFile = this.loanData?.files || [];
@@ -94,8 +93,6 @@ export class LoanDetailsComponent implements OnInit {
             const loanData = response.content ?? {};
             this.monthlyPayment = loanData.monthlyPayment;
             this.loanSchedule = loanData?.schedules
-            console.log("data 2", this.loanData);
-
           }
         },
         (err) => {
@@ -106,14 +103,11 @@ export class LoanDetailsComponent implements OnInit {
 
   downloadLoanFile(id?: any) {
     this.isLoadingData = true;
-    console.log("this.loanDataFile  now", );
-
     this.loanService.getSingleLoanFile(id)
       .subscribe(
         (response) => {
           this.isLoadingData = false;
           if (response) {
-            console.log("this.loanDataFile", );
             const file = new window.Blob([response.data], { type: 'contentType' });
 
             const downloadAncher = document.createElement("a");
@@ -211,7 +205,6 @@ export class LoanDetailsComponent implements OnInit {
     this.loanService.approveRejectLoanFile(loan.id, payload).subscribe(
       (response) => {
         if (response) {
-          console.log("approv", response);
           this.requestDataRepayment();
           this.requestData()
           this.toastr.success('Document Approved successful', 'User Update', {
@@ -247,7 +240,6 @@ export class LoanDetailsComponent implements OnInit {
 
     if (confirmed) {
 
-      console.log("got here", loan.id, confirmed.comment);
       const payload = {
         "comment": confirmed.comment || "",
         "status": "DECLINED"

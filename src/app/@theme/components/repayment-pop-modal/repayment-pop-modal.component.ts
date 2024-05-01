@@ -34,9 +34,6 @@ export class RepaymentPopModalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-    console.log("loan", this.loan.paymentFileUrl);
-
     this.isFilePresent = !!this.loan.paymentFileUrl || false;
     this.filePresent = this.loan.paymentFileUrl
     const role = this.roleProvider.getRoleSync();

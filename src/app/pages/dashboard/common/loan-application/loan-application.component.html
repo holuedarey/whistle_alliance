@@ -6,7 +6,11 @@
           <form [formGroup]="firstForm" class="step-container">
             <h4 class="headings">Personal Information</h4>
             <p class="lorem">Please provide the following information.</p>
-
+            <nb-alert *ngIf="validationErrors?.length" outline="danger" role="alert">
+              <ul class="alert-message-list px-0">
+                <li *ngFor="let error of validationErrors" class="alert-message">{{ error }}</li>
+              </ul>
+            </nb-alert>
             <div class="form-group">
               <label class="label" for="input-fullname">Full Name</label>
               <input nbInput size="large" type="text" placeholder="Enter your name" class="form-control size-large"
@@ -62,8 +66,7 @@
             <div class="form-groups">
               <label class="label" for="input-amount">Loan Amount</label>
               <input nbInput type="text" placeholder="Enter Loan Amount" class="form-control size-large"
-                formControlName="amount" 
-                (keyup)="numberFormatComma()"
+                formControlName="amount" (keyup)="numberFormatComma()"
                 [ngClass]="{'form-control-danger': secondForm.invalid && (secondForm.dirty || secondForm.touched)}">
             </div>
 
@@ -72,7 +75,7 @@
             </div>
 
             <div *ngIf="secondForm.controls?.amount?.errors?.maxValue">
-              <p class="error-message mt-2">Available Loan Limit exceeded</p>
+              <p class="error-message mt-2 text-danger">Available Loan Limit exceeded</p>
             </div>
 
             <div class="form-group mt-2">
@@ -83,7 +86,7 @@
                 <nb-option [value]="month.value" *ngFor="let month of months">{{month.label}}</nb-option>
               </nb-select>
             </div>
-          
+
             <br>
             <div class="row">
               <div class="col-3">
@@ -149,7 +152,8 @@
                 <img src="assets/icons/complete_loan.png" class="img img-responsive position-center" alt="">
 
                 <ul class="alert-message-list mt-4">
-                  <li *ngFor="let message of messages" class="alert-message" style="text-align: center;">{{ message }}</li>
+                  <li *ngFor="let message of messages" class="alert-message" style="text-align: center;">{{ message }}
+                  </li>
                 </ul>
               </nb-alert>
             </div>

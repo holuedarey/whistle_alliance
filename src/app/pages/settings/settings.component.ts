@@ -5,6 +5,14 @@ import { ShareDataService } from 'src/app/@core/data-services/share-data.service
 import { ResponseDto } from 'src/app/@core/dtos/response-dto';
 import { NbIconLibraries } from '@nebular/theme';
 import { RoleProvider } from 'src/app/@core/utils/role-provider.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { UserService } from 'src/app/@core/data-services/user.service';
+import { log } from 'console';
+import { TokenExport } from 'src/app/@core/utils/custom-token-storage/custom-token-storage.module';
+import { LocalStorageKey } from 'src/app/@core/enums/local-storage-key.enum';
+import { JwtPayloadModel } from 'src/app/@core/models/jwt-payload-model';
+import { SecureLocalStorageService } from 'src/app/@core/utils/secure-local-storage.service';
+const helper = new JwtHelperService();
 
 @Component({
   selector: 'app-settings',
@@ -17,7 +25,7 @@ export class SettingsComponent implements OnInit {
   contactForm: any = {};
 
   menu = [
-    // "Bank Account",
+    "Bank Account",
     //  "Card", 
     "Change Password"];
   isPasswordHidden = false;
@@ -39,13 +47,29 @@ export class SettingsComponent implements OnInit {
   submittedPass = false;
   errorsPass: string[] = [];
   messagesPass: string[] = [];
+
+
+  submittedBank = false;
+  errorsBank: string[] = [];
+  messagesBank: string[] = [];
+  bankForm:any = {};
+
   public role = this.roleProvider.getRoleSync();
+
+  userData :any;
+
+  userId:any;
+
+  isBank:any;
+
   constructor(
     private authService: AuthService,
     private shareData: ShareDataService,
     private router: Router,
     private iconLibraries: NbIconLibraries,
-    private roleProvider: RoleProvider
+    private roleProvider: RoleProvider,
+    private userService: UserService,
+    private secureLs: SecureLocalStorageService,
   ) {
     this.iconLibraries.registerSvgPack('social-networks', {
       'instagram': `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -60,11 +84,14 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.changePassword = true;
+    this.bankAccount = true;
     if(!this.role.includes('ADMIN')) {
       this.menu.push("Contact Us")
     }
-
+    const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
+    const user: any = helper.decodeToken(token.token) as JwtPayloadModel;
+    this.userId = user['id'];
+    this.getSingleUser();
   }
 
   async changeView(item: any, event: any) {
@@ -72,10 +99,10 @@ export class SettingsComponent implements OnInit {
 
     switch (item) {
       case 'Bank Account':
-        this.bankAccount = true;
         this.card = false;
         this.changePassword = false;
         this.contactUs = false;
+        this.bankAccount =  true;
         break;
       case 'Card':
         this.bankAccount = false;
@@ -96,14 +123,11 @@ export class SettingsComponent implements OnInit {
         this.contactUs = this.role.includes('ADMIN') ? false : true;
         break;
       default:
-        this.changePassword = true;
+        this.bankAccount = true;
         break;
     }
   }
 
-  async startProcess(value: string) {
-    console.log(value)
-  }
   changePasswordAction() {
 
     this.errorsPass = [];
@@ -149,7 +173,7 @@ export class SettingsComponent implements OnInit {
     this.shareData.contactUs(contactForm).subscribe(
       (result) => {
         this.submitted = false;
-        this.user = {};
+        this.contactForm = {};
         if (result) {
           this.messages = ["Feedback Submitted Successfully"
           ];
@@ -165,4 +189,40 @@ export class SettingsComponent implements OnInit {
     );
   }
 
+  async getSingleUser() {
+    this.userService.getSingleUser(this.userId).subscribe(
+      (result) => {
+        this.userData = result.content[0];
+        this.isBank = !!(this.userData.accountNumber && this.userData.bankName);
+      })
+  }
+
+
+  async updateUserBank() {
+    
+    this.errorsBank = [];
+    this.messagesBank = [];
+    this.submittedBank = true;
+
+    const bank: any = {
+      accountNumber : this.bankForm.accountNumber,
+      bankName : this.bankForm.bankName
+    };
+    this.userService.updateUserBank(bank).subscribe(
+      (result) => {
+        this.submittedBank = false;
+        this.bankForm = {};
+        if (result) {
+          this.messagesPass = ["Bank Added Successfully"];
+          this.getSingleUser();
+        }
+      },
+      (error: ResponseDto<string>) => {
+        this.submittedBank = false;
+        this.errors = [
+          'An Error occured while changing the password.',
+        ];
+      }
+    );
+  }
 }

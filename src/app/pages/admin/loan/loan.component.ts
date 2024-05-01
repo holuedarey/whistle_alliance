@@ -165,9 +165,7 @@ export class LoanComponent implements OnInit {
           if (response) {
             this.summaryDataChannel = response?.channel ?? [];
             this.dataDoughnut.labels = Object.keys(this.summaryDataChannel);
-            this.dataDoughnut.datasets[0].data = Object.values(this.summaryDataChannel) || [1, 0, 0]
-            console.log(this.dataDoughnut);
-            
+            this.dataDoughnut.datasets[0].data = Object.values(this.summaryDataChannel) || [1, 0, 0]            
           }
         },
         (err) => {

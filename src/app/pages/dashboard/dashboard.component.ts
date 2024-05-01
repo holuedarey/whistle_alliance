@@ -131,8 +131,6 @@ export class DashboardComponent implements OnInit {
   }
 
   openLoanApplication() {
-    console.log("default", this.userLoanLimit);
-
     this.dialogService.open(LoanApplicationComponent,
       {
         context: {
@@ -187,7 +185,7 @@ export class DashboardComponent implements OnInit {
           }
         },
         (err) => {
-          // console.log("response:", err);
+          console.log("response:", err);
 
           this.isLoadingData = false;
         }
