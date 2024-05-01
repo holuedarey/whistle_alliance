@@ -91,8 +91,6 @@ export class LoanApplicationComponent implements OnInit {
       pofEmployment: ['', Validators.required],
     });
 
-    console.log("userLoanLimit init", this.userLimit);
-
   }
 
   getAllProducts(): void {
@@ -231,7 +229,6 @@ export class LoanApplicationComponent implements OnInit {
         if (result.status == '200') {
 
           this.messages = ['Loan Created Successfully'];
-          console.log(this.messages, this.submitted);
           this.cd.detectChanges();
           
           this.toastr.success('Loan Application', 'Loan Created Successfully', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
