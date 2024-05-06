@@ -131,6 +131,8 @@ export class DashboardComponent implements OnInit {
   }
 
   openLoanApplication() {
+    // console.log("userLoanLimit", this.userLoanLimit);
+    
     this.dialogService.open(LoanApplicationComponent,
       {
         context: {

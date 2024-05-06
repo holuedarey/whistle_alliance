@@ -17,13 +17,6 @@
                     <div class="col-12" *ngIf="bankAccount">
                         <h3 class="heading">Bank Account</h3>
                         <div class="row">
-                            <div class="col-4" *ngIf="!isBank">
-                                <div class="mt-2" >
-                                    <img class="mx-auto d-block img img-responsive" src="assets/icons/bankAccount.png"
-                                        alt="bankAccount" />
-                                    <p class="text-center">You haven’t added any bank accounts yet</p>
-                                </div>
-                            </div>
                             <div class="col">
                                 <form (ngSubmit)="contactUsAction()" #bankform="ngForm">
                                     <div class="form-control-group">
@@ -32,7 +25,7 @@
                                             <input nbInput fullWidth [(ngModel)]="bankForm.accountNumber" #accountNumber="ngModel"
                                                 name="accountNumber" id="input-accountNumber" placeholder=" Account Number"
                                                 autofocus type="text"
-                                                [value] ="isBank ? userData.accountNumber : ''"
+                                                [value] ="userData?.accountNumber"
                                                 [status]="accountNumber.dirty ? (accountNumber.invalid  ? 'danger' : 'success') : 'basic'"
                                                 [attr.aria-invalid]="accountNumber.invalid && accountNumber.touched ? true : null">
 
@@ -49,7 +42,7 @@
                                             <input nbInput fullWidth [(ngModel)]="bankForm.bankName" #bankName="ngModel"
                                                 name="bankName" id="input-bankName" placeholder=" Bank Name"
                                                 autofocus type="text"
-                                                [value] ="isBank ? userData.bankName : ''"
+                                                [value] ="userData?.bankName || ''"
                                                 [status]="bankName.dirty ? (bankName.invalid  ? 'danger' : 'success') : 'basic'"
                                                 [attr.aria-invalid]="bankName.invalid && bankName.touched ? true : null">
 

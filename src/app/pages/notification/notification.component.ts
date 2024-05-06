@@ -31,8 +31,6 @@ export class NotificationComponent implements OnInit {
           this.isLoadingData = false;
           if (response.status) {
             this.notifications = GetUniqueArray([...(response.content ?? [])], [...this.notifications]);
-            console.log(this.notifications);
-            
           }
         },
         (err) => {

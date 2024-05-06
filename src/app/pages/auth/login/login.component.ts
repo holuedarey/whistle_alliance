@@ -68,8 +68,6 @@ export class LoginComponent implements OnInit {
     this.service.authenticate(loginDto).subscribe(
       (result) => {
         this.submitted = false;
-        console.log("status", result.status);
-        
         if (result.status == "200") {
           this.messages = ['Login successful'];
           this.nbTokenService.set(
@@ -81,7 +79,6 @@ export class LoginComponent implements OnInit {
           // this.ls.set(LocalStorageKey.REFRESH_TOKEN.toString(), result.data.refreshToken);
           this.validateUserCache();
           setTimeout(() => {
-            console.log("role", result.content[0].roles.map((el:any) => el.name));
             const role = result.content[0].roles.map((el:any) => el.name)
             if (role.includes('ADMIN')) {
               return this.router.navigateByUrl(PagesResourcesNavMap.get(PagesResources.Overview)?.route as string);

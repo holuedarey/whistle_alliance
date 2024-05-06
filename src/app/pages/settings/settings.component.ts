@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/@core/data-services/auth.service';
 import { ShareDataService } from 'src/app/@core/data-services/share-data.service';
@@ -70,6 +70,7 @@ export class SettingsComponent implements OnInit {
     private roleProvider: RoleProvider,
     private userService: UserService,
     private secureLs: SecureLocalStorageService,
+    protected cd: ChangeDetectorRef,
   ) {
     this.iconLibraries.registerSvgPack('social-networks', {
       'instagram': `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -92,17 +93,26 @@ export class SettingsComponent implements OnInit {
     const user: any = helper.decodeToken(token.token) as JwtPayloadModel;
     this.userId = user['id'];
     this.getSingleUser();
+
+    this.bankForm.accountNumber = this.userData?.accountNumber;
+    this.bankForm.bankName = this.userData?.bankName;
+
   }
 
   async changeView(item: any, event: any) {
     event.preventDefault();
-
+    this.messages = [];
+    this.errors = [];
     switch (item) {
       case 'Bank Account':
         this.card = false;
         this.changePassword = false;
         this.contactUs = false;
         this.bankAccount =  true;
+        this.getSingleUser()
+        this.bankForm.accountNumber = this.userData?.accountNumber;
+        this.bankForm.bankName = this.userData?.bankName;
+
         break;
       case 'Card':
         this.bankAccount = false;
@@ -151,6 +161,8 @@ export class SettingsComponent implements OnInit {
           this.user = {};
           localStorage.clear();
           this.router.navigateByUrl('/')
+          this.secureLs.remove(LocalStorageKey.JWT.toString());
+          this.router.navigateByUrl('/');
         }
       },
       (error: ResponseDto<string>) => {
@@ -190,6 +202,7 @@ export class SettingsComponent implements OnInit {
   }
 
   async getSingleUser() {
+    
     this.userService.getSingleUser(this.userId).subscribe(
       (result) => {
         this.userData = result.content[0];
@@ -211,14 +224,16 @@ export class SettingsComponent implements OnInit {
     this.userService.updateUserBank(bank).subscribe(
       (result) => {
         this.submittedBank = false;
-        this.bankForm = {};
         if (result) {
           this.messagesPass = ["Bank Added Successfully"];
           this.getSingleUser();
+          this.cd.detectChanges();
         }
       },
       (error: ResponseDto<string>) => {
         this.submittedBank = false;
+        this.getSingleUser();
+        this.cd.detectChanges();
         this.errors = [
           'An Error occured while changing the password.',
         ];

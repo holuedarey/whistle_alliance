@@ -3,11 +3,10 @@ import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
-import { log } from 'console';
+
 import { LoanService } from 'src/app/@core/data-services/loan.service';
 import { ShareDataService } from 'src/app/@core/data-services/share-data.service';
 import { UserService } from 'src/app/@core/data-services/user.service';
-import { LoanProductDto } from 'src/app/@core/dtos/loan-product.dto';
 import { ResponseDto } from 'src/app/@core/dtos/response-dto';
 import { Employments } from 'src/app/@core/enums/employment-list.enum';
 import { LocalStorageKey } from 'src/app/@core/enums/local-storage-key.enum';
@@ -15,7 +14,6 @@ import { Months } from 'src/app/@core/enums/month-of-year.enum';
 import { JwtPayloadModel } from 'src/app/@core/models/jwt-payload-model';
 import { TokenExport } from 'src/app/@core/utils/custom-token-storage/custom-token-storage.module';
 import { SecureLocalStorageService } from 'src/app/@core/utils/secure-local-storage.service';
-import { AppResources, AppResourcesNavMap } from 'src/app/app-resources';
 import { PagesResources, PagesResourcesNavMap } from 'src/app/pages/pages-resources';
 const helper = new JwtHelperService();
 
@@ -31,8 +29,8 @@ export class LoanApplicationComponent implements OnInit {
   filterFn = (date: any) => date.getDay() < Date.now();
 
   @Input() context = '';
-  @Input() userLimit:number = 0;
-  
+  @Input() userLimit: any;
+
   user: any = {};
   userId: any;
   selectedItem = '2';
@@ -51,7 +49,7 @@ export class LoanApplicationComponent implements OnInit {
 
   submitted = false;
   errors: string[] = [];
-  validationErrors :string[] = [];
+  validationErrors: string[] = [];
   messages: string[] = [];
 
   address: any;
@@ -62,6 +60,8 @@ export class LoanApplicationComponent implements OnInit {
   showMessages: any = {};
 
   amount: any = 0;
+
+  isWithinLoanLimit: boolean = true;
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -71,7 +71,8 @@ export class LoanApplicationComponent implements OnInit {
     private toastr: NbToastrService,
     private secureLs: SecureLocalStorageService,
     protected cd: ChangeDetectorRef,
-    ) {
+  ) {
+
     this.firstForm = this.fb.group({
       fullname: [{ value: '', disabled: true }, Validators.required],
       email: [{ value: '', disabled: true }, Validators.required],
@@ -82,7 +83,7 @@ export class LoanApplicationComponent implements OnInit {
     this.secondForm = this.fb.group({
       productType: ['', Validators.required],
       tenure: ['', Validators.required],
-      amount: ['', [Validators.required, this.maxValue(this.userLimit)]],
+      amount: ['', [Validators.required]],
     });
 
     this.thirdForm = this.fb.group({
@@ -154,36 +155,34 @@ export class LoanApplicationComponent implements OnInit {
     this.userId = user['id'];
     this.getSingleUser();
     this.getAllProducts();
-
-    
   }
   onFirstSubmit() {
     this.validationErrors = [];
-    const employer =  this.firstForm.value.employer;
-    const employmentStatus =  this.firstForm.value.employmentStatus;
-    if(employer == ""){
+    const employer = this.firstForm.value.employer;
+    const employmentStatus = this.firstForm.value.employmentStatus;
+    if (employer == "") {
       this.validationErrors.push("Employer cannot be empty")
     }
-    if(employmentStatus == ""){
+    if (employmentStatus == "") {
       this.validationErrors.push("Employment Status cannot be empty")
     }
-    
+
     this.firstForm.markAsDirty();
   }
 
   onSecondSubmit() {
     this.validationErrors = [];
-    const amount =  this.secondForm.value.amount.replace(/[\s,]/g, '');
-    const month =  this.secondForm.value.tenure;
-    const loanType= this.secondForm.value.productType
-    if(amount == ""){
+    const amount = this.secondForm.value.amount.replace(/[\s,]/g, '');
+    const month = this.secondForm.value.tenure;
+    const loanType = this.secondForm.value.productType
+    if (amount == "") {
       this.validationErrors.push("Loan Amount cannot be empty")
     }
-    if(loanType == ""){
+    if (loanType == "") {
       this.validationErrors.push("Loan Type cannot be empty")
     }
 
-    if(month == ""){
+    if (month == "") {
       this.validationErrors.push("Loan Tenure cannot be empty")
     }
     this.secondForm.markAsDirty();
@@ -191,17 +190,17 @@ export class LoanApplicationComponent implements OnInit {
 
   async onThirdSubmit() {
     this.validationErrors = [];
-    const proofOfAddress =  this.secondForm.value.amount.replace(/[\s,]/g, '');
-    const proofOfEmployment =  this.secondForm.value.tenure;
-    const proofOfIdentity= this.secondForm.value.productType
-    if(proofOfAddress == ""){
+    const proofOfAddress = this.secondForm.value.amount.replace(/[\s,]/g, '');
+    const proofOfEmployment = this.secondForm.value.tenure;
+    const proofOfIdentity = this.secondForm.value.productType
+    if (proofOfAddress == "") {
       this.validationErrors.push("Proof Of Address Document Required")
     }
-    if(proofOfEmployment == ""){
+    if (proofOfEmployment == "") {
       this.validationErrors.push("Proof Of Employment Document Required")
     }
 
-    if(proofOfIdentity == ""){
+    if (proofOfIdentity == "") {
       this.validationErrors.push("Proof Of Identity Document Required")
     }
     this.thirdForm.markAsDirty();
@@ -225,12 +224,12 @@ export class LoanApplicationComponent implements OnInit {
     this.loanservice.createLoan(formData).subscribe(
       (result) => {
         this.submitted = false;
-        
+
         if (result.status == '200') {
 
           this.messages = ['Loan Created Successfully'];
           this.cd.detectChanges();
-          
+
           this.toastr.success('Loan Application', 'Loan Created Successfully', { position: NbGlobalPhysicalPosition.TOP_RIGHT })
         } else {
           this.errors = [
@@ -251,24 +250,15 @@ export class LoanApplicationComponent implements OnInit {
   }
 
   numberFormatComma() {
+    
+    const amount = this.secondForm.value.amount;
+    const isValid = !!(parseInt(amount.replace(/[\s,]/g, '')) <= this.userLimit);
+    this.isWithinLoanLimit = isValid;
     return this.secondForm.patchValue({
       amount: this.secondForm.value.amount.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     })
   }
 
-
-  maxValue(max: number): ValidatorFn {    
-    return (control: AbstractControl) :any => {
-      const input = control.value;
-      const isValid = parseInt(input.replace(/[\s,]/g, '')) <= max;
-      
-      if (isValid) {
-        return null
-      }else{
-        return { 'maxValue': !isValid }
-      }
-    };
-  }
   complete() {
     this.isShowModal = !this.isShowModal;
     this.router.navigateByUrl(PagesResourcesNavMap.get(PagesResources.RepaymentView)?.route as string);

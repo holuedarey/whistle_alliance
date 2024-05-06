@@ -73,8 +73,7 @@
             <div *ngIf="(secondForm.get('amount')?.hasError('required')) && secondForm.get('amount')?.touched">
               <p class="error-message mt-2 alert alert-danger"> Amount is required.</p>
             </div>
-
-            <div *ngIf="secondForm.controls?.amount?.errors?.maxValue">
+            <div *ngIf="!isWithinLoanLimit">
               <p class="error-message mt-2 text-danger">Available Loan Limit exceeded</p>
             </div>
 

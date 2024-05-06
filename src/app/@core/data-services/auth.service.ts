@@ -28,14 +28,14 @@ export class AuthService implements AccessControlContract {
   // @HasAccess(PermissionEnum.View, AuthResources.UpdatePasswordView)
   updatePassword(passwords: any): Observable<ResponseDto<any>> {
     const jwtPayload = this.tokenService.getPayload();
-    const apiEndpoint = 'user/update/'+jwtPayload.id;
+    const apiEndpoint = 'user/password/change';
     const passwordDto: UpdatePasswordDto = {
       confirmPassword: passwords.confirmPassword,
       password: passwords.password,
       updateType: "PASSWORD_CHANGE",
       email: jwtPayload.sub
     };
-    return this.httpClient.put<ResponseDto<any>>(
+    return this.httpClient.post<ResponseDto<any>>(
       `${environment.apiUrl}/${apiEndpoint}`,
       passwordDto);
   }
