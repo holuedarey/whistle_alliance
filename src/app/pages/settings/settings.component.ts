@@ -61,6 +61,7 @@ export class SettingsComponent implements OnInit {
   userId:any;
 
   isBank:any;
+  isReadonly:any;
 
   constructor(
     private authService: AuthService,
@@ -97,8 +98,12 @@ export class SettingsComponent implements OnInit {
     this.bankForm.accountNumber = this.userData?.accountNumber;
     this.bankForm.bankName = this.userData?.bankName;
 
+    
   }
-
+  editAccountToggle(){
+    console.log(!this.isReadonly)
+    this.isReadonly = !this.isReadonly;
+  }
   async changeView(item: any, event: any) {
     event.preventDefault();
     this.messages = [];
@@ -207,6 +212,8 @@ export class SettingsComponent implements OnInit {
       (result) => {
         this.userData = result.content[0];
         this.isBank = !!(this.userData.accountNumber && this.userData.bankName);
+        this.isReadonly = this.isBank;
+          this.cd.detectChanges();
       })
   }
 
@@ -225,7 +232,7 @@ export class SettingsComponent implements OnInit {
       (result) => {
         this.submittedBank = false;
         if (result) {
-          this.messagesPass = ["Bank Added Successfully"];
+          this.messagesBank = [`Bank ${this.isBank ?  ' Updated' : ' Added'} Successfully`];
           this.getSingleUser();
           this.cd.detectChanges();
         }

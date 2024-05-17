@@ -41,6 +41,7 @@ export class RepaymentModalComponent implements OnInit {
           if (response) {
             this.loanDetails = response.content ?? {};
             this.loanSchedule = this.loanDetails?.schedules;
+            console.log("loanSchedule", this.loanSchedule)
             this.loanType = this.loan.product[0].productName;
             
           }

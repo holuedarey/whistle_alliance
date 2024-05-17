@@ -28,7 +28,7 @@
                                 <nb-alert *ngIf="messages?.length && !submitted" outline="success" role="alert">
                                     <p class="alert-title"><b>Success</b></p>
                                     <ul class="alert-message-list list-unstyled">
-                                        <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+                                        <li *ngFor="let message of messagesBank" class="alert-message">{{ message }}</li>
                                     </ul>
                                 </nb-alert>
                                 <form (ngSubmit)="contactUsAction()" #bankform="ngForm">
@@ -42,6 +42,7 @@
                                                 [minlength]="10"
                                                 [maxlength]="10"
                                                 required="true"
+                                                [disabled]="isReadonly"
                                                 [status]="accountNumber.dirty ? (accountNumber.invalid  ? 'danger' : 'success') : 'basic'"
                                                 [attr.aria-invalid]="accountNumber.invalid && accountNumber.touched ? true : null">
 
@@ -65,6 +66,7 @@
                                                 autofocus type="text"
                                                 [value] ="userData?.bankName || ''"
                                                 required="true"
+                                                [disabled]="isReadonly"
                                                 [status]="bankName.dirty ? (bankName.invalid  ? 'danger' : 'success') : 'basic'"
                                                 [attr.aria-invalid]="bankName.invalid && bankName.touched ? true : null">
 
@@ -79,8 +81,12 @@
                                     <br>
                                     <div class="spacer form-control-group">
                                         <button [nbSpinner]="submitted" nbButton fullWidth status="primary"
+                                            (click)="editAccountToggle()" *ngIf="isReadonly && userData?.bankName != undefined ">
+                                            Edit Bank Account 
+                                        </button>
+                                        <button [nbSpinner]="submitted" nbButton fullWidth status="primary"
                                             [disabled]="submitted || !bankform.valid" [class.btn-pulse]="submitted"
-                                            (click)="updateUserBank()">
+                                            (click)="updateUserBank()" *ngIf="!isReadonly && isBank">
                                             {{ isBank ? 'Update Bank Account' : 'Add Bank Account' }} 
                                         </button>
                                     </div>

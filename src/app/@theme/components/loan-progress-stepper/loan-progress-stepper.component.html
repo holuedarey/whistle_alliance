@@ -12,7 +12,8 @@
             <button nbButton (click)="SendProof(item)" size="small" status="primary">View Proof</button>
           </div>
           <ng-template #elseBlock>
-            <button nbButton (click)="SendProof(item)" size="small" status="primary">Upload Proof</button>
+           
+            <button nbButton (click)="SendProof(item)" size="small" status="primary" *ngIf="item?.paymentStatus && item?.paymentStatus != 'APPROVED'">Upload Proof</button>
           </ng-template>
 
         </ng-template>
