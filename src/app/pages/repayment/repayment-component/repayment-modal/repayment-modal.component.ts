@@ -3,6 +3,7 @@ import { NbAccessChecker } from '@nebular/security';
 import { NbDialogRef, NbDialogService, NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 import { log } from 'console';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
+import { RoleProvider } from 'src/app/@core/utils/role-provider.service';
 
 @Component({
   selector: 'app-repayment-modal',
@@ -20,15 +21,23 @@ export class RepaymentModalComponent implements OnInit {
   loanSchedule:any[] = [];
   loanType: any;
   pofForm :any = {};
+  isAdmin:boolean = false;
   
   constructor(
     public dialogRef: NbDialogRef<RepaymentModalComponent>,
     public accessChecker: NbAccessChecker,
-    private loanService:LoanService
+    private loanService:LoanService,
+    private roleProvider: RoleProvider
   ) { }
 
   ngOnInit(): void {    
     this.requestData()
+    const role = this.roleProvider.getRoleSync();
+    if (role.includes('ADMIN')) {
+      this.isAdmin = true;
+    } else if (role.includes('USER')) {
+      this.isAdmin = false;
+    }
   }
 
   requestData() {

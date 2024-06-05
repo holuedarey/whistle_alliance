@@ -86,7 +86,7 @@
                                         </button>
                                         <button [nbSpinner]="submitted" nbButton fullWidth status="primary"
                                             [disabled]="submitted || !bankform.valid" [class.btn-pulse]="submitted"
-                                            (click)="updateUserBank()" *ngIf="!isReadonly && isBank">
+                                            (click)="updateUserBank()" *ngIf="!isReadonly">
                                             {{ isBank ? 'Update Bank Account' : 'Add Bank Account' }} 
                                         </button>
                                     </div>
