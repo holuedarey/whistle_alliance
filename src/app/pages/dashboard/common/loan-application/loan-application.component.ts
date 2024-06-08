@@ -235,6 +235,7 @@ export class LoanApplicationComponent implements OnInit {
           this.errors = [
             result.message as string
           ];
+          this.cd.detectChanges();
         }
       },
       (error: ResponseDto<string>) => {

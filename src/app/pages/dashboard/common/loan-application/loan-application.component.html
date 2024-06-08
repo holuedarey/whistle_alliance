@@ -43,8 +43,8 @@
                 <button nbButton nbStepperPrevious>Prev</button>
               </div>
               <div class="col-9">
-                <button nbButton type="button" (click)="onFirstSubmit()" fullWidth status="primary"
-                  nbStepperNext>Next</button>
+                <button nbButton type="button" (click)="onFirstSubmit()" fullWidth status="primary" [disabled]="firstForm.invalid"
+                  nbStepperNext >Next</button>
               </div>
             </div>
           </form>
@@ -92,7 +92,7 @@
                 <button nbButton nbStepperPrevious>Prev</button>
               </div>
               <div class="col-9">
-                <button nbButton type="button" (click)="onSecondSubmit()" fullWidth status="primary"
+                <button nbButton type="button" (click)="onSecondSubmit()" fullWidth status="primary" [disabled]="!isWithinLoanLimit || secondForm.invalid"
                   nbStepperNext>Next</button>
               </div>
             </div>
@@ -128,6 +128,7 @@
               </div>
               <div class="col-9">
                 <button nbButton type="button" (click)="onThirdSubmit()" nbStepperNext fullWidth
+                [disabled]="thirdForm.invalid"
                   status="primary">Submit</button>
               </div>
             </div>
