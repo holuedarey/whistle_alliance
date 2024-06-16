@@ -90,7 +90,7 @@ export class SettingsComponent implements OnInit {
     if(!this.role.includes('ADMIN')) {
       this.menu.push("Contact Us")
     }else{
-      this.menu.unshift()
+      this.menu.slice(0,1)
     }
     const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
     const user: any = helper.decodeToken(token.token) as JwtPayloadModel;
