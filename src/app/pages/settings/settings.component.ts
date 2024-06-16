@@ -117,6 +117,7 @@ export class SettingsComponent implements OnInit {
         this.getSingleUser()
         this.bankForm.accountNumber = this.userData?.accountNumber;
         this.bankForm.bankName = this.userData?.bankName;
+        this.bankAccount = this.role.includes('ADMIN') ? false : true;
 
         break;
       case 'Card':
