@@ -88,8 +88,9 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.bankAccount = true;
     if(!this.role.includes('ADMIN')) {
-      this.menu.push("Contact Us")
+
       this.menu.push("Bank Account")
+      this.menu.push("Contact Us")
     }
     const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
     const user: any = helper.decodeToken(token.token) as JwtPayloadModel;
