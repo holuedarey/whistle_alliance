@@ -86,6 +86,18 @@ export class LoanComponent implements OnInit {
     },
     status: {
       title: 'Status',
+      filter: {
+        type: 'list',
+        config: {
+          selectText: 'Select...',
+          list: [
+            { value: 'APPROVED', title: 'Approved' },
+            { value: 'PENDING', title: 'Pending' },
+            { value: 'DECLINED', title: 'Declined' },
+            { value: 'CLOSED', title: 'Closed' },
+          ],
+        },
+      }
     },
     applicationDate: {
       title: 'Application Date',

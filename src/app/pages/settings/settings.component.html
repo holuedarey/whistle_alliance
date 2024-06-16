@@ -39,7 +39,9 @@
                                             <input nbInput fullWidth [(ngModel)]="bankForm.accountNumber"
                                                 #accountNumber="ngModel" name="accountNumber" id="input-accountNumber"
                                                 placeholder=" Account Number" autofocus type="number"
-                                                [value]="userData?.accountNumber" [minlength]="10" [maxlength]="10"
+                                                [value]="userData?.accountNumber"
+                                                pattern="(?=.*[0-9]).{10,10}"
+                                                [maxlength]="10"
                                                 required="true" [disabled]="isReadonly"
                                                 [status]="accountNumber.dirty ? (accountNumber.invalid  ? 'danger' : 'success') : 'basic'"
                                                 [attr.aria-invalid]="accountNumber.invalid && accountNumber.touched ? true : null">
@@ -51,8 +53,8 @@
                                             </p>
 
                                             <p class="error-message"
-                                                *ngIf="accountNumber.errors?.minlength || accountNumber.errors?.pattern">
-                                                A strong password is required!
+                                                *ngIf="accountNumber.errors?.pattern">
+                                                Account Number must be 10 Digit
                                             </p>
                                         </ng-container>
                                     </div>
