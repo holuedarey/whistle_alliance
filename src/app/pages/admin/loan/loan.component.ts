@@ -145,7 +145,7 @@ export class LoanComponent implements OnInit {
           this.isLoadingData = false;
           if (response) {
             this.laonSummaryData = response;
-            this.dataBarChart.labels = Object.keys(this.laonSummaryData?.monthlyBreakdown);
+            this.dataBarChart.labels = Object.keys((this.laonSummaryData?.monthlyBreakdown).split('_')[1]);
             this.dataBarChart.datasets[0].data = Object.values(this.laonSummaryData?.monthlyBreakdown)
           }
         },
