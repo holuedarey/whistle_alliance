@@ -25,7 +25,7 @@ export class SettingsComponent implements OnInit {
   contactForm: any = {};
 
   menu = [
-    "Bank Account",
+    // "Bank Account",
     //  "Card", 
     "Change Password"];
   isPasswordHidden = false;
@@ -89,8 +89,7 @@ export class SettingsComponent implements OnInit {
     this.bankAccount = true;
     if(!this.role.includes('ADMIN')) {
       this.menu.push("Contact Us")
-    }else{
-      this.menu.slice(0,1)
+      this.menu.push("Bank Account")
     }
     const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
     const user: any = helper.decodeToken(token.token) as JwtPayloadModel;

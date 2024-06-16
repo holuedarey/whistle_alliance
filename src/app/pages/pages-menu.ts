@@ -17,7 +17,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     hidden: false
   },
   {
-    title: 'Loan',
+    title: 'Loans',
     icon: 'file-text-outline',
     link: GlobalResources.get(PagesResources.LoanView)?.route,
     home: true,
@@ -47,7 +47,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'settings-outline',
   }, 
   {
-    title: 'Notification',
+    title: 'Notifications',
     link: GlobalResources.get(PagesResources.NotificationView)?.route,
     icon: 'bell-outline'
   }
