@@ -89,6 +89,8 @@ export class SettingsComponent implements OnInit {
     this.bankAccount = true;
     if(!this.role.includes('ADMIN')) {
       this.menu.push("Contact Us")
+    }else{
+      this.menu.unshift()
     }
     const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
     const user: any = helper.decodeToken(token.token) as JwtPayloadModel;
