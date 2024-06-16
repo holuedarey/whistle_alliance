@@ -1,5 +1,5 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Color } from 'chart.js';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
@@ -21,10 +21,24 @@ export class OverviewComponent implements OnInit {
   isLoadingData = true;
   summaryData: any;
   summaryDataChannel: any;
+  laonSummaryData:any;
 
   topUsers: any[] = [];
   bgColor: Color[] = [];
   data = {
+    labels: [""],
+    datasets: [
+      {
+        // label: "Users by month",
+        data: [],
+        borderColor: '#2B645D',
+        backgroundColor: '#2B645D70',
+      },
+
+    ]
+  };
+
+  dataLoanChart = {
     labels: [""],
     datasets: [
       {
@@ -72,13 +86,15 @@ export class OverviewComponent implements OnInit {
     private loanService: LoanService,
     private secureLs: SecureLocalStorageService,
     private _decimalPipe: DecimalPipe,
-    private userService: UserService
+    private userService: UserService,
+    protected cd: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
     // this.requestData()
     this.userSummary()
-    this.userSummaryChannel();
+    this.loanSummary();
+    // this.userSummaryChannel();
   }
 
   requestData(data?: any) {
@@ -120,7 +136,7 @@ export class OverviewComponent implements OnInit {
 
             this.data.labels = Object.keys(this.summaryData?.monthlyBreakdown).map((el)=> el.split('_')[1]);
             this.data.datasets[0].data = Object.values(this.summaryData?.monthlyBreakdown)
-
+            this.cd.detectChanges();
           }
         },
         (err) => {
@@ -140,6 +156,7 @@ export class OverviewComponent implements OnInit {
             this.summaryDataChannel = response?.channel ?? [];
             this.dataDoughnut.labels = Object.keys(this.summaryDataChannel);
             this.dataDoughnut.datasets[0].data = Object.values(this.summaryDataChannel) || [1, 0,0]
+            this.cd.detectChanges();
           }
         },
         (err) => {
@@ -147,4 +164,23 @@ export class OverviewComponent implements OnInit {
         }
       )
   }
+
+  loanSummary(data?: any) {
+    this.isLoadingData = true;
+    this.loanService.getLoanSummary(data)
+      .subscribe(
+        (response) => {
+          this.isLoadingData = false;
+          if (response) {
+            this.laonSummaryData = response;
+            this.dataLoanChart.labels = Object.keys(this.summaryData?.monthlyBreakdown).map((el)=> el.split('_')[1]);
+            this.dataLoanChart.datasets[0].data = Object.values(this.summaryData?.monthlyBreakdown) 
+            this.cd.detectChanges();
+          }
+        },
+        (err) => {
+          this.isLoadingData = false;
+        }
+      )
+  }  
 }

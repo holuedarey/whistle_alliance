@@ -60,19 +60,26 @@
         
         <div class="col-9">
            
-            <nb-card size="large" fullWidth class="mt-3 py-0 px-0">
+            <nb-card size="medium" fullWidth class="mt-3 py-1 px-0">
                 <nb-card-body class="py-0">
                     <h5>Users by month</h5>
                     <app-chart [chartId]="'line'" [data]="data" [config]="options"></app-chart>
                 </nb-card-body>
             </nb-card>
+
+            <nb-card size="medium" fullWidth class="mt-3 py-1 px-0">
+                <nb-card-body class="py-0">
+                    <h5>Loans by month</h5>
+                    <app-chart [chartId]="'bar'" [data]="data" [config]="options"></app-chart>
+                </nb-card-body>
+            </nb-card>
         </div>
         <div class="col-3">
-            <nb-card size="small" fullWidth style="">
+            <!-- <nb-card size="small" fullWidth style="">
                 <nb-card-body class="px-0 py-0 py-5">
                     <app-chart [chartId]="'doughnut'" [data]="dataDoughnut" [config]="optionsDough"  class="doughnut-style"></app-chart>
                 </nb-card-body>
-            </nb-card>
+            </nb-card> -->
             <nb-card size="medium" fullWidth class="px-0">
                 <nb-card-body class="px-2">
                     <div class="row">

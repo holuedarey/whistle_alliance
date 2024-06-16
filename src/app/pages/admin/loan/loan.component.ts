@@ -1,5 +1,5 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
 import { GetUniqueArray } from 'src/app/@core/functions/data-request.funtion';
@@ -22,12 +22,12 @@ export class LoanComponent implements OnInit {
   summaryDataChannel:any;
 
   dataDoughnut = {
-    labels: [''],
+    labels: ['Total Processed', 'Approved Loans', 'Declined Loans', 'Closed Loans'],
     datasets: [
       {
-        data: [65, 59, 80, 40],
+        data: [''],
         backgroundColor: [
-          'rgb(255, 207, 15)',
+          'rgb(205, 107, 105)',
           'rgb(0, 87, 178)',
           'rgb(43, 100, 93)',
           'rgb(220, 20, 60)'
@@ -112,13 +112,14 @@ export class LoanComponent implements OnInit {
     private secureLs: SecureLocalStorageService,
     private _decimalPipe: DecimalPipe,
     private userService:UserService,
-    private _datePipe:DatePipe
+    private _datePipe:DatePipe,
+    private cd:ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     this.requestData();
     this.loanSummary();
-    this.userSummaryChannel()
+    // this.userSummaryChannel()
   }
 
   requestData(data?: any) {
@@ -145,9 +146,9 @@ export class LoanComponent implements OnInit {
           this.isLoadingData = false;
           if (response) {
             this.laonSummaryData = response;
-            this.dataBarChart.labels = Object.keys((this.laonSummaryData?.monthlyBreakdown).split('_')[1]);
-            this.dataBarChart.datasets[0].data = Object.values(this.laonSummaryData?.monthlyBreakdown)
+            this.dataDoughnut.datasets[0].data = [this.laonSummaryData?.total || 0, this.laonSummaryData?.approved || 0, this.laonSummaryData?.decline || 0, this.laonSummaryData.declined || 0] 
           }
+          this.cd.detectChanges();
         },
         (err) => {
           this.isLoadingData = false;
