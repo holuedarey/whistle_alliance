@@ -5,10 +5,14 @@
                 <nb-card-body>
                     <h5>Loan Applications</h5>
                     <div class="row">
-                        <div class="col-3 mt-4">
+                        <div class="col-5 mt-2">
                             <div class="mt-4">
                                 <p class=" grey-text">Total Processed </p>
                                 <p class="bold-text">{{laonSummaryData?.total || 0}}</p>
+                            </div>
+                            <div class="mt-4">
+                                <p class=" grey-text">Pending Loan</p>
+                                <p class="bold-text">{{laonSummaryData?.pending || 0}}</p>
                             </div>
                             <div class="mt-4">
                                 <p class="grey-text">Approved Loans </p>
@@ -16,14 +20,15 @@
                             </div>
                             <div class="mt-4">
                                 <p class="grey-text">Declined Loans </p>
-                                <p class="bold-text">{{laonSummaryData?.decline || 0}}</p>
+                                <p class="bold-text">{{laonSummaryData?.declined || 0}}</p>
                             </div>
 
                             <div class="mt-4">
                                 <p class="grey-text">Closed Loans </p>
-                                </div>
+                                <p class="bold-text">{{laonSummaryData?.closed || 0}}</p>
+                            </div>
                         </div>
-                        <div class="col-9">
+                        <div class="col-7">
                             <app-chart [chartId]="'doughnut'" [data]="dataDoughnut" [config]="optionsDough"
                         class="doughnut-style"></app-chart>
                         </div>
