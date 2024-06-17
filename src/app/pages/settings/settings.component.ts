@@ -86,7 +86,7 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bankAccount = true;
+    this.changePassword = true;
     if(!this.role.includes('ADMIN')) {
 
       this.menu.push("Bank Account")

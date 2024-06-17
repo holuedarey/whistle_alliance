@@ -22,7 +22,7 @@ export class LoanComponent implements OnInit {
   summaryDataChannel:any;
 
   dataDoughnut = {
-    labels: ['Total Processed', 'Approved Loans', 'Declined Loans', 'Closed Loans'],
+    labels: ['Approved Loans', 'Declined Loans', 'Closed Loans'],
     datasets: [
       {
         data: [''],
@@ -158,7 +158,7 @@ export class LoanComponent implements OnInit {
           this.isLoadingData = false;
           if (response) {
             this.laonSummaryData = response;
-            this.dataDoughnut.datasets[0].data = [this.laonSummaryData?.total || 0, this.laonSummaryData?.approved || 0, this.laonSummaryData?.decline || 0, this.laonSummaryData.declined || 0] 
+            this.dataDoughnut.datasets[0].data = [this.laonSummaryData?.approved || 0, this.laonSummaryData?.decline || 0, this.laonSummaryData.declined || 0] 
           }
           this.cd.detectChanges();
         },
