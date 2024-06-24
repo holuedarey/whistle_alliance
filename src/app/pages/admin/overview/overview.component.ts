@@ -18,19 +18,19 @@ const helper = new JwtHelperService();
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
-  isLoadingData = true;
+  isLoadingData = false;
   summaryData: any;
   summaryDataChannel: any;
-  laonSummaryData:any;
+  laonSummaryData: any;
 
   topUsers: any[] = [];
   bgColor: Color[] = [];
   data = {
-    labels: [""],
+    labels: ["Jan", "Feb", "Mar", "Apr","May", "Jun"],
     datasets: [
       {
         // label: "Users by month",
-        data: [],
+        data: [1,2,3,4,5,7],
         borderColor: '#2B645D',
         backgroundColor: '#2B645D70',
       },
@@ -39,11 +39,11 @@ export class OverviewComponent implements OnInit {
   };
 
   dataLoanChart = {
-    labels: [""],
+    labels: ["Jan", "Feb", "Mar"],
     datasets: [
       {
         // label: "Users by month",
-        data: [],
+        data: [0,0,0],
         borderColor: '#2B645D',
         backgroundColor: '#2B645D70',
       },
@@ -57,7 +57,7 @@ export class OverviewComponent implements OnInit {
     labels: ["Web", "Mobile", "Other"],
     datasets: [
       {
-        data: [1, 0,0],
+        data: [1, 0, 0],
         backgroundColor: [
           'rgb(255, 99, 132)',
           'rgb(54, 162, 235)',
@@ -77,6 +77,7 @@ export class OverviewComponent implements OnInit {
   }
   options = {
     responsive: true,
+    maintainAspectRatio: true,
     legend: {
       display: false,
     }
@@ -95,8 +96,14 @@ export class OverviewComponent implements OnInit {
     this.userSummary()
     this.loanSummary();
     // this.userSummaryChannel();
+    console.log("init call");
+
   }
 
+  ngOnUpdate(){
+    console.log("update call");
+
+  }
   requestData(data?: any) {
     this.isLoadingData = true;
     const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
@@ -134,9 +141,12 @@ export class OverviewComponent implements OnInit {
               }
             });
 
-            this.data.labels = Object.keys(this.summaryData?.monthlyBreakdown).map((el)=> el.split('_')[1]);
-            this.data.datasets[0].data = Object.values(this.summaryData?.monthlyBreakdown)
-            this.cd.detectChanges();
+            // setTimeout(() => {
+              this.data.labels = Object.keys(this.summaryData?.monthlyBreakdown);
+              this.data.datasets[0]['data'] = Object.values(this.summaryData?.monthlyBreakdown)
+              console.log("got here again", this.data);
+            // }, 1000)
+            // this.cd.detectChanges();
           }
         },
         (err) => {
@@ -155,7 +165,7 @@ export class OverviewComponent implements OnInit {
           if (response) {
             this.summaryDataChannel = response?.channel ?? [];
             this.dataDoughnut.labels = Object.keys(this.summaryDataChannel);
-            this.dataDoughnut.datasets[0].data = Object.values(this.summaryDataChannel) || [1, 0,0]
+            this.dataDoughnut.datasets[0].data = Object.values(this.summaryDataChannel) || [1, 0, 0]
             this.cd.detectChanges();
           }
         },
@@ -166,21 +176,29 @@ export class OverviewComponent implements OnInit {
   }
 
   loanSummary(data?: any) {
-    this.isLoadingData = true;
+    // this.isLoadingData = true;
     this.loanService.getLoanSummary(data)
       .subscribe(
         (response) => {
-          this.isLoadingData = false;
+          // this.isLoadingData = false;
           if (response) {
-            this.laonSummaryData = response;
-            this.dataLoanChart.labels = Object.keys(this.summaryData?.monthlyBreakdown).map((el)=> el.split('_')[1]);
-            this.dataLoanChart.datasets[0].data = Object.values(this.summaryData?.monthlyBreakdown) 
-            this.cd.detectChanges();
+
+
+            setTimeout(() => {
+              this.laonSummaryData = response;
+              console.log(Object.keys(this.summaryData?.monthlyBreakdown));
+              
+              this.dataLoanChart.labels = Object.keys(this.summaryData?.monthlyBreakdown);
+              this.dataLoanChart.datasets[0].data = Object.values(this.summaryData?.monthlyBreakdown)
+              this.cd.detectChanges();
+
+              console.log("chcking 2:", this.dataLoanChart);
+            }, 2000);
           }
         },
         (err) => {
-          this.isLoadingData = false;
+          // this.isLoadingData = false;
         }
       )
-  }  
+  }
 }

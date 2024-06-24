@@ -22,14 +22,14 @@ export class LoanComponent implements OnInit {
   summaryDataChannel:any;
 
   dataDoughnut = {
-    labels: ['Approved Loans', 'Declined Loans', 'Closed Loans'],
+    labels: ['Approved Loans', 'Pending Loans', 'Declined Loans', 'Closed Loans'],
     datasets: [
       {
-        data: [''],
+        data: [10, 0,4,8],
         backgroundColor: [
-          'rgb(205, 107, 105)',
-          'rgb(0, 87, 178)',
           'rgb(43, 100, 93)',
+          'rgb(255, 107, 10)',
+          'rgb(0, 87, 178)',
           'rgb(220, 20, 60)'
         ],
         hoverOffset: 6
@@ -158,7 +158,7 @@ export class LoanComponent implements OnInit {
           this.isLoadingData = false;
           if (response) {
             this.laonSummaryData = response;
-            this.dataDoughnut.datasets[0].data = [this.laonSummaryData?.approved || 0, this.laonSummaryData?.decline || 0, this.laonSummaryData.declined || 0] 
+            this.dataDoughnut.datasets[0].data = [this.laonSummaryData?.pending || 0, this.laonSummaryData?.approved || 0, this.laonSummaryData?.decline || 0, this.laonSummaryData.closed || 0] 
           }
           this.cd.detectChanges();
         },
