@@ -38,7 +38,16 @@ export class OverviewComponent implements OnInit {
     ]
   };
 
+  dataNew: any[] = [];
+  lineChartData: any = [];     // <-- don't assign the value here
+  lineChartLabels: any[] = ['January', 'February', 'March', 'April', 'May', 'June'];
+  lineChartOptions = {
+    responsive: true,
+  };
 
+  lineChartLegend = true;
+  lineChartPlugins = [];
+  lineChartType = 'line';
   dataLoanChart = {
     labels: ["Jan", "Feb", "Mar"],
     datasets: [
@@ -83,17 +92,6 @@ export class OverviewComponent implements OnInit {
       display: false,
     }
   }
-
-  dataNew: any[] = [];
-  lineChartData: ChartDataset[] = [];     // <-- don't assign the value here
-  lineChartLabels: any[] = ['January', 'February', 'March', 'April', 'May', 'June'];
-  lineChartOptions = {
-    responsive: true,
-  };
-
-  lineChartLegend = true;
-  lineChartPlugins = [];
-  lineChartType = 'line';
 
   constructor(
     private loanService: LoanService,
@@ -152,17 +150,13 @@ export class OverviewComponent implements OnInit {
               }
             });
 
-            // this.dataNew = Object.keys(this.summaryData?.monthlyBreakdown).map((el: any) => el.split("_")[1]);
-            // this.lineChartData.push({             // <-- push value to `lineChartData`
-            //   data: Object.values(this.summaryData?.monthlyBreakdown),  
-            //   label: 'Crude oil prices'
-            // });
-            setTimeout(() => {
-            this.data.labels = Object.keys(this.summaryData?.monthlyBreakdown).map((el: any) => el.split("_")[1]);
-           
-            this.data.datasets[0]['data'] = Object.values(this.summaryData?.monthlyBreakdown)
-            console.log("got here again", this.data);
-            }, 1000)
+            this.lineChartData.data =  Object.values(this.summaryData?.monthlyBreakdown),
+            // setTimeout(() => {
+              this.data.labels = Object.keys(this.summaryData?.monthlyBreakdown).map((el: any) => el.split("_")[1]);
+
+              this.data.datasets[0]['data'] = Object.values(this.summaryData?.monthlyBreakdown)
+              console.log("got here again", this.data);
+            // }, 1000)
             this.cd.detectChanges();
           }
         },

@@ -1,65 +1,76 @@
 <div class="container-fluid p-0 m-0">
     <div class="row">
         <div class="col">
-             <nb-card size="small" style="overflow-y: hidden; height: 11vh;">
-            <nb-card-body>
-                <div class="row">
-                    <div class="col-3">
-                        <div class="row">
-                            <div class="col-3 px-2 mt-2">
-                                <nb-icon icon="people" class="icon-style danger px-1"></nb-icon>
+            <nb-card size="small" style="overflow-y: hidden; height: 11vh;">
+                <nb-card-body>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-3 px-2 mt-2">
+                                    <nb-icon icon="people" class="icon-style danger px-1"></nb-icon>
+                                </div>
+                                <div class="col-9">
+                                    <p>Total Users</p>
+                                    <h3 class="-ng-magin"> {{ summaryData?.totalUser || 0 }}</h3>
+                                </div>
                             </div>
-                            <div class="col-9">
-                                <p>Total Users</p>
-                                <h3 class="-ng-magin"> {{ summaryData?.totalUser || 0 }}</h3>
-                            </div>
-                        </div>
 
-                    </div>
-                    <div class="col-3">
-                        <div class="row">
-                            <div class="col-3 px-2 mt-2">
-                                <nb-icon icon="person-add-outline" class="icon-style success px-1"></nb-icon>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-3 px-2 mt-2">
+                                    <nb-icon icon="person-add-outline" class="icon-style success px-1"></nb-icon>
+                                </div>
+                                <div class="col-9">
+                                    <p>New Users</p>
+                                    <h3 class="-ng-magin"> {{ summaryData?.newUserThisMonth || 0}}</h3>
+                                </div>
                             </div>
-                            <div class="col-9">
-                                <p>New Users</p>
-                                <h3 class="-ng-magin"> {{ summaryData?.newUserThisMonth || 0}}</h3>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-3 px-3 mt-2">
+                                    <nb-icon icon="email-outline" class="icon-style info px-1"></nb-icon>
+                                </div>
+                                <div class="col-9">
+                                    <p style="font-size: 12px;">Total Applications</p>
+                                    <h3 class="-ng-magin"> {{summaryData?.totalApplicant || 0 }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-3 px-2 mt-2">
+                                    <nb-icon icon="image-outline" class="icon-style warning px-1"></nb-icon>
+                                </div>
+                                <div class="col-9">
+                                    <p style="font-size: 12px;"> New Appplications</p>
+                                    <h3 class="-ng-magin"> {{ summaryData?.newApplicant || 0}}</h3>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-3">
-                        <div class="row">
-                            <div class="col-3 px-3 mt-2">
-                                <nb-icon icon="email-outline" class="icon-style info px-1"></nb-icon>
-                            </div>
-                            <div class="col-9">
-                                <p style="font-size: 12px;">Total Applications</p>
-                                <h3 class="-ng-magin"> {{summaryData?.totalApplicant || 0 }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="row">
-                            <div class="col-3 px-2 mt-2">
-                                <nb-icon icon="image-outline" class="icon-style warning px-1"></nb-icon>
-                            </div>
-                            <div class="col-9">
-                                <p style="font-size: 12px;"> New Appplications</p>
-                                <h3 class="-ng-magin"> {{ summaryData?.newApplicant || 0}}</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-            </nb-card-body>
-        </nb-card>
+                </nb-card-body>
+            </nb-card>
         </div>
-       
+
     </div>
     <div class="row m-0">
-        
+
         <div class="col-9">
-           
+            <!-- <nb-card size="small" fullWidth style="">
+                <nb-card-body class="px-0 py-0 py-5">
+                    <div *ngIf="summaryData">
+                        <div style="display: block;">
+                            <canvas baseChart width="400" height="400" [datasets]="lineChartData"
+                                [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"
+                                [legend]="lineChartLegend" [chartType]="lineChartType" [plugins]="lineChartPlugins">
+                            </canvas>
+                        </div>
+                    </div>
+                </nb-card-body>
+            </nb-card> -->
             <nb-card size="large" style="overflow-y: hidden; min-height: 75vh;">
                 <nb-card-body>
                     <h5>Users by month</h5>
@@ -75,16 +86,14 @@
             </nb-card>
         </div>
         <div class="col-3">
-            <!-- <nb-card size="small" fullWidth style="">
-                <nb-card-body class="px-0 py-0 py-5">
-                    <app-chart [chartId]="'doughnut'" [data]="dataDoughnut" [config]="optionsDough"  class="doughnut-style"></app-chart>
-                </nb-card-body>
-            </nb-card> -->
+
             <nb-card size="medium" fullWidth class="px-0">
                 <nb-card-body class="px-2">
                     <div class="row">
-                        <span class="col-6"  style="font-weight: 800;"> New Users </span>
-                        <span class="col-6" style="font-size: 11px; font-weight: 800; color: #aaa; text-align: right;">+{{ summaryData?.totalApplicantThisMonth || 0 }} this
+                        <span class="col-6" style="font-weight: 800;"> New Users </span>
+                        <span class="col-6"
+                            style="font-size: 11px; font-weight: 800; color: #aaa; text-align: right;">+{{
+                            summaryData?.totalApplicantThisMonth || 0 }} this
                             month</span>
                     </div>
                     <nb-list>
