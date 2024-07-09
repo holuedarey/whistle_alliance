@@ -5,9 +5,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./footer.component.scss'],
   template: `
     <span class="caption">
-      Powered by Whistles Alliance 2023
+       ⁠Copyright &copy; Whistles Alliance {{date}}
     </span>
   `,
 })
 export class FooterComponent {
+  date:any = new Date().getFullYear()
 }

@@ -1,6 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ChartDataset } from 'chart.js';
 import { Color } from 'chart.js';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
 import { UserService } from 'src/app/@core/data-services/user.service';
@@ -22,15 +23,14 @@ export class OverviewComponent implements OnInit {
   summaryData: any;
   summaryDataChannel: any;
   laonSummaryData: any;
-
   topUsers: any[] = [];
   bgColor: Color[] = [];
-  data = {
-    labels: ["Jan", "Feb", "Mar", "Apr","May", "Jun"],
+  data: any = {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
       {
         // label: "Users by month",
-        data: [1,2,3,4,5,7],
+        data: [0, 0, 0, 0, 0, 0],
         borderColor: '#2B645D',
         backgroundColor: '#2B645D70',
       },
@@ -38,12 +38,13 @@ export class OverviewComponent implements OnInit {
     ]
   };
 
+
   dataLoanChart = {
     labels: ["Jan", "Feb", "Mar"],
     datasets: [
       {
         // label: "Users by month",
-        data: [0,0,0],
+        data: [0, 0, 0],
         borderColor: '#2B645D',
         backgroundColor: '#2B645D70',
       },
@@ -76,12 +77,23 @@ export class OverviewComponent implements OnInit {
     }
   }
   options = {
-    responsive: true,
-    maintainAspectRatio: true,
+    // responsive: true,
+    // maintainAspectRatio: true,
     legend: {
       display: false,
     }
   }
+
+  dataNew: any[] = [];
+  lineChartData: ChartDataset[] = [];     // <-- don't assign the value here
+  lineChartLabels: any[] = ['January', 'February', 'March', 'April', 'May', 'June'];
+  lineChartOptions = {
+    responsive: true,
+  };
+
+  lineChartLegend = true;
+  lineChartPlugins = [];
+  lineChartType = 'line';
 
   constructor(
     private loanService: LoanService,
@@ -100,9 +112,8 @@ export class OverviewComponent implements OnInit {
 
   }
 
-  ngOnUpdate(){
+  ngOnChanges() {
     console.log("update call");
-
   }
   requestData(data?: any) {
     this.isLoadingData = true;
@@ -141,12 +152,18 @@ export class OverviewComponent implements OnInit {
               }
             });
 
-            // setTimeout(() => {
-              this.data.labels = Object.keys(this.summaryData?.monthlyBreakdown);
-              this.data.datasets[0]['data'] = Object.values(this.summaryData?.monthlyBreakdown)
-              console.log("got here again", this.data);
-            // }, 1000)
-            // this.cd.detectChanges();
+            // this.dataNew = Object.keys(this.summaryData?.monthlyBreakdown).map((el: any) => el.split("_")[1]);
+            // this.lineChartData.push({             // <-- push value to `lineChartData`
+            //   data: Object.values(this.summaryData?.monthlyBreakdown),  
+            //   label: 'Crude oil prices'
+            // });
+            setTimeout(() => {
+            this.data.labels = Object.keys(this.summaryData?.monthlyBreakdown).map((el: any) => el.split("_")[1]);
+           
+            this.data.datasets[0]['data'] = Object.values(this.summaryData?.monthlyBreakdown)
+            console.log("got here again", this.data);
+            }, 1000)
+            this.cd.detectChanges();
           }
         },
         (err) => {
@@ -182,18 +199,14 @@ export class OverviewComponent implements OnInit {
         (response) => {
           // this.isLoadingData = false;
           if (response) {
+            this.laonSummaryData = response;
 
+            this.dataLoanChart.labels = Object.keys(this.summaryData?.monthlyBreakdown).map((el: any) => el.split("_")[1]);
+            this.dataLoanChart.datasets[0].data = Object.values(this.summaryData?.monthlyBreakdown)
+            this.cd.markForCheck();
+            this.cd.detectChanges();
 
-            setTimeout(() => {
-              this.laonSummaryData = response;
-              console.log(Object.keys(this.summaryData?.monthlyBreakdown));
-              
-              this.dataLoanChart.labels = Object.keys(this.summaryData?.monthlyBreakdown);
-              this.dataLoanChart.datasets[0].data = Object.values(this.summaryData?.monthlyBreakdown)
-              this.cd.detectChanges();
-
-              console.log("chcking 2:", this.dataLoanChart);
-            }, 2000);
+            console.log("Loan Summary chart", this.dataLoanChart);
           }
         },
         (err) => {
