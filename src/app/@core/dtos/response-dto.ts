@@ -6,6 +6,7 @@ export class ResponseDto<T> {
     token?: string;
     channel?:T;
     error?: T;
+    monthlyBreakdown?:T;
 
 
 }

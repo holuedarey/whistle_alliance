@@ -59,29 +59,18 @@
     <div class="row m-0">
 
         <div class="col-9">
-            <!-- <nb-card size="small" fullWidth style="">
-                <nb-card-body class="px-0 py-0 py-5">
-                    <div *ngIf="summaryData">
-                        <div style="display: block;">
-                            <canvas baseChart width="400" height="400" [datasets]="lineChartData"
-                                [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"
-                                [legend]="lineChartLegend" [chartType]="lineChartType" [plugins]="lineChartPlugins">
-                            </canvas>
-                        </div>
-                    </div>
-                </nb-card-body>
-            </nb-card> -->
             <nb-card size="large" style="overflow-y: hidden; min-height: 75vh;">
                 <nb-card-body>
                     <h5>Users by month</h5>
-                    <app-chart [chartId]="'line'" [data]="data" [config]="options"></app-chart>
+                    <app-chart  *ngIf="LineData" [chartId]="type" [data]="LineData" [config]="LineOptions"></app-chart>
                 </nb-card-body>
             </nb-card>
 
             <nb-card size="large" class="mt-3" style="overflow-y: hidden; min-height: 75vh;">
                 <nb-card-body>
                     <h5>Loans by month</h5>
-                    <app-chart [chartId]="'bar'" [data]="dataLoanChart" [config]="options"></app-chart>
+                    <!-- {{ dataLoanChart | json}} -->
+                    <app-chart  *ngIf="dataLoanChart" [chartId]="'bar'" [data]="dataLoanChart" [config]="LineOptions"></app-chart>
                 </nb-card-body>
             </nb-card>
         </div>

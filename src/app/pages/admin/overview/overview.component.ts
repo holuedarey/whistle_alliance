@@ -1,17 +1,6 @@
-import { DecimalPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { ChartDataset } from 'chart.js';
-import { Color } from 'chart.js';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
 import { UserService } from 'src/app/@core/data-services/user.service';
-import { LocalStorageKey } from 'src/app/@core/enums/local-storage-key.enum';
-import { GetUniqueArray } from 'src/app/@core/functions/data-request.funtion';
-import { JwtPayloadModel } from 'src/app/@core/models/jwt-payload-model';
-import { TokenExport } from 'src/app/@core/utils/custom-token-storage/custom-token-storage.module';
-import { SecureLocalStorageService } from 'src/app/@core/utils/secure-local-storage.service';
-const helper = new JwtHelperService();
-
 
 @Component({
   selector: 'app-overview',
@@ -24,106 +13,62 @@ export class OverviewComponent implements OnInit {
   summaryDataChannel: any;
   laonSummaryData: any;
   topUsers: any[] = [];
-  bgColor: Color[] = [];
-  data: any = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    datasets: [
-      {
-        // label: "Users by month",
-        data: [0, 0, 0, 0, 0, 0],
-        borderColor: '#2B645D',
-        backgroundColor: '#2B645D70',
-      },
 
-    ]
-  };
-
-  dataNew: any[] = [];
-  lineChartData: any = [];     // <-- don't assign the value here
-  lineChartLabels: any[] = ['January', 'February', 'March', 'April', 'May', 'June'];
-  lineChartOptions = {
-    responsive: true,
-  };
-
-  lineChartLegend = true;
-  lineChartPlugins = [];
-  lineChartType = 'line';
-  dataLoanChart = {
-    labels: ["Jan", "Feb", "Mar"],
-    datasets: [
-      {
-        // label: "Users by month",
-        data: [0, 0, 0],
-        borderColor: '#2B645D',
-        backgroundColor: '#2B645D70',
-      },
-
-    ]
-  };
 
   users: any[] = [];
 
-  dataDoughnut = {
-    labels: ["Web", "Mobile", "Other"],
-    datasets: [
-      {
-        data: [1, 0, 0],
-        backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)'
-        ],
-        hoverOffset: 4
-      },
+  type = 'line';
+  LineData:any;
+  LineOptions:any;
 
-    ]
-  };
-  optionsDough = {
-    responsive: true,
-    legend: {
-      display: true,
-      position: 'right'
-    }
-  }
-  options = {
-    // responsive: true,
-    // maintainAspectRatio: true,
-    legend: {
-      display: false,
-    }
-  }
+  dataLoanChart:any;
 
   constructor(
     private loanService: LoanService,
-    private secureLs: SecureLocalStorageService,
-    private _decimalPipe: DecimalPipe,
     private userService: UserService,
     protected cd: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
-    // this.requestData()
+  
+    this.LineOptions = {
+      responsive: true,
+      maintainAspectRatio: true,
+      legend: {
+      display: false,
+    }
+    };
+  
+    this.requestData()
     this.userSummary()
     this.loanSummary();
-    // this.userSummaryChannel();
-    console.log("init call");
-
   }
 
-  ngOnChanges() {
-    console.log("update call");
-  }
   requestData(data?: any) {
     this.isLoadingData = true;
-    const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
-    const user: any = helper.decodeToken(token.token) as JwtPayloadModel;
-    this.isLoadingData = true;
-    this.loanService.getUserLoan(user.id, 20, data)
+    this.loanService.getLoanSummary()
       .subscribe(
         (response) => {
           this.isLoadingData = false;
           if (response.status) {
-            this.users = GetUniqueArray([...(response.content ?? [])], [...this.users]);
+            let labels = [];
+            let datasets = [];
+            for(const item in response?.monthlyBreakdown){
+              labels.push((item.split('_')[1].substring(0,3)));
+              datasets.push(response?.monthlyBreakdown[item])
+            }
+            this.LineData = {
+              labels:labels,
+              datasets: [
+                {
+                  data: datasets,
+                  borderColor: '#2B645D',
+                  backgroundColor: '#2B645D',
+                  spanGaps:true
+                }
+              ]
+            };
+            
           }
         },
         (err) => {
@@ -149,15 +94,6 @@ export class OverviewComponent implements OnInit {
                 date: ` Created ${new Date(x?.createdDate ?? "").toDateString()}`
               }
             });
-
-            this.lineChartData.data =  Object.values(this.summaryData?.monthlyBreakdown),
-            // setTimeout(() => {
-              this.data.labels = Object.keys(this.summaryData?.monthlyBreakdown).map((el: any) => el.split("_")[1]);
-
-              this.data.datasets[0]['data'] = Object.values(this.summaryData?.monthlyBreakdown)
-              console.log("got here again", this.data);
-            // }, 1000)
-            this.cd.detectChanges();
           }
         },
         (err) => {
@@ -166,25 +102,25 @@ export class OverviewComponent implements OnInit {
       )
   }
 
-  userSummaryChannel(data?: any) {
-    this.isLoadingData = true;
-    this.userService.getUserSummaryChannel(data)
-      .subscribe(
-        (response) => {
-          this.isLoadingData = false;
+  // userSummaryChannel(data?: any) {
+  //   this.isLoadingData = true;
+  //   this.userService.getUserSummaryChannel(data)
+  //     .subscribe(
+  //       (response) => {
+  //         this.isLoadingData = false;
 
-          if (response) {
-            this.summaryDataChannel = response?.channel ?? [];
-            this.dataDoughnut.labels = Object.keys(this.summaryDataChannel);
-            this.dataDoughnut.datasets[0].data = Object.values(this.summaryDataChannel) || [1, 0, 0]
-            this.cd.detectChanges();
-          }
-        },
-        (err) => {
-          this.isLoadingData = false;
-        }
-      )
-  }
+  //         if (response) {
+  //           this.summaryDataChannel = response?.channel ?? [];
+  //           this.dataDoughnut.labels = Object.keys(this.summaryDataChannel);
+  //           this.dataDoughnut.datasets[0].data = Object.values(this.summaryDataChannel) || [1, 0, 0]
+  //           this.cd.detectChanges();
+  //         }
+  //       },
+  //       (err) => {
+  //         this.isLoadingData = false;
+  //       }
+  //     )
+  // }
 
   loanSummary(data?: any) {
     // this.isLoadingData = true;
@@ -194,13 +130,25 @@ export class OverviewComponent implements OnInit {
           // this.isLoadingData = false;
           if (response) {
             this.laonSummaryData = response;
+            let labels = [];
+            let datasets = [];
+            for(const item in response?.monthlyBreakdown){
+              labels.push((item.split('_')[1].substring(0,3)));
+              datasets.push(response?.monthlyBreakdown[item])
+            }
 
-            this.dataLoanChart.labels = Object.keys(this.summaryData?.monthlyBreakdown).map((el: any) => el.split("_")[1]);
-            this.dataLoanChart.datasets[0].data = Object.values(this.summaryData?.monthlyBreakdown)
-            this.cd.markForCheck();
-            this.cd.detectChanges();
-
-            console.log("Loan Summary chart", this.dataLoanChart);
+            this.dataLoanChart = {
+              labels: labels,
+              datasets: [
+                {
+                  // label: "Users by month",
+                  data: datasets,
+                  borderColor: '#2B645D',
+                  backgroundColor: '#2B645D',
+                },
+          
+              ]
+            };
           }
         },
         (err) => {
