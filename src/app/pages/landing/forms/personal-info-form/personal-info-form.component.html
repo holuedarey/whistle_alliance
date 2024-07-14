@@ -144,14 +144,9 @@
                 Password is required!
             </p>
             <p class="error-message"
-                *ngIf="password.errors?.minlength || password.errors?.pattern">
-                A strong password is required!
-            </p>
-            <p class="error-message"
                 *ngIf="password.errors?.minlength || password.errors?.maxlength">
                 Password should contains from 8 to 32 characters <br/>
                 Lowercase, Uppercase Number, and  Special Character !@#$%
-
             </p>
         </ng-container>
     </div>
