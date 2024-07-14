@@ -105,19 +105,19 @@
             <p class="lorem">Please provide any of the following documents.</p>
 
             <div class="form-group">
-              <label class="label" for="input-address" >Proof of Address <span nbTooltip="This is a Tooltip"  nbTooltipStatus="primary"><strong class="tooltip-info">(i)</strong></span></label>
+              <label class="label" for="input-address" >Proof of Address <span nbTooltip="Utility Bill, Bank Statement, Tenancy / Mortgage Agreement"  nbTooltipStatus="primary" nbTooltipPlacement="right"><strong class="tooltip-info">(?)</strong></span></label>
               <input nbInput type="file" class="form-control size-large file-field" formControlName="address"
                 (change)="onChangeFile($event, 'address')"
                 [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
             </div>
             <div class="form-group">
-              <label class="label" for="input-employment" >Proof of Employment <span nbTooltip="This is a Tooltip"  nbTooltipStatus="primary"><strong class="tooltip-info">(i)</strong></span></label>
+              <label class="label" for="input-employment" >Proof of Employment <span nbTooltip="Employment Contract" nbTooltipPlacement="right"  nbTooltipStatus="primary"><strong class="tooltip-info" >(?)</strong></span></label>
               <input nbInput type="file" class="form-control size-large file-field" formControlName="pofEmployment"
                 (change)="onChangeFile($event, 'employement')"
                 [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
             </div>
             <div class="form-group">
-              <label class="label" for="input-identity" >Proof of Identity <span nbTooltip="This is a Tooltip"  nbTooltipStatus="primary"><strong class="tooltip-info">(i)</strong></span></label>
+              <label class="label" for="input-identity" >Proof of Identity <span nbTooltip="Driver's License, PVC, NIN, Int'l Passport"  nbTooltipStatus="primary" nbTooltipPlacement="right"><strong class="tooltip-info">(?)</strong></span></label>
               <input nbInput type="file" class="form-control size-large file-field" formControlName="pofIdentity"
                 (change)="onChangeFile($event, 'identity')"
                 [ngClass]="{'form-control-danger': thirdForm.invalid && (thirdForm.dirty || thirdForm.touched)}">
