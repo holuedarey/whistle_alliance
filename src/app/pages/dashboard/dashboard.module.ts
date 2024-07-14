@@ -3,7 +3,7 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
-import { NbCardModule, NbSelectModule, NbSpinnerModule, NbStepperModule } from '@nebular/theme';
+import { NbCardModule, NbSelectModule, NbSpinnerModule, NbStepperModule, NbTooltipModule } from '@nebular/theme';
 import { SortablejsModule } from 'ngx-sortablejs';
 import { ChartsModule } from 'src/app/@charts/chart.module';
 import { ThemeModule } from 'src/app/@theme/theme.module';
@@ -27,6 +27,7 @@ import { LoanApplicationComponent } from './common/loan-application/loan-applica
     NbSelectModule,
     NbStepperModule,
     ReactiveFormsModule,
+    NbTooltipModule
     // NbDatepickerModule
   ],
   providers: [DecimalPipe],
