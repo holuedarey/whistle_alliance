@@ -18,10 +18,10 @@ export class OverviewComponent implements OnInit {
   users: any[] = [];
 
   type = 'line';
-  LineData:any;
-  LineOptions:any;
+  LineData: any;
+  LineOptions: any;
 
-  dataLoanChart:any;
+  dataLoanChart: any;
 
   constructor(
     private loanService: LoanService,
@@ -30,15 +30,15 @@ export class OverviewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  
+
     this.LineOptions = {
       responsive: true,
       maintainAspectRatio: true,
       legend: {
-      display: false,
-    }
+        display: false,
+      }
     };
-  
+
     this.requestData()
     this.userSummary()
     this.loanSummary();
@@ -46,35 +46,18 @@ export class OverviewComponent implements OnInit {
 
   requestData(data?: any) {
     this.isLoadingData = true;
-    this.loanService.getLoanSummary()
-      .subscribe(
-        (response) => {
-          this.isLoadingData = false;
-          if (response.status) {
-            let labels = [];
-            let datasets = [];
-            for(const item in response?.monthlyBreakdown){
-              labels.push((item.split('_')[1].substring(0,3)));
-              datasets.push(response?.monthlyBreakdown[item])
-            }
-            this.LineData = {
-              labels:labels,
-              datasets: [
-                {
-                  data: datasets,
-                  borderColor: '#2B645D',
-                  backgroundColor: '#2B645D',
-                  spanGaps:true
-                }
-              ]
-            };
-            
-          }
-        },
-        (err) => {
-          this.isLoadingData = false;
+    this.userService.getUserSummary(data).subscribe(
+      (response) => {
+        this.isLoadingData = false;
+        if (response.status) {
+         
+
         }
-      )
+      },
+      (err) => {
+        this.isLoadingData = false;
+      }
+    )
   }
 
   userSummary(data?: any) {
@@ -94,6 +77,24 @@ export class OverviewComponent implements OnInit {
                 date: ` Created ${new Date(x?.createdDate ?? "").toDateString()}`
               }
             });
+
+            let labels = [];
+            let datasets = [];
+            for (const item in response?.monthlyBreakdown) {
+              labels.push((item.split('_')[1].substring(0, 3)));
+              datasets.push(this.summaryData.monthlyBreakdown[item])
+            }
+            this.LineData = {
+              labels: labels,
+              datasets: [
+                {
+                  data: datasets,
+                  borderColor: '#2B645D',
+                  backgroundColor: '#2B645D',
+                  spanGaps: true
+                }
+              ]
+            };
           }
         },
         (err) => {
@@ -132,8 +133,8 @@ export class OverviewComponent implements OnInit {
             this.laonSummaryData = response;
             let labels = [];
             let datasets = [];
-            for(const item in response?.monthlyBreakdown){
-              labels.push((item.split('_')[1].substring(0,3)));
+            for (const item in response?.monthlyBreakdown) {
+              labels.push((item.split('_')[1].substring(0, 3)));
               datasets.push(response?.monthlyBreakdown[item])
             }
 
@@ -146,7 +147,7 @@ export class OverviewComponent implements OnInit {
                   borderColor: '#2B645D',
                   backgroundColor: '#2B645D',
                 },
-          
+
               ]
             };
           }
