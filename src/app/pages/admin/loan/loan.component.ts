@@ -21,55 +21,9 @@ export class LoanComponent implements OnInit {
   laonSummaryData: any = {};
   summaryDataChannel:any;
 
-  dataDoughnut = {
-    labels: ['Approved Loans', 'Pending Loans', 'Declined Loans', 'Closed Loans'],
-    datasets: [
-      {
-        data: [10, 0,4,8],
-        backgroundColor: [
-          'rgb(43, 100, 93)',
-          'rgb(255, 107, 10)',
-          'rgb(0, 87, 178)',
-          'rgb(220, 20, 60)'
-        ],
-        hoverOffset: 6
-      },
+  dataDoughnut:any;
 
-    ]
-  };
-  dataBarChart = {
-    labels: [''],
-    datasets: [
-      {
-        data: [''],
-        backgroundColor: '#2B645D',
-        barPercentage: 0.5,
-        barThickness: 15,
-        maxBarThickness: 15,
-        minBarLength: 1,
-      },
-    ]
-  };
-
-  optionsBarChart = {
-    responsive: true,
-    legend: {
-      display: false
-    },
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
-  }
-
-  optionsDough = {
-    responsive: true,
-    legend: {
-      display: true,
-      position: 'right'
-    }
-  }
+  optionsDough:any;
 
   columns = {
     applicantName: {
@@ -129,9 +83,15 @@ export class LoanComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.optionsDough = {
+      responsive: true,
+      legend: {
+        display: true,
+        position: 'right'
+      }
+    }
     this.requestData();
     this.loanSummary();
-    // this.userSummaryChannel()
   }
 
   requestData(data?: any) {
@@ -158,7 +118,22 @@ export class LoanComponent implements OnInit {
           this.isLoadingData = false;
           if (response) {
             this.laonSummaryData = response;
-            this.dataDoughnut.datasets[0].data = [this.laonSummaryData?.approved || 0, this.laonSummaryData?.pending || 0, this.laonSummaryData?.declined || 0, this.laonSummaryData.closed || 0] 
+            this.dataDoughnut = {
+              labels: ['Approved Loans', 'Pending Loans', 'Declined Loans', 'Closed Loans'],
+              datasets: [
+                {
+                  data: [this.laonSummaryData?.approved || 0, this.laonSummaryData?.pending || 0, this.laonSummaryData?.declined || 0, this.laonSummaryData.closed || 0],
+                  backgroundColor: [
+                    'rgb(43, 100, 93)',
+                    'rgb(255, 107, 10)',
+                    'rgb(0, 87, 178)',
+                    'rgb(220, 20, 60)'
+                  ],
+                  hoverOffset: 6
+                },
+          
+              ]
+            };
           }
           this.cd.detectChanges();
         },
@@ -168,22 +143,22 @@ export class LoanComponent implements OnInit {
       )
   }
 
-  userSummaryChannel(data?: any) {
-    this.isLoadingData = true;
-    this.userService.getUserSummaryChannel(data)
-      .subscribe(
-        (response) => {
-          this.isLoadingData = false;
+  // userSummaryChannel(data?: any) {
+  //   this.isLoadingData = true;
+  //   this.userService.getUserSummaryChannel(data)
+  //     .subscribe(
+  //       (response) => {
+  //         this.isLoadingData = false;
 
-          if (response) {
-            this.summaryDataChannel = response?.channel ?? [];
-            this.dataDoughnut.labels = Object.keys(this.summaryDataChannel);
-            this.dataDoughnut.datasets[0].data = Object.values(this.summaryDataChannel) || [1, 0, 0]            
-          }
-        },
-        (err) => {
-          this.isLoadingData = false;
-        }
-      )
-  }
+  //         if (response) {
+  //           this.summaryDataChannel = response?.channel ?? [];
+  //           this.dataDoughnut.labels = Object.keys(this.summaryDataChannel);
+  //           this.dataDoughnut.datasets[0].data = Object.values(this.summaryDataChannel) || [1, 0, 0]            
+  //         }
+  //       },
+  //       (err) => {
+  //         this.isLoadingData = false;
+  //       }
+  //     )
+  // }
 }

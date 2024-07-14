@@ -20,7 +20,7 @@ import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { CoreModule } from './@core/core.module';
 import { DEFAULT_THEME } from './@theme/styles/theme.default';
-import { DARK_THEME } from './@theme/styles/theme.dark';
+// import { DARK_THEME } from './@theme/styles/theme.dark';
 import { LocalStorageKey } from './@core/enums/local-storage-key.enum';
 import * as SecureLS from 'secure-ls';
 import { NetworkInterceptor } from './@core/interceptors/network.interceptor';
@@ -54,7 +54,7 @@ const ls = new SecureLS({ encodingType: 'aes' });
         name: ls.get(LocalStorageKey.THEME.toString()) ||
           (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default')
       },
-      [DEFAULT_THEME, DARK_THEME],
+      [DEFAULT_THEME],
       undefined,
       NbLayoutDirection.LTR),
     // Global Imports
