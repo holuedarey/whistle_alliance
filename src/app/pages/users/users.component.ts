@@ -34,9 +34,10 @@ export class UsersComponent implements OnInit {
     lastName: {
       title: 'Last Name',
     },
-    idNumber: {
-      title: 'NIN',
-    },
+    // idNumber: {
+    //   title: 'NIN',
+      
+    // },
     email: {
       title: 'Email',
     },
