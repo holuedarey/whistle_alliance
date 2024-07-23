@@ -1,6 +1,61 @@
-.card-width {
-    width: 35vw;
+/* Large desktops and laptops */
+@media (min-width: 1200px) {
+    .card-width {
+        width: 35vw;
+        position: relative;
+        top: 14px;
+    }
 }
+
+
+/* Landscape tablets and medium desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .card-width {
+        width: 35vw;
+        position: relative;
+        top: 14px;
+    }
+}
+
+/* Portrait tablets and small desktops */
+@media (min-width: 768px) and (max-width: 991px) {
+    .card-width {
+        width: 90vw;
+        position: relative;
+        top: 14px;
+    }
+}
+
+
+/* Landscape phones and portrait tablets */
+@media (max-width: 767px) {
+    .card-width {
+        width: 90vw;
+        position: relative;
+        top: 14px;
+    }
+}
+
+/* Portrait phones and smaller */
+@media (max-width: 480px) {
+    .card-width {
+        width: 80vw;
+        position: relative;
+        top: 14px;
+    }
+}
+
+/* Portrait phones and smaller */
+@media (max-width: 360px) {
+    .card-width {
+        width: 80vw;
+        position: relative;
+        top: 14px;
+    }
+}
+// .card-width {
+//     width: 40vw;
+// }
 
 .file-field {
     height: 80px !important;

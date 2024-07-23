@@ -17,6 +17,11 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoanService } from 'src/app/@core/data-services/loan.service';
 import { UserService } from 'src/app/@core/data-services/user.service';
 import { DatePipe, DecimalPipe } from '@angular/common';
+import { HasAccess } from 'src/app/@core/decorators/has-access.decorator';
+import { PermissionEnum } from 'src/app/@core/enums/permission.enum';
+import { RoleProvider } from 'src/app/@core/utils/role-provider.service';
+import { Router } from '@angular/router';
+import { PagesResources, PagesResourcesNavMap } from '../pages-resources';
 const helper = new JwtHelperService();
 
 @Component({
@@ -84,14 +89,22 @@ export class DashboardComponent implements OnInit {
     private secureLs: SecureLocalStorageService,
     private _decimalPipe: DecimalPipe,
     private _datePipe: DatePipe,
-
-  ) { }
-
+    private roleProvider: RoleProvider,
+    protected router: Router,
+  ) { 
+    
+  }
   async ngOnInit() {
     this.seo.setSeoData('Dashboard', 'Logged in user page analytics');
+    const role = this.roleProvider.getRoleSync();
+    if (role.includes('ADMIN')) {
+       this.router.navigateByUrl(PagesResourcesNavMap.get(PagesResources.Overview)?.route as string);
+    } 
     const token = this.secureLs.get<TokenExport>(LocalStorageKey.JWT.toString());
     const user: any = helper.decodeToken(token.token) as JwtPayloadModel;
     this.userId = user.id;
+
+  
 
     this.getAllProducts();
     this.requestData()
